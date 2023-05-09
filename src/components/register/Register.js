@@ -8,10 +8,11 @@ const Register = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const res = axios.post("http://localhost:5050/register", {
+    const res = axios.post("http://localhost:5050/api/register", {
       email: email,
       username: username,
       password: password,
+
     });
     // get the response from the server
     console.log(res);

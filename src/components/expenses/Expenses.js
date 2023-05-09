@@ -7,7 +7,7 @@ const Expenses = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get('/api/expenses');
+      const response = await axios.get('http://localhost:5050/expenses');
       setExpenses(response.data);
     };
     fetchData();

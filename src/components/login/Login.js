@@ -17,7 +17,7 @@ function Login() {
 
   const onClickHandle = async (e) => {
     e.preventDefault();
-    const res = await axios.post("http://localhost:5050/login", {
+    const res = await axios.post("http://localhost:5050/api/login", {
       username: username,
       password: password,
     });
