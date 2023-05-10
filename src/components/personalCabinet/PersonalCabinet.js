@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const PersonalCabinet = () => {
   const [newCategory, setNewCategory] = useState('');
   const [newAccount, setNewAccount] = useState('');
+  const [accountTypes, setAccountTypes] = useState(['Bank account', 'Credit card']);
+  const [accountType, setAccountType] = useState('');
+  const [accountName, setAccountName] = useState('');
+  const [accountBalance, setAccountBalance] = useState(0);
+  const [accountDescription, setAccountDescription] = useState('');
   const [categories, setCategories] = useState(['Food', 'Transportation', 'Utilities']);
   const [accounts, setAccounts] = useState(['Bank account', 'Credit card']);
   const [refreshToken, setRefreshToken] = useState('');
   const [accessToken, setAccessToken] = useState('');
   const [user, setUser] = useState({});
+  
 
   useEffect(() => {
     const savedRefreshToken = localStorage.getItem('refreshToken');
@@ -17,31 +24,102 @@ const PersonalCabinet = () => {
       setRefreshToken(savedRefreshToken);
       setAccessToken(savedAccessToken);
       setUser(JSON.parse(savedUser));
+      console.log('token', savedRefreshToken);
     }
   }, []);
   
-  const handleAddCategory = () => {
-    if (newCategory.trim() !== '') {
-      setCategories([...categories, newCategory.trim()]);
-      setNewCategory('');
-    }
+// Add account to the list of accounts from the user db that's the same as the user that's logged in
+// The accoint model is: {type: String, name: String, balance: Number, description: String}
+  const handleAddAccount = async () => {
+    const res = await axios.post('http://localhost:5050/api/newAccount', {
+      type: accountType,
+      name: accountName,
+      balance: accountBalance,
+      description: accountDescription,
+    }, {
+      headers: {
+        'auth-token-refresh': refreshToken,
+      },
+    });
+    setAccounts([...accounts, newAccount]);
+    setNewAccount('');
   };
 
-  const handleRemoveCategory = (category) => {
-    setCategories(categories.filter((c) => c !== category));
-  };
 
-  const handleAddAccount = () => {
-    if (newAccount.trim() !== '') {
-      setAccounts([...accounts, newAccount.trim()]);
-      setNewAccount('');
-    }
+  // Get the list of accounts from the user db that's the same as the user that's logged in
+  useEffect(() => {
+  const handleGetAccounts = async () => {
+    const res = await axios.get('http://localhost:5050/api/getAccounts', {
+      headers: {
+        'auth-token-refresh': refreshToken,
+      },
+    });
+    setAccounts(res.data.accounts);
   };
+  handleGetAccounts();
+  }, [refreshToken]);
+  
 
-  const handleRemoveAccount = (account) => {
+  // Remove account from the list of accounts from the user db that's the same as the user that's logged in
+  const handleRemoveAccount = async (account) => {
+    const res = await axios.post('http://localhost:5050/api/removeAccount', {
+      name: account,
+    }, {
+      headers: {
+        'auth-token-refresh': refreshToken,
+      },
+    });
     setAccounts(accounts.filter((a) => a !== account));
   };
 
+// Add category to the list of categories from the user db that's the same as the user that's logged in
+// The category model is: {name: String}
+  const handleAddCategory = async () => {
+    const res = await axios.post('http://localhost:5050/api/addCategory', {
+      name: newCategory,
+    }, {
+      headers: {
+        'auth-token-access': accessToken,
+        'auth-token-refresh': refreshToken,
+      },
+    });
+    setCategories([...categories, newCategory]);
+    setNewCategory('');
+  };
+
+  // Get the list of categories from the user db that's the same as the user that's logged in
+  const handleGetCategories = async () => {
+    const res = await axios.get('http://localhost:5050/api/getCategories', {
+      headers: {
+        'auth-token-refresh': refreshToken,
+      },
+    });
+    setCategories(res.data);
+  };
+
+
+  // Remove category from the list of categories from the user db that's the same as the user that's logged in
+  const handleRemoveCategory = async (category) => {
+    const res = await axios.post('http://localhost:5050/api/removeCategory', {
+      name: category,
+    }, {
+      headers: {
+        'auth-token-refresh': refreshToken,
+      },
+    });
+    setCategories(categories.filter((c) => c !== category));
+  };
+
+
+  // Logout the user
+  const handleLogout = () => {
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('user');
+    setRefreshToken('');
+    setAccessToken('');
+    setUser({});
+  };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
@@ -84,9 +162,33 @@ const PersonalCabinet = () => {
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               type="text"
-              placeholder="Enter a new account"
-              value={newAccount}
-              onChange={(e) => setNewAccount(e.target.value)}
+              placeholder="Enter the account name"
+              value={accountName}
+              onChange={(e) => setAccountName(e.target.value)}
+            />
+            <input 
+            // Enter the balance of the new account
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ml-4"
+              type="text"
+              placeholder="Enter the balance"
+              value={accountBalance}
+              onChange={(e) => setAccountBalance(e.target.value)}
+            />
+            <input
+            // Enter the description of the new account
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ml-4"
+              type="text"
+              placeholder="Enter the description"
+              value={accountDescription}
+              onChange={(e) => setAccountDescription(e.target.value)}
+            />
+            <input
+            // Enter the new account type
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ml-4"
+              type="text"
+              placeholder="Enter the account type"
+              value={accountType}
+              onChange={(e) => setAccountType(e.target.value)}
             />
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-4 focus:outline-none focus:shadow-outline"
@@ -96,18 +198,19 @@ const PersonalCabinet = () => {
             </button>
           </div>
           <ul>
-            {accounts.map((account) => (
-              <li className="mb-2" key={account}>
-                {account}{' '}
-                <button
-                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded ml-4 focus:outline-none focus:shadow-outline"
-                  onClick={() => handleRemoveAccount(account)}
-                >
-                  Remove
-                </button>
-              </li>
-            ))}
-          </ul>
+  {accounts.map((account) => (
+    <li className="mb-2" key={account._id}>
+      {account.name} ({account.balance}) {account.type} {account.description} {' '}
+      <button
+        className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded ml-4 focus:outline-none focus:shadow-outline"
+        onClick={() => handleRemoveAccount(account._id)}
+      >
+        Remove
+      </button>
+    </li>
+  ))}
+</ul>
+
         </div>
       </div>
     </div>
