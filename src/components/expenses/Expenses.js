@@ -7,6 +7,7 @@ const Expenses = () => {
   const [accessToken, setAccessToken] = useState('');
   const [user, setUser] = useState({});
 
+
   useEffect(() => {
     const fetchExpenses = async () => {
       const token = localStorage.getItem('refreshToken');
@@ -19,6 +20,11 @@ const Expenses = () => {
     fetchExpenses();
   }, []);
 
+
+  const onExpenseAdded = (expense) => {
+    setExpenses((prevExpenses) => [...prevExpenses, expense]);
+  };
+
   const onLogout = () => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('user');
@@ -28,35 +34,34 @@ const Expenses = () => {
 
   return (
     <div>
-      <CreateNewExpense />
-      <h1 className="text-2xl font-bold mb-4">Expenses</h1>
+      <CreateNewExpense onExpenseAdded={onExpenseAdded} />
       {expenses.length > 0 ? (
-        <table className="table-auto">
-          <thead>
-            <tr>
-              <th className="px-4 py-2">Type</th>
-              <th className="px-4 py-2">Amount</th>
-              <th className="px-4 py-2">Date</th>
-              <th className="px-4 py-2">Description</th>
-              <th className="px-4 py-2">Categories</th>
-              <th className="px-4 py-2">Accounts</th>
-              <th className="px-4 py-2">Importance</th>
+        <table className="table-auto mx-auto">
+        <thead>
+          <tr>
+            <th className="px-4 py-2 border">Type</th>
+            <th className="px-4 py-2 border">Amount</th>
+            <th className="px-4 py-2 border">Date</th>
+            <th className="px-4 py-2 border">Description</th>
+            <th className="px-4 py-2 border">Categories</th>
+            <th className="px-4 py-2 border">Accounts</th>
+            <th className="px-4 py-2 border">Importance</th>
+          </tr>
+        </thead>
+        <tbody>
+          {expenses.map((expense) => (
+            <tr key={expense._id} className="hover:bg-gray-100">
+              <td className="border px-4 py-2">{expense.type}</td>
+              <td className="border px-4 py-2">${expense.amount.toFixed(2)}</td>
+              <td className="border px-4 py-2">{new Date(expense.date).toLocaleDateString()}</td>
+              <td className="border px-4 py-2">{expense.description}</td>
+              <td className="border px-4 py-2">{expense.categories.join(", ")}</td>
+              <td className="border px-4 py-2">{expense.accounts.join(", ")}</td>
+              <td className="border px-4 py-2">{expense.importance}</td>
             </tr>
-          </thead>
-          <tbody>
-            {expenses.map((expense) => (
-              <tr key={expense._id}>
-                <td className="border px-4 py-2">{expense.type}</td>
-                <td className="border px-4 py-2">{expense.amount}</td>
-                <td className="border px-4 py-2">{expense.date}</td>
-                <td className="border px-4 py-2">{expense.description}</td>
-                <td className="border px-4 py-2">{expense.categories}</td>
-                <td className="border px-4 py-2">{expense.accounts}</td>
-                <td className="border px-4 py-2">{expense.importance}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+          ))}
+        </tbody>
+      </table>
       ) : (
         <p>No expenses found.</p>
       )}

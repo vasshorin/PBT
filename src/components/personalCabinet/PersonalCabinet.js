@@ -1,11 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const PersonalCabinet = () => {
   const [newCategory, setNewCategory] = useState('');
   const [newAccount, setNewAccount] = useState('');
   const [categories, setCategories] = useState(['Food', 'Transportation', 'Utilities']);
   const [accounts, setAccounts] = useState(['Bank account', 'Credit card']);
+  const [refreshToken, setRefreshToken] = useState('');
+  const [accessToken, setAccessToken] = useState('');
+  const [user, setUser] = useState({});
 
+  useEffect(() => {
+    const savedRefreshToken = localStorage.getItem('refreshToken');
+    const savedAccessToken = localStorage.getItem('accessToken');
+    const savedUser = localStorage.getItem('user');
+    if (savedRefreshToken && savedUser && savedAccessToken) {
+      setRefreshToken(savedRefreshToken);
+      setAccessToken(savedAccessToken);
+      setUser(JSON.parse(savedUser));
+    }
+  }, []);
+  
   const handleAddCategory = () => {
     if (newCategory.trim() !== '') {
       setCategories([...categories, newCategory.trim()]);
@@ -27,6 +41,7 @@ const PersonalCabinet = () => {
   const handleRemoveAccount = (account) => {
     setAccounts(accounts.filter((a) => a !== account));
   };
+
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
@@ -82,22 +97,22 @@ const PersonalCabinet = () => {
           </div>
           <ul>
             {accounts.map((account) => (
-                         <li className="mb-2" key={account}>
-                         {account}{' '}
-                         <button
-                           className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded ml-4 focus:outline-none focus:shadow-outline"
-                           onClick={() => handleRemoveAccount(account)}
-                         >
-                           Remove
-                         </button>
-                       </li>
-                     ))}
-                   </ul>
-                 </div>
-               </div>
-             </div>
+              <li className="mb-2" key={account}>
+                {account}{' '}
+                <button
+                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded ml-4 focus:outline-none focus:shadow-outline"
+                  onClick={() => handleRemoveAccount(account)}
+                >
+                  Remove
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
 
-              );
-            };
+  );
+};
 
-            export default PersonalCabinet;
+export default PersonalCabinet;
