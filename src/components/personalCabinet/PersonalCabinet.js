@@ -60,17 +60,15 @@ const PersonalCabinet = () => {
   }, [refreshToken]);
   
 
-  // Remove account from the list of accounts from the user db that's the same as the user that's logged in
-  const handleRemoveAccount = async (account) => {
-    const res = await axios.post('http://localhost:5050/api/removeAccount', {
-      name: account,
-    }, {
+  const handleRemoveAccount = async (accountId) => {
+    const res = await axios.delete(`http://localhost:5050/api/deleteAccount/${accountId}`, {
       headers: {
         'auth-token-refresh': refreshToken,
       },
     });
-    setAccounts(accounts.filter((a) => a !== account));
+    setAccounts(accounts.filter((account) => account._id !== accountId));
   };
+  
 
 // Add category to the list of categories from the user db that's the same as the user that's logged in
 // The category model is: {name: String}
@@ -100,11 +98,12 @@ const PersonalCabinet = () => {
 
   // Remove category from the list of categories from the user db that's the same as the user that's logged in
   const handleRemoveCategory = async (category) => {
+    const savedRefreshToken = localStorage.getItem('refreshToken');
     const res = await axios.post('http://localhost:5050/api/removeCategory', {
       name: category,
     }, {
       headers: {
-        'auth-token-refresh': refreshToken,
+        'auth-token-refresh': savedRefreshToken,
       },
     });
     setCategories(categories.filter((c) => c !== category));
