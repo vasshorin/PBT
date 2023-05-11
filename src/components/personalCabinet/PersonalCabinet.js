@@ -115,16 +115,14 @@ const PersonalCabinet = () => {
   };
   
   // Remove category from the list of categories from the user db that's the same as the user that's logged in
-  const handleRemoveCategory = async (category) => {
-    const savedRefreshToken = localStorage.getItem('refreshToken');
-    const res = await axios.post('http://localhost:5050/api/removeCategory', {
-      name: category,
-    }, {
+  const handleRemoveCategory = async (categoryName) => {
+    const res = await axios.delete(`http://localhost:5050/api/deleteCategory/${categoryName}`, {
       headers: {
-        'auth-token-refresh': savedRefreshToken,
+        'auth-token-refresh': refreshToken,
       },
     });
-    setCategories(categories.filter((c) => c !== category));
+    setCategories(categories.filter((cat) => cat !== categoryName));
+
   };
 
 
@@ -161,10 +159,11 @@ const PersonalCabinet = () => {
           </div>
           <ul>
             {categories.map((category) => (
-              <li className="mb-2" key={category._id}>
-                {category}{' '}
+              <li key={category} className="flex justify-between items-center mb-2">
+                <span>{category}</span>
                 <button
-                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded ml-4 focus:outline-none focus:shadow-outline"
+
+                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                   onClick={() => handleRemoveCategory(category)}
                 >
                   Remove
