@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const PersonalCabinet = () => {
-  const [newCategory, setNewCategory] = useState('');
+  const [categoryName, setcategoryName] = useState('');
   const [newAccount, setNewAccount] = useState('');
   const [accountTypes, setAccountTypes] = useState(['Bank account', 'Credit card']);
   const [accountType, setAccountType] = useState('');
@@ -56,6 +56,17 @@ const PersonalCabinet = () => {
     });
     setAccounts(res.data.accounts);
   };
+
+  const handleGetCategories = async () => {
+    const res = await axios.get('http://localhost:5050/api/getCategories', {
+      headers: {
+        'auth-token-refresh': refreshToken,
+      },
+    });
+    setCategories(res.data.categories);
+  };
+
+  handleGetCategories();
   handleGetAccounts();
   }, [refreshToken]);
   
@@ -92,29 +103,17 @@ const PersonalCabinet = () => {
 // Add category to the list of categories from the user db that's the same as the user that's logged in
 // The category model is: {name: String}
   const handleAddCategory = async () => {
-    const res = await axios.post('http://localhost:5050/api/addCategory', {
-      name: newCategory,
+    const res = await axios.post('http://localhost:5050/api/newCategory', {
+      name: categoryName,
     }, {
       headers: {
-        'auth-token-access': accessToken,
         'auth-token-refresh': refreshToken,
       },
     });
-    setCategories([...categories, newCategory]);
-    setNewCategory('');
+    setCategories([...categories, categoryName]);
+    setcategoryName('');
   };
-
-  // Get the list of categories from the user db that's the same as the user that's logged in
-  const handleGetCategories = async () => {
-    const res = await axios.get('http://localhost:5050/api/getCategories', {
-      headers: {
-        'auth-token-refresh': refreshToken,
-      },
-    });
-    setCategories(res.data);
-  };
-
-
+  
   // Remove category from the list of categories from the user db that's the same as the user that's logged in
   const handleRemoveCategory = async (category) => {
     const savedRefreshToken = localStorage.getItem('refreshToken');
@@ -150,8 +149,8 @@ const PersonalCabinet = () => {
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               type="text"
               placeholder="Enter a new category"
-              value={newCategory}
-              onChange={(e) => setNewCategory(e.target.value)}
+              value={categoryName}
+              onChange={(e) => setcategoryName(e.target.value)}
             />
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-4 focus:outline-none focus:shadow-outline"
@@ -162,7 +161,7 @@ const PersonalCabinet = () => {
           </div>
           <ul>
             {categories.map((category) => (
-              <li className="mb-2" key={category}>
+              <li className="mb-2" key={category._id}>
                 {category}{' '}
                 <button
                   className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded ml-4 focus:outline-none focus:shadow-outline"
@@ -231,7 +230,7 @@ const PersonalCabinet = () => {
       >
         Update
       </button>
-      
+
     </li>
   ))}
 </ul>

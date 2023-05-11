@@ -141,12 +141,12 @@ const CreateNewExpense = () => {
             value={categories}
             onChange={(e) => setcategories(e.target.value)}
           >
-            {/* <option value="">Select an category level</option>
-            {categories.map((category) => (
-              <option key={category._id} value={category._id}>
-                {category.name}
-              </option>
-            ))} */}
+            <option value="">Select an category level</option>
+            {Array.isArray(categories) && categories.map((category) => (
+  <option key={category._id} value={category._id}>
+    {category}
+  </option>
+))}
       </select>
     </div>
     <div className="w-full md:w-1/6 mb-4 md:mb-0">
