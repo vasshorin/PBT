@@ -8,6 +8,39 @@ const CreateNewExpense = () => {
   const [categories, setcategories] = useState('');
   const [accounts, setaccounts] = useState('');
   const [type, settype] = useState('');
+  const [refreshToken, setRefreshToken] = useState('');
+
+  useEffect(() => {
+    const savedUser = localStorage.getItem('user');
+    const savedRefreshToken = localStorage.getItem('refreshToken');
+    if (savedUser && savedRefreshToken) {
+      setRefreshToken(savedRefreshToken);
+    }
+  }, []);
+
+  useEffect(() => {
+    const handleGetAccounts = async () => {
+      const res = await axios.get('http://localhost:5050/api/getAccounts', {
+        headers: {
+          'auth-token-refresh': refreshToken,
+        },
+      });
+      console.log(res.data.accounts);
+      setaccounts(res.data.accounts);
+    };
+
+    const handleGetCategories = async () => {
+      const res = await axios.get('http://localhost:5050/api/getCategories', {
+        headers: {
+          'auth-token-refresh': refreshToken,
+        },
+      });
+      console.log(res.data.categories);
+      setcategories(res.data.categories);
+    };
+    handleGetCategories();
+    handleGetAccounts();
+    }, [refreshToken]);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -108,28 +141,32 @@ const CreateNewExpense = () => {
             value={categories}
             onChange={(e) => setcategories(e.target.value)}
           >
-            <option value="">Select a categories</option>
-            <option value="food">food</option>
-            <option value="transportation">Transportation</option>
-            <option value="utilities">Utilities</option>
-            <option        value="entertainment">Entertainment</option>
-        <option value="housing">Housing</option>
-        <option value="clothing">Clothing</option>
-        <option value="other">Other</option>      
+            {/* <option value="">Select an category level</option>
+            {categories.map((category) => (
+              <option key={category._id} value={category._id}>
+                {category.name}
+              </option>
+            ))} */}
       </select>
     </div>
     <div className="w-full md:w-1/6 mb-4 md:mb-0">
       <label className="block text-gray-700 font-bold mb-2" htmlFor="accounts">
         accounts
       </label>
-      <input
+      <select
         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         id="accounts"
-        type="text"
-        placeholder="Enter the accounts"
         value={accounts}
         onChange={(e) => setaccounts(e.target.value)}
-      />
+      >
+        <option value="">Select an account level</option>
+        {Array.isArray(accounts) && accounts.map((account) => (
+  <option key={account._id} value={account._id}>
+    {account.name}
+  </option>
+))}
+
+      </select>
     </div>
     <div className="w-full md:w-1/6 mb-4 md:mb-0 flex items-center justify-center">
       <button
