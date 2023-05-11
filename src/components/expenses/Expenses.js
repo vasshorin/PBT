@@ -20,10 +20,19 @@ const Expenses = () => {
     fetchExpenses();
   }, []);
 
+  const deleteTransaction = async (id) => {
+    const token = localStorage.getItem('refreshToken');
+    const response = await axios.delete(`http://localhost:5050/api/transactions/${id}`, {
+      headers: { 'auth-token-refresh': token },
+    });
+    setExpenses(expenses.filter((expense) => expense._id !== id));
+  };
 
   const onExpenseAdded = (expense) => {
-    setExpenses((prevExpenses) => [...prevExpenses, expense]);
+    setExpenses([...expenses, expense]);
   };
+  
+
 
   const onLogout = () => {
     localStorage.removeItem('accessToken');
@@ -49,18 +58,29 @@ const Expenses = () => {
           </tr>
         </thead>
         <tbody>
-          {expenses.map((expense) => (
-            <tr key={expense._id} className="hover:bg-gray-100">
-              <td className="border px-4 py-2">{expense.type}</td>
-              <td className="border px-4 py-2">${expense.amount.toFixed(2)}</td>
-              <td className="border px-4 py-2">{new Date(expense.date).toLocaleDateString()}</td>
-              <td className="border px-4 py-2">{expense.description}</td>
-              <td className="border px-4 py-2">{expense.categories.join(", ")}</td>
-              <td className="border px-4 py-2">{expense.accounts.join(", ")}</td>
-              <td className="border px-4 py-2">{expense.importance}</td>
-            </tr>
-          ))}
-        </tbody>
+  {expenses.map((expense) => (
+    <tr key={expense._id} className="hover:bg-gray-100">
+      <td className="border px-4 py-2">{expense.type}</td>
+      <td className="border px-4 py-2">${expense.amount.toFixed(2)}</td>
+      <td className="border px-4 py-2">{new Date(expense.date).toLocaleDateString()}</td>
+      <td className="border px-4 py-2">{expense.description}</td>
+      <td className="border px-4 py-2">{expense.categories.join(", ")}</td>
+      <td className="border px-4 py-2">{expense.accounts}</td>
+      <td className="border px-4 py-2">{expense.importance}</td>
+      <td className="border px-4 py-2">
+        <button 
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          onClick={() => {
+            deleteTransaction(expense._id);
+          }}
+        >
+          Delete
+        </button>
+      </td>
+    </tr>
+  ))}
+</tbody>
+
       </table>
       ) : (
         <p>No expenses found.</p>
