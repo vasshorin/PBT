@@ -68,7 +68,26 @@ const PersonalCabinet = () => {
     });
     setAccounts(accounts.filter((account) => account._id !== accountId));
   };
-  
+
+  const handleUpdateAccount = async (accountId) => {
+    const res = await axios.put(`http://localhost:5050/api/updateAccount/${accountId}`, {
+      type: accountType,
+      name: accountName,
+      balance: accountBalance,
+      description: accountDescription,
+    }, {
+      headers: {
+        'auth-token-refresh': refreshToken,
+      },
+    });
+    setAccounts(accounts.map((account) => {
+      if (account._id === accountId) {
+        return res.data;
+      }
+      return account;
+    }));
+  };
+
 
 // Add category to the list of categories from the user db that's the same as the user that's logged in
 // The category model is: {name: String}
@@ -206,6 +225,13 @@ const PersonalCabinet = () => {
       >
         Remove
       </button>
+      <button
+        className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded ml-4 focus:outline-none focus:shadow-outline"
+        onClick={() => handleUpdateAccount(account._id)}
+      >
+        Update
+      </button>
+      
     </li>
   ))}
 </ul>
