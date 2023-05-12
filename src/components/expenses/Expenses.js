@@ -7,6 +7,7 @@ const Expenses = () => {
   const [accessToken, setAccessToken] = useState('');
   const [user, setUser] = useState({});
   const [editingIndex, setEditingIndex] = useState(-1);
+  const [accountName, setAccountName] = useState('');
 
 
   useEffect(() => {
@@ -16,8 +17,21 @@ const Expenses = () => {
       const response = await axios.get(`http://localhost:5050/api/transactions`, {
         headers: { 'auth-token-refresh': token },
       });
-      setExpenses(response.data.transactions);
+      console.log(response.data.transactions);
+      const transactions = response.data.transactions;
+      const updatedTransactions = await Promise.all(transactions.map(async transaction => {
+        const accountResponse = await axios.get(`http://localhost:5050/api/getAccount/${transaction.account}`, {
+          headers: { 'auth-token-refresh': token },
+        });
+        const account = accountResponse.data.account;
+        return {
+          ...transaction,
+          accountName: account.name
+        };
+      }));
+      setExpenses(updatedTransactions);
     };
+
     fetchExpenses();
   }, []);
 
@@ -42,15 +56,17 @@ const Expenses = () => {
     const account = responseGetAccount.data;
     console.log("ACCOUNT " + account.account.balance);
 
+    setAccountName(account.account.name);
+
     // create the updated account object
     let newBalance = account.account.balance + transaction.transaction.amount;
 
     console.log(account);
-    
+
     // update the account
     const responsePut = await axios.put(`http://localhost:5050/api/updateAccountBalance/${transactionAccount}`, {
       balance: newBalance,
-    } , {
+    }, {
       headers: { 'auth-token-refresh': token },
     }
     );
@@ -68,36 +84,7 @@ const Expenses = () => {
   };
 
 
-  const onExpenseUpdated = (index, expense) => {
-    const newExpenses = [...expenses];
-    newExpenses[index] = expense;
-    setExpenses(newExpenses);
-    setEditingIndex(-1);
-  };
 
-  const onEditClicked = (index) => {
-    setEditingIndex(index);
-  };
-
-  const onExpenseSaved = async (index) => {
-    const token = localStorage.getItem('refreshToken');
-    const expense = expenses[index];
-    const response = await axios.put(`http://localhost:5050/api/transactions/${expense._id}`, expense, {
-      headers: { 'auth-token-refresh': token },
-    });
-    const newExpenses = [...expenses];
-    newExpenses[index] = expense;
-    setExpenses(newExpenses);
-    setEditingIndex(-1);
-  };
-  
-
-  const onLogout = () => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('user');
-    setAccessToken('');
-    setUser({});
-  };
 
   return (
     <div>
@@ -112,155 +99,30 @@ const Expenses = () => {
               <th className="px-4 py-2 border">Description</th>
               <th className="px-4 py-2 border">Categories</th>
               <th className="px-4 py-2 border">Accounts</th>
-              <th className="px-4 py-2 border">Importance</th>
-              <th className="px-4 py-2 border"></th>
             </tr>
           </thead>
           <tbody>
             {expenses.map((expense, index) => (
               <tr key={expense._id} className="hover:bg-gray-100">
-                <td className="border px-4 py-2">
-  {editingIndex === index ? (
-    <>
-      <input
-        type="text"
-        value={expense.type}
-        onChange={(e) => {
-          const newExpense = { ...expense, type: e.target.value };
-          onExpenseUpdated(index, newExpense);
-        }}
-      />
-      <button onClick={() => onExpenseSaved(index)}>Save</button>
-    </>
-  ) : (
-    expense.type
-  )}
-</td>
+                <td className="border px-4 py-2">{expense.type}</td>
+                <td className="border px-4 py-2">${expense.amount.toFixed(2)}</td>
+                <td className="border px-4 py-2">{new Date(expense.date).toLocaleDateString()}</td>
+                <td className="border px-4 py-2">{expense.description}</td>
+                <td className="border px-4 py-2">{expense.categories.join(", ")}</td>
+                <td className="border px-4 py-2">{expense.accountName}</td>
+                  <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-4 rounded"
+                    onClick={() => {
+                      deleteTransaction(expense._id);
+                    }}
+                  >
+                    Delete
+                  </button>
+              </tr>
+            ))}
+          </tbody>
 
-                <td className="border px-4 py-2">
-                  {editingIndex === index ? (
-                    <input
-                      type="text"
-                      value={expense.amount}
-                      onChange={(e) => {
-                        const newExpense = { ...expense, amount : e.target.value };
-                        onExpenseUpdated(index, newExpense);
-                      }}
-                    />
-                  ) : (
-                    expense.amount
-                  )}
-                </td>
-                <td className="border px-4 py-2">
-                  {editingIndex === index ? (
-                    <input
-
-                      type="text"
-                      value={expense.date}
-                      onChange={(e) => {
-                        const newExpense = { ...expense, date: e.target.value };
-                        onExpenseUpdated(index, newExpense);
-                      }}
-                    />
-                  ) : (
-                    expense.date
-                  )}
-                </td>
-                <td className="border px-4 py-2">
-                  {editingIndex === index ? (
-                    <input
-                      type="text"
-                      value={expense.description}
-                      onChange={(e) => {
-                        const newExpense = { ...expense, description: e.target.value };
-                        onExpenseUpdated(index, newExpense);
-                      }}
-                    />
-                  ) : (
-                    expense.description
-                  )}
-                </td>
-                <td className="border px-4 py-2">
-                  {editingIndex === index ? (
-                    <input
-                      type="text"
-                      value={expense.categories}  
-                      onChange={(e) => {
-                        const newExpense = { ...expense, categories: e.target.value };
-                        onExpenseUpdated(index, newExpense);
-                      }}
-                    />
-                  ) : (
-                    expense.categories
-                  )}
-                </td>
-                <td className="border px-4 py-2">
-                  {editingIndex === index ? (
-                    <input
-                      type="text"
-                      value={expense.accounts}
-                      onChange={(e) => {
-                        const newExpense = { ...expense, accounts: e.target.value };  
-                        onExpenseUpdated(index, newExpense);
-                      }}
-                    />
-                  ) : (
-                    expense.accounts
-                  )}
-                </td>
-                <td className="border px-4 py-2">
-                  {editingIndex === index ? (
-                    <input
-
-                      type="text"
-                      value={expense.importance}
-                      onChange={(e) => {
-                        const newExpense = { ...expense, importance: e.target.value };
-                        onExpenseUpdated(index, newExpense);
-                      }}
-                    />
-                  ) : (
-                    expense.importance
-                  )}
-                </td>
-                <td className="border px-4 py-2">
-                  {editingIndex === index ? (
-                    <button
-
-                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                      onClick={() => {
-                        const newExpense = { ...expense, editing: false };
-                        onExpenseUpdated(index, newExpense);
-                      }}
-                    >
-                      Save
-                    </button>
-                  ) : (
-                    <button
-                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                      onClick={() => {
-                        onEditClicked(index);
-                      }}
-                    >
-                      Edit
-                    </button>
-                  )}
-
-
-        <button 
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          onClick={() => {
-            deleteTransaction(expense._id);
-          }}
-        >
-          Delete
-        </button>
-      </td>
-    </tr>
-  ))}
-</tbody>
-
-      </table>
+        </table>
       ) : (
         <p>No expenses found.</p>
       )}
