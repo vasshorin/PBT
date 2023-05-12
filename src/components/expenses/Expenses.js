@@ -8,6 +8,7 @@ const Expenses = () => {
   const [user, setUser] = useState({});
   const [editingIndex, setEditingIndex] = useState(-1);
 
+
   useEffect(() => {
     const fetchExpenses = async () => {
       const token = localStorage.getItem('refreshToken');
@@ -21,7 +22,41 @@ const Expenses = () => {
   }, []);
 
   const deleteTransaction = async (id) => {
+    const savedUser = localStorage.getItem('user');
     const token = localStorage.getItem('refreshToken');
+
+    // fetch the transaction data
+    const responseGet = await axios.get(`http://localhost:5050/api/transactions/${id}`, {
+      headers: { 'auth-token-refresh': token },
+    });
+    const transaction = responseGet.data;
+    console.log(transaction);
+
+    // Transaction is an object 
+    let transactionAccount = transaction.transaction.account;
+
+    // fetch the account data
+    const responseGetAccount = await axios.get(`http://localhost:5050/api/getAccount/${transactionAccount}`, {
+      headers: { 'auth-token-refresh': token },
+    });
+    const account = responseGetAccount.data;
+    console.log("ACCOUNT " + account.account.balance);
+
+    // create the updated account object
+    let newBalance = account.account.balance + transaction.transaction.amount;
+
+    console.log(account);
+    
+    // update the account
+    const responsePut = await axios.put(`http://localhost:5050/api/updateAccountBalance/${transactionAccount}`, {
+      balance: newBalance,
+    } , {
+      headers: { 'auth-token-refresh': token },
+    }
+    );
+    console.log(responsePut.data);
+
+    // delete the transaction
     const response = await axios.delete(`http://localhost:5050/api/transactions/${id}`, {
       headers: { 'auth-token-refresh': token },
     });
@@ -230,17 +265,6 @@ const Expenses = () => {
         <p>No expenses found.</p>
       )}
 
-      {/* Add logout */}
-      <button
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        onClick={(onLogout) => {
-          localStorage.removeItem('user');
-          localStorage.removeItem('refreshToken');
-          window.location.reload();
-        }}
-      >
-        Logout
-      </button>
     </div>
   );
 };

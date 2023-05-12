@@ -61,6 +61,7 @@ const CreateNewExpense = () => {
     console.log("selectedAccount", selectedAccount);
     console.log("savedUser", savedUser);
     const newBalance = type === 'expense' ? balance - amount : balance + Number(amount);
+
     console.log('newBalance', newBalance);
 
     const res = await axios.put(`http://localhost:5050/api/updateAccountBalance/${selectedAccount._id}`, {
@@ -80,8 +81,8 @@ const CreateNewExpense = () => {
       amount: amount,
       date: date,
       description: description,
-      categories: [selectedCategory],
-      accounts: [selectedAccount.name],
+      categories: selectedCategory,
+      accountId: selectedAccount._id,
     });
 
     // get the response from the server
@@ -177,24 +178,24 @@ const CreateNewExpense = () => {
               accounts
             </label>
             <select
-        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        id="accounts"
-        value={selectedAccount ? selectedAccount.name : ''}
-        onChange={(e) => {
-          const account = accounts.find(acc => acc.name === e.target.value);
-          setSelectedAccount(account);
-        }}
-      >
-             <option value="">Select an account</option>
-        {Array.isArray(accounts) && accounts.map((account) => (
-          <option 
-            key={account._id} 
-            value={account.name}
-          >
-            {account.name} {('$' + account.balance)}
-          </option>
-        ))}
-      </select>
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="accounts"
+              value={selectedAccount ? selectedAccount.name : ''}
+              onChange={(e) => {
+                const account = accounts.find(acc => acc.name === e.target.value);
+                setSelectedAccount(account);
+              }}
+            >
+              <option value="">Select an account</option>
+              {Array.isArray(accounts) && accounts.map((account) => (
+                <option
+                  key={account._id}
+                  value={account.name}
+                >
+                  {account.name} {('$' + account.balance)}
+                </option>
+              ))}
+            </select>
           </div>
           <div className="w-full md:w-1/6 mb-4 md:mb-0 flex items-center justify-center">
             <button
