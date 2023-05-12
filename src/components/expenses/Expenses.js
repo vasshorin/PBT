@@ -83,9 +83,6 @@ const Expenses = () => {
     setExpenses([...expenses, expense]);
   };
 
-
-
-
   return (
     <div>
       <CreateNewExpense onExpenseAdded={onExpenseAdded} />
