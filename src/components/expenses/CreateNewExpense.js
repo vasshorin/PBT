@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const CreateNewExpense = () => {
+const CreateNewExpense = ({ onExpenseAdded }) => {
   const [date, setDate] = useState('');
   const [description, setdescription] = useState('');
   const [amount, setAmount] = useState('');
@@ -85,14 +85,16 @@ const CreateNewExpense = () => {
       accountId: selectedAccount._id,
     });
 
+    onExpenseAdded(res2.data.transaction);
+
     // get the response from the server
     console.log(res2);
     // clear the form
     setDate('');
     setdescription('');
     setAmount('');
-    setcategories('');
-    setaccounts([]);
+    setSelectedAccount(null);
+    setSelectedCategory(null);
     settype('');
   };
 
