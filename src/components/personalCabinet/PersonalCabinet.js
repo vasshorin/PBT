@@ -28,8 +28,6 @@ const PersonalCabinet = () => {
     }
   }, []);
   
-// Add account to the list of accounts from the user db that's the same as the user that's logged in
-// The accoint model is: {type: String, name: String, balance: Number, description: String}
   const handleAddAccount = async () => {
     const res = await axios.post('http://localhost:5050/api/newAccount', {
       type: accountType,
@@ -41,11 +39,13 @@ const PersonalCabinet = () => {
         'auth-token-refresh': refreshToken,
       },
     });
-    setAccounts([...accounts, newAccount]);
-    setNewAccount('');
+    setAccounts([res.data.account, ...accounts]);
+
+    setAccountType('');
+    setAccountName('');
+    setAccountBalance(0);
   };
-
-
+  
   // Get the list of accounts from the user db that's the same as the user that's logged in
   useEffect(() => {
   const handleGetAccounts = async () => {
