@@ -191,14 +191,6 @@ const PersonalCabinet = () => {
               onChange={(e) => setAccountBalance(e.target.value)}
             />
             <input
-            // Enter the description of the new account
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ml-4"
-              type="text"
-              placeholder="Enter the description"
-              value={accountDescription}
-              onChange={(e) => setAccountDescription(e.target.value)}
-            />
-            <input
             // Enter the new account type
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ml-4"
               type="text"
@@ -236,6 +228,18 @@ const PersonalCabinet = () => {
 
         </div>
       </div>
+       {/* Add logout */}
+       <button
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        onClick={(onLogout) => {
+          localStorage.removeItem('user');
+          localStorage.removeItem('refreshToken');
+          window.location.reload();
+          window.location.href = '/login';
+        }}
+      >
+        Logout
+      </button>
     </div>
 
   );
