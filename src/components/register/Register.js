@@ -14,12 +14,8 @@ const Register = () => {
       password: password,
 
     });
-    // get the response from the server
-    console.log(res);
-    // clear the form
-    setEmail("");
-    setUsername("");
-    setPassword("");
+    // redirect to login page
+    window.location.href = "/login";
   };
 
   return (
