@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import CreditsCards from './CreditsCards';
+import Accounts from './Accounts';
+import Categories from './Categories';
 
 const PersonalCabinet = () => {
   const [categoryName, setcategoryName] = useState('');
@@ -29,118 +31,107 @@ const PersonalCabinet = () => {
     }
   }, []);
   
-  const handleAddAccount = async () => {
-    const res = await axios.post('http://localhost:5050/api/newAccount', {
-      type: accountType,
-      name: accountName,
-      balance: accountBalance,
-      description: accountDescription,
-    }, {
-      headers: {
-        'auth-token-refresh': refreshToken,
-      },
-    });
-    setAccounts([res.data.account, ...accounts]);
+  // const handleAddAccount = async () => {
+  //   const res = await axios.post('http://localhost:5050/api/newAccount', {
+  //     type: accountType,
+  //     name: accountName,
+  //     balance: accountBalance,
+  //     description: accountDescription,
+  //   }, {
+  //     headers: {
+  //       'auth-token-refresh': refreshToken,
+  //     },
+  //   });
+  //   setAccounts([res.data.account, ...accounts]);
 
-    setAccountType('');
-    setAccountName('');
-    setAccountBalance(0);
-  };
+  //   setAccountType('');
+  //   setAccountName('');
+  //   setAccountBalance(0);
+  // };
   
-  // Get the list of accounts from the user db that's the same as the user that's logged in
-  useEffect(() => {
-  const handleGetAccounts = async () => {
-    const res = await axios.get('http://localhost:5050/api/getAccounts', {
-      headers: {
-        'auth-token-refresh': refreshToken,
-      },
-    });
-    setAccounts(res.data.accounts);
-  };
+  // // Get the list of accounts from the user db that's the same as the user that's logged in
+  // useEffect(() => {
+  // const handleGetAccounts = async () => {
+  //   const res = await axios.get('http://localhost:5050/api/getAccounts', {
+  //     headers: {
+  //       'auth-token-refresh': refreshToken,
+  //     },
+  //   });
+  //   setAccounts(res.data.accounts);
+  // };
 
-  const handleGetCategories = async () => {
-    const res = await axios.get('http://localhost:5050/api/getCategories', {
-      headers: {
-        'auth-token-refresh': refreshToken,
-      },
-    });
-    setCategories(res.data.categories);
-  };
+  // const handleGetCategories = async () => {
+  //   const res = await axios.get('http://localhost:5050/api/getCategories', {
+  //     headers: {
+  //       'auth-token-refresh': refreshToken,
+  //     },
+  //   });
+  //   setCategories(res.data.categories);
+  // };
 
-  handleGetCategories();
-  handleGetAccounts();
-  }, [refreshToken]);
+  // handleGetCategories();
+  // handleGetAccounts();
+  // }, [refreshToken]);
   
 
-  const handleRemoveAccount = async (accountId) => {
-    const res = await axios.delete(`http://localhost:5050/api/deleteAccount/${accountId}`, {
-      headers: {
-        'auth-token-refresh': refreshToken,
-      },
-    });
-    setAccounts(accounts.filter((account) => account._id !== accountId));
-  };
+  // const handleRemoveAccount = async (accountId) => {
+  //   const res = await axios.delete(`http://localhost:5050/api/deleteAccount/${accountId}`, {
+  //     headers: {
+  //       'auth-token-refresh': refreshToken,
+  //     },
+  //   });
+  //   setAccounts(accounts.filter((account) => account._id !== accountId));
+  // };
 
-  const handleUpdateAccount = async (accountId) => {
-    const res = await axios.put(`http://localhost:5050/api/updateAccount/${accountId}`, {
-      type: accountType,
-      name: accountName,
-      balance: accountBalance,
-      description: accountDescription,
-    }, {
-      headers: {
-        'auth-token-refresh': refreshToken,
-      },
-    });
-    setAccounts(accounts.map((account) => {
-      if (account._id === accountId) {
-        return res.data;
-      }
-      return account;
-    }));
-  };
+  // const handleUpdateAccount = async (accountId) => {
+  //   const res = await axios.put(`http://localhost:5050/api/updateAccount/${accountId}`, {
+  //     type: accountType,
+  //     name: accountName,
+  //     balance: accountBalance,
+  //     description: accountDescription,
+  //   }, {
+  //     headers: {
+  //       'auth-token-refresh': refreshToken,
+  //     },
+  //   });
+  //   setAccounts(accounts.map((account) => {
+  //     if (account._id === accountId) {
+  //       return res.data;
+  //     }
+  //     return account;
+  //   }));
+  // };
 
 
-// Add category to the list of categories from the user db that's the same as the user that's logged in
-// The category model is: {name: String}
-  const handleAddCategory = async () => {
-    const res = await axios.post('http://localhost:5050/api/newCategory', {
-      name: categoryName,
-    }, {
-      headers: {
-        'auth-token-refresh': refreshToken,
-      },
-    });
-    setCategories([...categories, categoryName]);
-    setcategoryName('');
-  };
+// // Add category to the list of categories from the user db that's the same as the user that's logged in
+// // The category model is: {name: String}
+//   const handleAddCategory = async () => {
+//     const res = await axios.post('http://localhost:5050/api/newCategory', {
+//       name: categoryName,
+//     }, {
+//       headers: {
+//         'auth-token-refresh': refreshToken,
+//       },
+//     });
+//     setCategories([...categories, categoryName]);
+//     setcategoryName('');
+//   };
   
-  // Remove category from the list of categories from the user db that's the same as the user that's logged in
-  const handleRemoveCategory = async (categoryName) => {
-    const res = await axios.delete(`http://localhost:5050/api/deleteCategory/${categoryName}`, {
-      headers: {
-        'auth-token-refresh': refreshToken,
-      },
-    });
-    setCategories(categories.filter((cat) => cat !== categoryName));
+//   // Remove category from the list of categories from the user db that's the same as the user that's logged in
+//   const handleRemoveCategory = async (categoryName) => {
+//     const res = await axios.delete(`http://localhost:5050/api/deleteCategory/${categoryName}`, {
+//       headers: {
+//         'auth-token-refresh': refreshToken,
+//       },
+//     });
+//     setCategories(categories.filter((cat) => cat !== categoryName));
 
-  };
-
-
-  // Logout the user
-  const handleLogout = () => {
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('user');
-    setRefreshToken('');
-    setAccessToken('');
-    setUser({});
-  };
+//   };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
       <h1 className="text-3xl font-bold mb-8">Personal Cabinet</h1>
-      <div className="flex flex-col md:flex-row mb-8">
+      {/* <div className="flex flex-col md:flex-row mb-8">
         <div className="flex flex-col md:mr-4 mb-4 md:mb-0">
           <h2 className="text-xl font-bold mb-4">Categories</h2>
           <div className="flex flex-col md:flex-row mb-4">
@@ -173,7 +164,10 @@ const PersonalCabinet = () => {
             ))}
           </ul>
         </div>
-        <div className="flex flex-col md:ml-4">
+        </div> */}
+        <Categories />
+        <Accounts />
+        {/* <div className="flex flex-col md:ml-4">
           <h2 className="text-xl font-bold mb-4">Accounts</h2>
           <div className="flex flex-col md:flex-row mb-4">
             <input
@@ -228,7 +222,7 @@ const PersonalCabinet = () => {
 </ul>
 
         </div>
-      </div>
+      </div> */}
      <CreditsCards />
        {/* Add logout */}
        <button
