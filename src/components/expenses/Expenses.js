@@ -87,7 +87,7 @@ const Expenses = () => {
     <div>
       <CreateNewExpense onExpenseAdded={onExpenseAdded} />
       {expenses.length > 0 ? (
-        <div>
+        <div className="flex flex-row justify-center">
           <table className="table-auto mx-auto">
             <thead>
               <tr>

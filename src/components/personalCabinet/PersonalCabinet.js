@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import CreditsCards from './CreditsCards';
 
 const PersonalCabinet = () => {
   const [categoryName, setcategoryName] = useState('');
@@ -190,14 +191,14 @@ const PersonalCabinet = () => {
               value={accountBalance}
               onChange={(e) => setAccountBalance(e.target.value)}
             />
-            <input
-            // Enter the new account type
+            <select
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ml-4"
-              type="text"
-              placeholder="Enter the account type"
               value={accountType}
               onChange={(e) => setAccountType(e.target.value)}
-            />
+            >
+              <option value="credit">Credit card</option>
+              <option value="bank">Bank account</option>
+            </select>
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-4 focus:outline-none focus:shadow-outline"
               onClick={handleAddAccount}
@@ -228,6 +229,7 @@ const PersonalCabinet = () => {
 
         </div>
       </div>
+     <CreditsCards />
        {/* Add logout */}
        <button
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
