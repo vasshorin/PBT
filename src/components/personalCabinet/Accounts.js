@@ -11,20 +11,6 @@ const Accounts = ({ refreshToken, user }) => {
     const [accountDescription, setAccountDescription] = useState('');
     const [categories, setCategories] = useState(['Food', 'Transportation', 'Utilities']);
     const [accounts, setAccounts] = useState(['Bank account', 'Credit card']);
-    // const [refreshToken, setRefreshToken] = useState('');
-    // const [user, setUser] = useState({});
-
-    // useEffect(() => {
-    //     const savedRefreshToken = localStorage.getItem('refreshToken');
-    //     const savedAccessToken = localStorage.getItem('accessToken');
-    //     const savedUser = localStorage.getItem('user');
-    //     if (savedRefreshToken && savedUser && savedAccessToken) {
-    //       setRefreshToken(savedRefreshToken);
-    //       setAccessToken(savedAccessToken);
-    //       setUser(JSON.parse(savedUser));
-    //       console.log('token', savedRefreshToken);
-    //     }
-    //   }, []);
       
       const handleAddAccount = async () => {
         const res = await axios.post('http://localhost:5050/api/newAccount', {
