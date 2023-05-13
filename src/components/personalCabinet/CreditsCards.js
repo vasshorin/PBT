@@ -7,7 +7,6 @@ const CreditsCards = ({ refreshToken, user }) => {
     const [creditCardBalance, setCreditCardBalance] = useState(0);
     const [creditCardLimit, setCreditCardLimit] = useState(0);
 
-
     useEffect(() => {
         // Get the list of credit cards from the user db that's the same as the user that's logged in
         const handleGetCreditCards = async () => {
@@ -22,34 +21,39 @@ const CreditsCards = ({ refreshToken, user }) => {
       }, [refreshToken]);
       
 
-    const handleAddCreditCard = async () => {
+      const handleAddCreditCard = async () => {
         console.log("Name " + creditCardName)
         console.log("Balance " + creditCardBalance)
         console.log("Limit " + creditCardLimit)
-
+    
+        // Calculate available credit and utilization rate
+        const availableCredit = creditCardLimit - creditCardBalance;
+        const utilization = (creditCardBalance / creditCardLimit) * 100;
+        console.log("Available credit " + availableCredit)
+        console.log("Utilization " + utilization)
+    
+        // Add the new credit card to the db
         const response = await axios.post(`http://localhost:5050/api/newCreditCard`, {
             name: creditCardName,   
             currentBalance: creditCardBalance,
             creditLimit: creditCardLimit,
+            availableCredit: availableCredit,
+            utilization: utilization,
         }, {
             headers: { 'auth-token-refresh': refreshToken },
         });
         console.log(response.data);
-        const creditCard = response.data.creditCard;
-        const accountResponse = await axios.get(`http://localhost:5050/api/getAccount/${creditCard.account}`, {
-            headers: { 'auth-token-refresh': refreshToken },
-        });
-        const account = accountResponse.data.account;
-        setCreditCards([...creditCards, {
-            ...creditCard,
-            accountName: account.name
-        }]);
-        setCreditCardName('');
-        setCreditCardBalance('');
-        setCreditCardLimit('');
+        setCreditCards([response.data.creditCard, ...creditCards]);
     };
-
-
+    
+    const handleRemoveCreditCard = async (creditCardId) => {
+        const res = await axios.delete(`http://localhost:5050/api/deleteCreditCard/${creditCardId}`, {
+            headers: {
+                'auth-token-refresh': refreshToken,
+            },
+        });
+        setCreditCards(creditCards.filter((creditCard) => creditCard._id !== creditCardId));
+    };
 
 
     return (
@@ -96,7 +100,7 @@ const CreditsCards = ({ refreshToken, user }) => {
                             {creditCard.name} ({'$' + creditCard.currentBalance}) {creditCard.creditLimit}
                             <button
                                 className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded ml-4 focus:outline-none focus:shadow-outline"
-                                // onClick={() => handleRemoveAccount(account._id)}
+                                onClick={() => handleRemoveCreditCard(creditCard._id)}
                             >
                                 Remove
                             </button>

@@ -7,12 +7,14 @@ const CreateNewExpense = ({ onExpenseAdded }) => {
   const [amount, setAmount] = useState('');
   const [categories, setcategories] = useState('');
   const [accounts, setaccounts] = useState('');
+  const [creditCards, setcreditCards] = useState('');
   const [account, setaccount] = useState('');
   const [balance, setbalance] = useState('');
   const [type, settype] = useState('');
   const [refreshToken, setRefreshToken] = useState('');
   const [selectedAccount, setSelectedAccount] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedCreditCard, setSelectedCreditCard] = useState(null);
 
   useEffect(() => {
     const savedUser = localStorage.getItem('user');
@@ -32,7 +34,7 @@ const CreateNewExpense = ({ onExpenseAdded }) => {
       console.log(res.data.accounts);
       setaccounts(res.data.accounts);
     };
-
+  
     const handleGetCategories = async () => {
       const res = await axios.get('http://localhost:5050/api/getCategories', {
         headers: {
@@ -42,9 +44,22 @@ const CreateNewExpense = ({ onExpenseAdded }) => {
       console.log(res.data.categories);
       setcategories(res.data.categories);
     };
+  
+    const handleGetCreditCards = async () => {
+      const res = await axios.get('http://localhost:5050/api/getCreditCards', {
+        headers: {
+          'auth-token-refresh': refreshToken,
+        },
+      });
+      console.log(res.data.creditCards);
+      setcreditCards(res.data.creditCards);
+    };
+  
     handleGetCategories();
     handleGetAccounts();
+    handleGetCreditCards();
   }, [refreshToken]);
+  
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -58,8 +73,6 @@ const CreateNewExpense = ({ onExpenseAdded }) => {
       return;
     }
     const balance = selectedAccount.balance;
-    console.log("selectedAccount", selectedAccount);
-    console.log("savedUser", savedUser);
     const newBalance = type === 'expense' ? balance - amount : balance + Number(amount);
 
     console.log('newBalance', newBalance);
@@ -181,24 +194,25 @@ const CreateNewExpense = ({ onExpenseAdded }) => {
               accounts
             </label>
             <select
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="accounts"
-              value={selectedAccount ? selectedAccount.name : ''}
-              onChange={(e) => {
-                const account = accounts.find(acc => acc.name === e.target.value);
-                setSelectedAccount(account);
-              }}
-            >
-              <option value="">Select an account</option>
-              {Array.isArray(accounts) && accounts.map((account) => (
-                <option
-                  key={account._id}
-                  value={account.name}
-                >
-                  {account.name}
-                </option>
-              ))}
-            </select>
+  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+  id="accounts"
+  value={selectedAccount ? selectedAccount.name : ''}
+  onChange={(e) => {
+    const account = accounts.concat(creditCards).find((account) => account.name === e.target.value);
+    setSelectedAccount(account);
+  }}
+>
+  <option value="">Select an account</option>
+  {Array.isArray(accounts) && accounts.concat(creditCards).map((account) => (
+    <option
+      key={account._id}
+      value={account.name}
+    >
+      {account.name}
+    </option>
+  ))}
+</select>
+
           </div>
           <div className="w-full md:w-1/6 mb-4 md:mb-0 flex items-center justify-center">
             <button

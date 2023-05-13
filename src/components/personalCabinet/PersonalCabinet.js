@@ -20,31 +20,37 @@ const PersonalCabinet = () => {
       console.log('token', savedRefreshToken);
     }
   }, []);
+
+  const onLogout = () => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('refreshToken');
+    window.location.reload();
+    window.location.href = '/login';
+  };
   
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
       <h1 className="text-3xl font-bold mb-8">Personal Cabinet</h1>
+        <div className="flex flex-col md:flex-col mb-2">
         <Categories 
           refreshToken={refreshToken}
           user={user}
         />
+        <br></br>
         <Accounts 
           refreshToken={refreshToken}
           user={user}
         />
+        <br/>
         <CreditsCards 
           refreshToken={refreshToken}
           user={user}
         />
-       {/* Add logout */}
+      </div>
+
        <button
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        onClick={(onLogout) => {
-          localStorage.removeItem('user');
-          localStorage.removeItem('refreshToken');
-          window.location.reload();
-          window.location.href = '/login';
-        }}
+        onClick={onLogout}
       >
         Logout
       </button>

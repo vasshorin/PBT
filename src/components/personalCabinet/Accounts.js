@@ -5,14 +5,12 @@ const Accounts = ({ refreshToken, user }) => {
     // const [categoryName, setcategoryName] = useState('');
     // const [newAccount, setNewAccount] = useState('');
     // const [accountTypes, setAccountTypes] = useState(['Bank account', 'Credit card']);
-    const [accountType, setAccountType] = useState('');
     const [accountName, setAccountName] = useState('');
     const [accountBalance, setAccountBalance] = useState(0);
     const [accounts, setAccounts] = useState(['Bank account', 'Credit card']);
       
       const handleAddAccount = async () => {
         const res = await axios.post('http://localhost:5050/api/newAccount', {
-          type: accountType,
           name: accountName,
           balance: accountBalance,
         }, {
@@ -22,7 +20,6 @@ const Accounts = ({ refreshToken, user }) => {
         });
         setAccounts([res.data.account, ...accounts]);
     
-        setAccountType('');
         setAccountName('');
         setAccountBalance(0);
       };
@@ -53,7 +50,6 @@ const Accounts = ({ refreshToken, user }) => {
     
       const handleUpdateAccount = async (accountId) => {
         const res = await axios.put(`http://localhost:5050/api/updateAccount/${accountId}`, {
-          type: accountType,
           name: accountName,
           balance: accountBalance,
         }, {
@@ -88,14 +84,6 @@ const Accounts = ({ refreshToken, user }) => {
               value={accountBalance}
               onChange={(e) => setAccountBalance(e.target.value)}
             />
-            <select
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ml-4"
-              value={accountType}
-              onChange={(e) => setAccountType(e.target.value)}
-            >
-              <option value="credit">Credit card</option>
-              <option value="bank">Bank account</option>
-            </select>
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-4 focus:outline-none focus:shadow-outline"
               onClick={handleAddAccount}
@@ -106,7 +94,7 @@ const Accounts = ({ refreshToken, user }) => {
           <ul>
   {accounts.map((account) => (
     <li className="mb-2" key={account._id}>
-      {account.name} ({account.balance}) {account.type} {account.description} {' '}
+      {account.name} { ' $' + account.balance} {' '}
       <button
         className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded ml-4 focus:outline-none focus:shadow-outline"
         onClick={() => handleRemoveAccount(account._id)}
