@@ -46,103 +46,48 @@ const Expenses = () => {
   }, []);
   
   const deleteTransaction = async (id) => {
-    const savedUser = localStorage.getItem('user');
-    const token = localStorage.getItem('refreshToken');
-  
     try {
-      // fetch the transaction data
-      const responseGet = await axios.get(`http://localhost:5050/api/transactions/${id}`, {
+      const [savedUser, token] = [localStorage.getItem('user'), localStorage.getItem('refreshToken')];
+      const { data: transaction } = await axios.get(`http://localhost:5050/api/transactions/${id}`, {
         headers: { 'auth-token-refresh': token },
       });
-      const transaction = responseGet.data;
       console.log(transaction);
   
-      // Transaction is an object 
-      let transactionAccount;
-      let transactionAccountType = transaction.transaction.accountType;
-      if (transactionAccountType === 'bank') {
-        transactionAccount = transaction.transaction.account;
-      } else if (transactionAccountType === 'credit') {
-        transactionAccount = transaction.transaction.credit;
-      }
+      const transactionAccountType = transaction.transaction.accountType;
+      const transactionAccount = transactionAccountType === 'bank' ? transaction.transaction.account : transaction.transaction.credit;
       console.log(transactionAccount);
-      // fetch the account data
-      const responseGetAccount = await axios.get(`http://localhost:5050/api/get${transactionAccountType === 'bank' ? 'Account' : 'CreditCard'}/${transactionAccount}`, {
+  
+      const { data: account } = await axios.get(`http://localhost:5050/api/get${transactionAccountType === 'bank' ? 'Account' : 'CreditCard'}/${transactionAccount}`, {
         headers: { 'auth-token-refresh': token },
       });
-      const account = responseGetAccount.data;
       console.log(account);
   
-      let newBalance = 0;
-      let accountBalance;
-      let accountName;
-      
+      const accountBalance = transactionAccountType === 'bank' ? account.account.balance : account.creditCard.currentBalance;
+      const accountName = transactionAccountType === 'bank' ? account.account.name : account.creditCard.name;
   
-      if(transactionAccountType === 'bank') {
-        accountBalance = account.account.balance;
-        accountName = account.account.name;
+      let newBalance = accountBalance;
+      const transactionType = transaction.transaction.type;
+  
+      if (transactionAccountType === 'bank') {
+        newBalance = transactionType === 'expense' ? accountBalance + transaction.transaction.amount : accountBalance - transaction.transaction.amount;
       } else if (transactionAccountType === 'credit') {
-        accountBalance = account.creditCard.currentBalance;
-        accountName = account.creditCard.name;
+        newBalance = transactionType === 'expense' ? accountBalance - transaction.transaction.amount : accountBalance + transaction.transaction.amount;
       }
-      console.log(transactionAccountType); // credit
-      console.log(accountBalance); //1150
-      console.log(transaction.transaction.amount); // 150
 
-      let transactionType = transaction.transaction.type;
-
-      // create the updated account object
-      if(transactionAccountType === 'bank') {
-        if (transactionType === 'expense') {
-          newBalance = accountBalance + transaction.transaction.amount;
-        }
-        else if (transactionType === 'income') {
-          newBalance = accountBalance - transaction.transaction.amount;
-        }
-      } else if (transactionAccountType === 'credit') {
-        if (transactionType === 'expense') {
-          newBalance = accountBalance - transaction.transaction.amount;
-        }
-        else if (transactionType === 'income') {
-          newBalance = accountBalance + transaction.transaction.amount;
-        }
-      } else {
-        newBalance = accountBalance; // set a default value
+  
+      let newAvailableCredit, newUtilization;
+  
+      if (transactionAccountType === 'credit') {
+        newAvailableCredit = transactionType === 'expense' ? account.creditCard.availableCredit + transaction.transaction.amount : account.creditCard.availableCredit - transaction.transaction.amount;
+        newUtilization = (newBalance / account.creditCard.creditLimit) * 100;
       }
   
-
-      let newAvailableCredit;
-      let newUtilization;
-      if(transactionAccountType === 'credit') {
-        if(transactionType === 'expense') {
-          newAvailableCredit = account.creditCard.availableCredit + transaction.transaction.amount;
-          newUtilization = (newBalance / account.creditCard.creditLimit) * 100;
-        } else if (transactionType === 'income') {
-          newAvailableCredit = account.creditCard.availableCredit - transaction.transaction.amount;
-          newUtilization = (newBalance / account.creditCard.creditLimit) * 100;
-        }
-        console.log("New available credit " + newAvailableCredit);
-        console.log("New utilization " + newUtilization);
-      }
-      
-      // update the account
-      if(transactionAccountType === 'bank') {
-        const responsePut = await axios.put(`http://localhost:5050/api/updateAccountBalance/${transactionAccount}`, { 
-          balance: newBalance,
-        }, {
-          headers: { 'auth-token-refresh': token },
-        });
-      } else if (transactionAccountType === 'credit') {
-        const responsePut = await axios.put(`http://localhost:5050/api/updateCreditCardBalance/${transactionAccount}`, {
-          balance: newBalance,
-          availableCredit: newAvailableCredit,
-          utilization: newUtilization,
-        }, {
-          headers: { 'auth-token-refresh': token },
-        });
-      }
+      const endpoint = transactionAccountType === 'bank' ? `http://localhost:5050/api/updateAccountBalance/${transactionAccount}` : `http://localhost:5050/api/updateCreditCardBalance/${transactionAccount}`;
   
-      // delete the transaction
+      const responsePut = await axios.put(endpoint, transactionAccountType === 'bank' ? { balance: newBalance } : { balance: newBalance, availableCredit: newAvailableCredit, utilization: newUtilization }, {
+        headers: { 'auth-token-refresh': token },
+      });
+  
       const responseDelete = await axios.delete(`http://localhost:5050/api/transactions/${id}`, {
         headers: { 'auth-token-refresh': token },
       });
@@ -152,6 +97,7 @@ const Expenses = () => {
       console.log(error);
     }
   };
+  
   
   const onExpenseAdded = (expense) => {
     setExpenses((prevExpenses) => [...prevExpenses, expense]);
