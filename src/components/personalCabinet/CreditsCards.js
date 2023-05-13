@@ -4,6 +4,7 @@ import axios from 'axios';
 const CreditsCards = () => {
     const [creditCards, setCreditCards] = useState([]);
     const [accessToken, setAccessToken] = useState('');
+    const [refreshToken, setRefreshToken] = useState('');
     const [user, setUser] = useState({});
     const [creditCardName, setCreditCardName] = useState('');
     const [creditCardBalance, setCreditCardBalance] = useState(0);
@@ -11,29 +12,28 @@ const CreditsCards = () => {
 
 
     useEffect(() => {
-        const fetchCreditCards = async () => {
-            const token = localStorage.getItem('refreshToken');
-            const user = localStorage.getItem('user');
-            const response = await axios.get(`http://localhost:5050/api/creditCards`, {
-                headers: { 'auth-token-refresh': token },
-            });
-            console.log(response.data.creditCards);
-            const creditCards = response.data.creditCards;
-            const updatedCreditCards = await Promise.all(creditCards.map(async creditCard => {
-                const accountResponse = await axios.get(`http://localhost:5050/api/getAccount/${creditCard.account}`, {
-                    headers: { 'auth-token-refresh': token },
-                });
-                const account = accountResponse.data.account;
-                return {
-                    ...creditCard,
-                    accountName: account.name
-                };
-            }));
-            setCreditCards(updatedCreditCards);
-        };
+        const savedRefreshToken = localStorage.getItem('refreshToken');
+        const savedAccessToken = localStorage.getItem('accessToken');
+        const savedUser = localStorage.getItem('user');
+        if (savedRefreshToken && savedUser && savedAccessToken) {
+          setRefreshToken(savedRefreshToken);
+          setAccessToken(savedAccessToken);
+          setUser(JSON.parse(savedUser));
+          console.log('token', savedRefreshToken);
+        }
 
-        fetchCreditCards();
-    }, []);
+        // Get the list of credit cards from the user db that's the same as the user that's logged in
+        const handleGetCreditCards = async () => {
+            const res = await axios.get('http://localhost:5050/api/getCreditCards', {
+                headers: {
+                    'auth-token-refresh': refreshToken,
+                },
+            });
+            setCreditCards(res.data.creditCards);
+        }
+        handleGetCreditCards();
+      }, [refreshToken]);
+      
 
     const handleAddCreditCard = async () => {
         const token = localStorage.getItem('refreshToken');
@@ -109,7 +109,7 @@ const CreditsCards = () => {
                 <ul>
                     {creditCards.map(creditCard => (
                         <li className="mb-2" key={creditCard._id}>
-                            {creditCard.name} ({creditCard.balance}) {creditCard.creditLimit}
+                            {creditCard.name} ({'$' + creditCard.currentBalance}) {creditCard.creditLimit}
                             <button
                                 className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded ml-4 focus:outline-none focus:shadow-outline"
                                 // onClick={() => handleRemoveAccount(account._id)}
