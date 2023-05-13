@@ -16,6 +16,7 @@ const CreateNewExpense = ({ onExpenseAdded }) => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedCreditCard, setSelectedCreditCard] = useState(null);
 
+
   useEffect(() => {
     const savedUser = localStorage.getItem('user');
     const savedRefreshToken = localStorage.getItem('refreshToken');
@@ -72,22 +73,68 @@ const CreateNewExpense = ({ onExpenseAdded }) => {
       // handle no account selected
       return;
     }
-    const balance = selectedAccount.balance;
-    const newBalance = type === 'expense' ? balance - amount : balance + Number(amount);
-
-    console.log('newBalance', newBalance);
-
-    const res = await axios.put(`http://localhost:5050/api/updateAccountBalance/${selectedAccount._id}`, {
-      balance: newBalance,
-    }, {
-      headers: {
-        'auth-token-refresh': refreshToken,
-      },
-    });
-
+  
+    let newBalance;
+    let newCreditLimit;
+    let newAvailableCredit;
+    let newUtilization;
+  
+    if (selectedAccount.type === 'credit') {
+      const creditLimit = selectedAccount.creditLimit;
+      const balance = selectedAccount.currentBalance;
+      const availableCredit = selectedAccount.availableCredit;
+      const utilization = selectedAccount.utilization;
+      if (type === 'expense') {
+        newAvailableCredit = availableCredit - Number(amount);
+        newUtilization = ((creditLimit - newAvailableCredit) / creditLimit) * 100;
+        newBalance = balance + Number(amount);
+      } else {
+        newAvailableCredit = availableCredit + Number(amount);
+        newUtilization = ((creditLimit - newAvailableCredit) / creditLimit) * 100;
+        newBalance = balance - Number(amount);
+      }
+      newCreditLimit = creditLimit;
+    } else {
+      const balance = selectedAccount.balance;
+      newBalance = type === 'expense' ? balance - amount : balance + Number(amount);
+    }
+  
+    let res;
+    let transactionType;
+    if (selectedAccount.type === 'credit') {
+      res = await axios.put(`http://localhost:5050/api/updateCreditCardBalance/${selectedAccount._id}`, {
+        balance: newBalance,
+        availableCredit: newAvailableCredit,
+        utilization: newUtilization,
+      }, {
+        headers: {
+          'auth-token-refresh': refreshToken,
+        },
+      });
+    } else {
+      res = await axios.put(`http://localhost:5050/api/updateAccountBalance/${selectedAccount._id}`, {
+        balance: newBalance,
+      }, {
+        headers: {
+          'auth-token-refresh': refreshToken,
+        },
+      });
+    }
+  
     // get the response from the server
     console.log(res);
     const userId = JSON.parse(savedUser)._id;
+    let accountId = null;
+    let creditCardId = null;
+  
+    if (selectedAccount.type === 'bank') {
+      accountId = selectedAccount._id;
+      transactionType = 'bank';
+    } else if (selectedAccount.type === 'credit') {
+      creditCardId = selectedAccount._id;
+      transactionType = 'credit';
+    }
+  
     const res2 = await axios.post('http://localhost:5050/api/newTransaction', {
       userId: userId,
       type: type,
@@ -95,11 +142,13 @@ const CreateNewExpense = ({ onExpenseAdded }) => {
       date: date,
       description: description,
       categories: selectedCategory,
-      accountId: selectedAccount._id,
+      accountType: transactionType,
+      accId: accountId,
+      credId: creditCardId,
     });
-
+  
     onExpenseAdded(res2.data.transaction);
-
+  
     // get the response from the server
     console.log(res2);
     // clear the form
@@ -111,6 +160,7 @@ const CreateNewExpense = ({ onExpenseAdded }) => {
     settype('');
     window.location.reload();
   };
+  
 
   return (
     <div className="flex justify-center">
