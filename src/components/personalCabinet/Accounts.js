@@ -2,14 +2,12 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 
 const Accounts = ({ refreshToken, user }) => {
-    const [categoryName, setcategoryName] = useState('');
-    const [newAccount, setNewAccount] = useState('');
-    const [accountTypes, setAccountTypes] = useState(['Bank account', 'Credit card']);
+    // const [categoryName, setcategoryName] = useState('');
+    // const [newAccount, setNewAccount] = useState('');
+    // const [accountTypes, setAccountTypes] = useState(['Bank account', 'Credit card']);
     const [accountType, setAccountType] = useState('');
     const [accountName, setAccountName] = useState('');
     const [accountBalance, setAccountBalance] = useState(0);
-    const [accountDescription, setAccountDescription] = useState('');
-    const [categories, setCategories] = useState(['Food', 'Transportation', 'Utilities']);
     const [accounts, setAccounts] = useState(['Bank account', 'Credit card']);
       
       const handleAddAccount = async () => {
@@ -17,7 +15,6 @@ const Accounts = ({ refreshToken, user }) => {
           type: accountType,
           name: accountName,
           balance: accountBalance,
-          description: accountDescription,
         }, {
           headers: {
             'auth-token-refresh': refreshToken,
@@ -41,16 +38,6 @@ const Accounts = ({ refreshToken, user }) => {
         setAccounts(res.data.accounts);
       };
     
-      const handleGetCategories = async () => {
-        const res = await axios.get('http://localhost:5050/api/getCategories', {
-          headers: {
-            'auth-token-refresh': refreshToken,
-          },
-        });
-        setCategories(res.data.categories);
-      };
-    
-      handleGetCategories();
       handleGetAccounts();
       }, [refreshToken]);
       
@@ -69,7 +56,6 @@ const Accounts = ({ refreshToken, user }) => {
           type: accountType,
           name: accountName,
           balance: accountBalance,
-          description: accountDescription,
         }, {
           headers: {
             'auth-token-refresh': refreshToken,

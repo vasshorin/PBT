@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import CreditsCards from './CreditsCards';
 import Accounts from './Accounts';
 import Categories from './Categories';

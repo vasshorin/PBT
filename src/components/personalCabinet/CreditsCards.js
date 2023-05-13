@@ -9,16 +9,6 @@ const CreditsCards = ({ refreshToken, user }) => {
 
 
     useEffect(() => {
-        // const savedRefreshToken = localStorage.getItem('refreshToken');
-        // const savedAccessToken = localStorage.getItem('accessToken');
-        // const savedUser = localStorage.getItem('user');
-        // if (savedRefreshToken && savedUser && savedAccessToken) {
-        //   setRefreshToken(savedRefreshToken);
-        //   setAccessToken(savedAccessToken);
-        //   setUser(JSON.parse(savedUser));
-        //   console.log('token', savedRefreshToken);
-        // }
-
         // Get the list of credit cards from the user db that's the same as the user that's logged in
         const handleGetCreditCards = async () => {
             const res = await axios.get('http://localhost:5050/api/getCreditCards', {
@@ -33,9 +23,6 @@ const CreditsCards = ({ refreshToken, user }) => {
       
 
     const handleAddCreditCard = async () => {
-        const token = localStorage.getItem('refreshToken');
-        const user = localStorage.getItem('user');
-
         console.log("Name " + creditCardName)
         console.log("Balance " + creditCardBalance)
         console.log("Limit " + creditCardLimit)
@@ -45,12 +32,12 @@ const CreditsCards = ({ refreshToken, user }) => {
             currentBalance: creditCardBalance,
             creditLimit: creditCardLimit,
         }, {
-            headers: { 'auth-token-refresh': token },
+            headers: { 'auth-token-refresh': refreshToken },
         });
         console.log(response.data);
         const creditCard = response.data.creditCard;
         const accountResponse = await axios.get(`http://localhost:5050/api/getAccount/${creditCard.account}`, {
-            headers: { 'auth-token-refresh': token },
+            headers: { 'auth-token-refresh': refreshToken },
         });
         const account = accountResponse.data.account;
         setCreditCards([...creditCards, {
