@@ -1,26 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 
-const CreditsCards = () => {
+const CreditsCards = ({ refreshToken, user }) => {
     const [creditCards, setCreditCards] = useState([]);
-    const [accessToken, setAccessToken] = useState('');
-    const [refreshToken, setRefreshToken] = useState('');
-    const [user, setUser] = useState({});
     const [creditCardName, setCreditCardName] = useState('');
     const [creditCardBalance, setCreditCardBalance] = useState(0);
     const [creditCardLimit, setCreditCardLimit] = useState(0);
 
 
     useEffect(() => {
-        const savedRefreshToken = localStorage.getItem('refreshToken');
-        const savedAccessToken = localStorage.getItem('accessToken');
-        const savedUser = localStorage.getItem('user');
-        if (savedRefreshToken && savedUser && savedAccessToken) {
-          setRefreshToken(savedRefreshToken);
-          setAccessToken(savedAccessToken);
-          setUser(JSON.parse(savedUser));
-          console.log('token', savedRefreshToken);
-        }
+        // const savedRefreshToken = localStorage.getItem('refreshToken');
+        // const savedAccessToken = localStorage.getItem('accessToken');
+        // const savedUser = localStorage.getItem('user');
+        // if (savedRefreshToken && savedUser && savedAccessToken) {
+        //   setRefreshToken(savedRefreshToken);
+        //   setAccessToken(savedAccessToken);
+        //   setUser(JSON.parse(savedUser));
+        //   console.log('token', savedRefreshToken);
+        // }
 
         // Get the list of credit cards from the user db that's the same as the user that's logged in
         const handleGetCreditCards = async () => {

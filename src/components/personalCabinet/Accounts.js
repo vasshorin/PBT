@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 
-const Accounts = () => {
+const Accounts = ({ refreshToken, user }) => {
     const [categoryName, setcategoryName] = useState('');
     const [newAccount, setNewAccount] = useState('');
     const [accountTypes, setAccountTypes] = useState(['Bank account', 'Credit card']);
@@ -11,21 +11,20 @@ const Accounts = () => {
     const [accountDescription, setAccountDescription] = useState('');
     const [categories, setCategories] = useState(['Food', 'Transportation', 'Utilities']);
     const [accounts, setAccounts] = useState(['Bank account', 'Credit card']);
-    const [refreshToken, setRefreshToken] = useState('');
-    const [accessToken, setAccessToken] = useState('');
-    const [user, setUser] = useState({});
+    // const [refreshToken, setRefreshToken] = useState('');
+    // const [user, setUser] = useState({});
 
-    useEffect(() => {
-        const savedRefreshToken = localStorage.getItem('refreshToken');
-        const savedAccessToken = localStorage.getItem('accessToken');
-        const savedUser = localStorage.getItem('user');
-        if (savedRefreshToken && savedUser && savedAccessToken) {
-          setRefreshToken(savedRefreshToken);
-          setAccessToken(savedAccessToken);
-          setUser(JSON.parse(savedUser));
-          console.log('token', savedRefreshToken);
-        }
-      }, []);
+    // useEffect(() => {
+    //     const savedRefreshToken = localStorage.getItem('refreshToken');
+    //     const savedAccessToken = localStorage.getItem('accessToken');
+    //     const savedUser = localStorage.getItem('user');
+    //     if (savedRefreshToken && savedUser && savedAccessToken) {
+    //       setRefreshToken(savedRefreshToken);
+    //       setAccessToken(savedAccessToken);
+    //       setUser(JSON.parse(savedUser));
+    //       console.log('token', savedRefreshToken);
+    //     }
+    //   }, []);
       
       const handleAddAccount = async () => {
         const res = await axios.post('http://localhost:5050/api/newAccount', {
@@ -158,4 +157,4 @@ const Accounts = () => {
   )
 }
 
-export default Accounts
+export default Accounts;
