@@ -96,6 +96,7 @@ const CreateNewExpense = ({ onExpenseAdded }) => {
     setSelectedAccount(null);
     setSelectedCategory(null);
     settype('');
+    window.location.reload();
   };
 
   return (
@@ -194,7 +195,7 @@ const CreateNewExpense = ({ onExpenseAdded }) => {
                   key={account._id}
                   value={account.name}
                 >
-                  {account.name} {('$' + account.balance)}
+                  {account.name}
                 </option>
               ))}
             </select>
