@@ -62,27 +62,27 @@ const Expenses = () => {
       const { data: transaction } = await axios.get(`http://localhost:5050/api/transactions/${id}`, {
         headers: { 'auth-token-refresh': token },
       });
-  
+
       const transactionAccountType = transaction.transaction.accountType;
       const transactionAccount = transactionAccountType === 'bank' ? transaction.transaction.account : transaction.transaction.credit;
-  
+
       const { data: account } = await axios.get(`http://localhost:5050/api/get${transactionAccountType === 'bank' ? 'Account' : 'CreditCard'}/${transactionAccount}`, {
         headers: { 'auth-token-refresh': token },
       });
-  
+
       const accountBalance = transactionAccountType === 'bank' ? account.account.balance : account.creditCard.currentBalance;
       const accountName = transactionAccountType === 'bank' ? account.account.name : account.creditCard.name;
-  
+
       let newBalance = accountBalance;
       const transactionType = transaction.transaction.type;
-  
+
       if (transactionAccountType === 'bank') {
         newBalance = transactionType === 'expense' ? accountBalance + transaction.transaction.amount : accountBalance - transaction.transaction.amount;
       } else if (transactionAccountType === 'credit') {
         newBalance = transactionType === 'expense' ? accountBalance - transaction.transaction.amount : accountBalance + transaction.transaction.amount;
       }
       console.log(newBalance);
-  
+
       if (transactionAccountType === 'credit') {
         const availableCredit = account.creditCard.availableCredit;
         const newAvailableCredit = transactionType === 'expense' ? availableCredit + transaction.transaction.amount : availableCredit - transaction.transaction.amount;
@@ -95,11 +95,11 @@ const Expenses = () => {
           headers: { 'auth-token-refresh': token },
         });
       }
-  
+
       const { data: deletedTransaction } = await axios.delete(`http://localhost:5050/api/transactions/${id}`, {
         headers: { 'auth-token-refresh': token },
       });
-  
+
       const updatedExpenses = expenses.filter((expense) => expense._id !== id);
       setExpenses(updatedExpenses);
       setRefreshedAccountData(true);
@@ -109,7 +109,7 @@ const Expenses = () => {
       console.log(error.response.data.message);
     }
   };
-  
+
 
   const onExpenseAdded = (expense) => {
     setExpenses((prevExpenses) => [...prevExpenses, expense]);
@@ -124,13 +124,13 @@ const Expenses = () => {
             <ExpenseTable expenses={expenses} deleteTransaction={deleteTransaction} />
           </div>
           <div className="flex flex-col ml-4">
-          <table className="w-full border-collapse text-sm">
+            <table className="w-full border-collapse text-sm">
               <thead>
-              <tr className="bg-gray-200">
+                <tr className="bg-gray-200">
                   <th className="px-4 py-2 border">Category</th>
                   <th className="px-4 py-2 border">Amount</th>
                 </tr>
-              </thead>
+              </thead>  
               <tbody>
                 {Object.entries(
                   expenses.reduce((acc, expense) => {
@@ -150,10 +150,10 @@ const Expenses = () => {
               </tbody>
             </table>
             <div className="flex flex-row justify-center mt-4">
-              <CardsExpenses refreshToken={refreshToken}/>
+              <AccountsExp refreshToken={refreshToken} />
             </div>
             <div className="flex flex-row justify-center mt-4">
-              <AccountsExp refreshToken={refreshToken} />
+              <CardsExpenses refreshToken={refreshToken} />
             </div>
             <div className="flex flex-row justify-center mt-4">
               <BarPlot data={expenses.reduce((acc, expense) => {
@@ -167,7 +167,7 @@ const Expenses = () => {
             </div>
             <div className="flex flex-row justify-center mt-4">
               <CardExpenseDonut refreshToken={refreshToken} />
-              </div>
+            </div>
           </div>
         </div>
       </div>
