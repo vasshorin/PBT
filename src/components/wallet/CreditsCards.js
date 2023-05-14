@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 
-const CreditsCards = ({ refreshToken, user }) => {
+const CreditsCards = ({ refreshToken }) => {
     const [creditCards, setCreditCards] = useState([]);
     const [creditCardName, setCreditCardName] = useState('');
     const [creditCardBalance, setCreditCardBalance] = useState(0);

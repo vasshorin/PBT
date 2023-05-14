@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import CreateNewExpense from './CreateNewExpense';
 import BarPlot from './BarPlot';
 import axios from 'axios';
+import Accountexpenses from './AccountExpenses';
+import ExpenseTable from './ExpenseTable';
 
 const Expenses = () => {
   const [expenses, setExpenses] = useState([]);
@@ -10,6 +12,8 @@ const Expenses = () => {
   const [accountBalance, setAccountBalance] = useState(0);
   const [availableCredit, setAvailableCredit] = useState(0);
   const [utilization, setUtilization] = useState(0);
+  const [user, setUser] = useState({});
+  const [refreshToken, setRefreshToken] = useState('');
 
 
   useEffect(() => {
@@ -19,6 +23,8 @@ const Expenses = () => {
         headers: { 'auth-token-refresh': token },
       });
       const transactions = response.data.transactions;
+      setRefreshToken(token);
+
 
       const updatedTransactions = await Promise.all(transactions.map(async transaction => {
         let accountData = {};
@@ -99,90 +105,63 @@ const Expenses = () => {
     }
   };
 
-
   const onExpenseAdded = (expense) => {
     setExpenses((prevExpenses) => [...prevExpenses, expense]);
   };
 
   return (
-    <div className="flex flex-col">
-      <CreateNewExpense onExpenseAdded={onExpenseAdded} />
-      {expenses.length > 0 ? (
-        <div className="flex flex-col justify-center">
-          <table className="table-auto mx-auto">
-            <thead>
-              <tr>
-                <th className="px-4 py-2 border">Type</th>
-                <th className="px-4 py-2 border">Amount</th>
-                <th className="px-4 py-2 border">Date</th>
-                <th className="px-4 py-2 border">Description</th>
-                <th className="px-4 py-2 border">Categories</th>
-                <th className="px-4 py-2 border">Accounts</th>
-              </tr>
-            </thead>
-            <tbody>
-              {expenses.map((expense, index) => (
-                <tr key={expense._id} className="hover:bg-gray-100">
-                  <td className="border px-4 py-2">{expense.type}</td>
-                  <td className="border px-4 py-2">${expense.amount.toFixed(2)}</td>
-                  <td className="border px-4 py-2">{new Date(expense.date).toLocaleDateString()}</td>
-                  <td className="border px-4 py-2">{expense.description}</td>
-                  <td className="border px-4 py-2">{expense.categories.join(", ")}</td>
-                  <td className="border px-4 py-2">{expense.accountName}</td>
-                  <td>
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-4 rounded"
-                      onClick={() => {
-                        deleteTransaction(expense._id);
-                      }}>
-                      Delete
-                    </button>
-                  </td>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="flex flex-col">
+        <CreateNewExpense onExpenseAdded={onExpenseAdded} />
+        <div className="flex flex-row">
+          <div className="flex flex-col ml-3">
+            <ExpenseTable expenses={expenses} deleteTransaction={deleteTransaction} />
+          </div>
+          <div className="flex flex-col ml-4">
+            <table className="table-auto mx-auto">
+              <thead>
+                <tr>
+                  <th className="px-4 py-2 border">Category</th>
+                  <th className="px-4 py-2 border">Amount</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-
-          <table className="table-auto mx-auto mt-4">
-            <thead>
-              <tr>
-                <th className="px-4 py-2 border">Category</th>
-                <th className="px-4 py-2 border">Amount</th>
-              </tr>
-            </thead>
-            <tbody>
-              {Object.entries(
-                expenses.reduce((acc, expense) => {
-                  if (expense.type === "expense") { // add conditional statement to only account for expenses
-                    expense.categories.forEach((category) => {
-                      acc[category] = (acc[category] || 0) + expense.amount;
-                    });
-                  }
-                  return acc;
-                }, {})
-              ).map(([category, amount]) => (
-                <tr key={category} className="hover:bg-gray-100">
-                  <td className="border px-4 py-2">{category}</td>
-                  <td className="border px-4 py-2">${amount.toFixed(2)}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <div className="flex flex-row justify-center">
-          <BarPlot data={expenses.reduce((acc, expense) => {
-            if (expense.type === 'expense') {
-              expense.categories.forEach((category) => {
-                acc[category] = (acc[category] || 0) + expense.amount;
-              });
-            }
-            return acc;
-          }, {})} />
+              </thead>
+              <tbody>
+                {Object.entries(
+                  expenses.reduce((acc, expense) => {
+                    if (expense.type === "expense") {
+                      expense.categories.forEach((category) => {
+                        acc[category] = (acc[category] || 0) + expense.amount;
+                      });
+                    }
+                    return acc;
+                  }, {})
+                ).map(([category, amount]) => (
+                  <tr key={category} className="hover:bg-gray-100">
+                    <td className="border px-4 py-2">{category}</td>
+                    <td className="border px-4 py-2">${amount.toFixed(2)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <div className="flex flex-row justify-center mt-4">
+              <BarPlot data={expenses.reduce((acc, expense) => {
+                if (expense.type === 'expense') {
+                  expense.categories.forEach((category) => {
+                    acc[category] = (acc[category] || 0) + expense.amount;
+                  });
+                }
+                return acc;
+              }, {})} />
+            </div>
+            <div className="flex flex-row justify-center mt-4">
+              <Accountexpenses refreshToken={refreshToken} />
+            </div>
           </div>
         </div>
-      ) : (
-        <p>No expenses found.</p>
-      )}
+      </div>
     </div>
   );
+
 };
 
 

@@ -31,7 +31,7 @@ const PersonalCabinet = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
       <h1 className="text-3xl font-bold mb-8">Personal Cabinet</h1>
-      <div className="flex flex-col md:flex-col mb-2 space-y-4">
+      <div className="flex flex-col md:flex-col mb-2 justify-center space-y-4">
         <Categories 
           refreshToken={refreshToken}
           user={user}
