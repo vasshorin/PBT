@@ -76,7 +76,7 @@ const CreditsCards = ({ refreshToken }) => {
                     <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-4 focus:outline-none focus:shadow-outline" onClick={handleAddCreditCard}>Add</button>
                 </div>
             </div>
-            {creditCards.length === 0 && <p className="text-center">No credit cards added yet.</p>}
+            {/* {creditCards.length === 0 && <p className="text-center">No credit cards added yet.</p>}
             <table className="w-full border-collapse">
                 <thead>
                     <tr className="bg-gray-200">
@@ -104,7 +104,7 @@ const CreditsCards = ({ refreshToken }) => {
                         </tr>
                     ))}
                 </tbody>
-            </table>
+            </table> */}
 
 
         </>

@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import CreateNewExpense from './CreateNewExpense';
 import BarPlot from './BarPlot';
 import axios from 'axios';
-import Accountexpenses from './AccountExpenses';
+import CardsExpenses from './CardsExpenses';
 import ExpenseTable from './ExpenseTable';
+import AccountsExp from './AccountExp';
 
 const Expenses = () => {
   const [expenses, setExpenses] = useState([]);
@@ -14,6 +15,8 @@ const Expenses = () => {
   const [utilization, setUtilization] = useState(0);
   const [user, setUser] = useState({});
   const [refreshToken, setRefreshToken] = useState('');
+  const [refreshedAccountData, setRefreshedAccountData] = useState(false);
+  const [refreshedCreditCardData, setRefreshedCreditCardData] = useState(false);
 
 
   useEffect(() => {
@@ -58,52 +61,53 @@ const Expenses = () => {
       const { data: transaction } = await axios.get(`http://localhost:5050/api/transactions/${id}`, {
         headers: { 'auth-token-refresh': token },
       });
-      console.log(transaction);
-
+  
       const transactionAccountType = transaction.transaction.accountType;
       const transactionAccount = transactionAccountType === 'bank' ? transaction.transaction.account : transaction.transaction.credit;
-      console.log(transactionAccount);
-
+  
       const { data: account } = await axios.get(`http://localhost:5050/api/get${transactionAccountType === 'bank' ? 'Account' : 'CreditCard'}/${transactionAccount}`, {
         headers: { 'auth-token-refresh': token },
       });
-      console.log(account);
-
+  
       const accountBalance = transactionAccountType === 'bank' ? account.account.balance : account.creditCard.currentBalance;
       const accountName = transactionAccountType === 'bank' ? account.account.name : account.creditCard.name;
-
+  
       let newBalance = accountBalance;
       const transactionType = transaction.transaction.type;
-
+  
       if (transactionAccountType === 'bank') {
         newBalance = transactionType === 'expense' ? accountBalance + transaction.transaction.amount : accountBalance - transaction.transaction.amount;
       } else if (transactionAccountType === 'credit') {
         newBalance = transactionType === 'expense' ? accountBalance - transaction.transaction.amount : accountBalance + transaction.transaction.amount;
       }
-
-
-      let newAvailableCredit, newUtilization;
-
+      console.log(newBalance);
+  
       if (transactionAccountType === 'credit') {
-        newAvailableCredit = transactionType === 'expense' ? account.creditCard.availableCredit + transaction.transaction.amount : account.creditCard.availableCredit - transaction.transaction.amount;
-        newUtilization = (newBalance / account.creditCard.creditLimit) * 100;
+        const availableCredit = account.creditCard.availableCredit;
+        const newAvailableCredit = transactionType === 'expense' ? availableCredit + transaction.transaction.amount : availableCredit - transaction.transaction.amount;
+        const newUtilization = newAvailableCredit === 0 ? 1 : newBalance / newAvailableCredit;
+        await axios.put(`http://localhost:5050/api/updateCreditCardBalance/${transactionAccount}`, { balance: newBalance, availableCredit: newAvailableCredit, utilization: newUtilization }, {
+          headers: { 'auth-token-refresh': token },
+        });
+      } else {
+        await axios.put(`http://localhost:5050/api/updateAccountBalance/${transactionAccount}`, { balance: newBalance }, {
+          headers: { 'auth-token-refresh': token },
+        });
       }
-
-      const endpoint = transactionAccountType === 'bank' ? `http://localhost:5050/api/updateAccountBalance/${transactionAccount}` : `http://localhost:5050/api/updateCreditCardBalance/${transactionAccount}`;
-
-      const responsePut = await axios.put(endpoint, transactionAccountType === 'bank' ? { balance: newBalance } : { balance: newBalance, availableCredit: newAvailableCredit, utilization: newUtilization }, {
+  
+      const { data: deletedTransaction } = await axios.delete(`http://localhost:5050/api/transactions/${id}`, {
         headers: { 'auth-token-refresh': token },
       });
-
-      const responseDelete = await axios.delete(`http://localhost:5050/api/transactions/${id}`, {
-        headers: { 'auth-token-refresh': token },
-      });
-
-      setExpenses(expenses.filter((expense) => expense._id !== id));
+  
+      const updatedExpenses = expenses.filter((expense) => expense._id !== id);
+      setExpenses(updatedExpenses);
+      setRefreshedAccountData(true);
+      setRefreshedCreditCardData(true);
     } catch (error) {
-      console.log(error);
+      console.log(error.response.data.message);
     }
   };
+  
 
   const onExpenseAdded = (expense) => {
     setExpenses((prevExpenses) => [...prevExpenses, expense]);
@@ -118,9 +122,9 @@ const Expenses = () => {
             <ExpenseTable expenses={expenses} deleteTransaction={deleteTransaction} />
           </div>
           <div className="flex flex-col ml-4">
-            <table className="table-auto mx-auto">
+          <table className="w-full border-collapse text-sm">
               <thead>
-                <tr>
+              <tr className="bg-gray-200">
                   <th className="px-4 py-2 border">Category</th>
                   <th className="px-4 py-2 border">Amount</th>
                 </tr>
@@ -138,11 +142,17 @@ const Expenses = () => {
                 ).map(([category, amount]) => (
                   <tr key={category} className="hover:bg-gray-100">
                     <td className="border px-4 py-2">{category}</td>
-                    <td className="border px-4 py-2">${amount.toFixed(2)}</td>
+                    <td className="border px-4 py-2">${amount.toLocaleString()}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
+            <div className="flex flex-row justify-center mt-4">
+              <CardsExpenses refreshToken={refreshToken} deleteTransaction={deleteTransaction} refreshedCreditCardData={refreshedCreditCardData} />
+            </div>
+            <div className="flex flex-row justify-center mt-4">
+              <AccountsExp refreshToken={refreshToken} deleteTransaction={deleteTransaction} refreshedAccountData={refreshedAccountData} setRefreshedAccountData={setRefreshedAccountData} />
+            </div>
             <div className="flex flex-row justify-center mt-4">
               <BarPlot data={expenses.reduce((acc, expense) => {
                 if (expense.type === 'expense') {
@@ -152,9 +162,6 @@ const Expenses = () => {
                 }
                 return acc;
               }, {})} />
-            </div>
-            <div className="flex flex-row justify-center mt-4">
-              <Accountexpenses refreshToken={refreshToken} />
             </div>
           </div>
         </div>
