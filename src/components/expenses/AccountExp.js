@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 
-const AccountsExp = ({refreshToken, deleteTransaction, refreshedAccountData}) => {
+const AccountsExp = ({refreshToken}) => {
     const [accountName, setAccountName] = useState('');
     const [accountBalance, setAccountBalance] = useState(0);
     const [accounts, setAccounts] = useState('');
 
-      // Get the list of accounts from the user db that's the same as the user that's logged in
+      
+  // Get the list of accounts from the user db that's the same as the user that's logged in
   useEffect(() => {
     const handleGetAccounts = async () => {
       const res = await axios.get('http://localhost:5050/api/getAccounts', {
@@ -17,7 +18,9 @@ const AccountsExp = ({refreshToken, deleteTransaction, refreshedAccountData}) =>
       setAccounts(res.data.accounts);
     };
 
+    handleGetAccounts();
   }, [refreshToken]);
+
 
   return (
     <>

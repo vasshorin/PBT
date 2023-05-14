@@ -5,6 +5,7 @@ import axios from 'axios';
 import CardsExpenses from './CardsExpenses';
 import ExpenseTable from './ExpenseTable';
 import AccountsExp from './AccountExp';
+import CardExpenseDonut from './CardExpenseDonut';
 
 const Expenses = () => {
   const [expenses, setExpenses] = useState([]);
@@ -103,6 +104,7 @@ const Expenses = () => {
       setExpenses(updatedExpenses);
       setRefreshedAccountData(true);
       setRefreshedCreditCardData(true);
+      window.location.reload();
     } catch (error) {
       console.log(error.response.data.message);
     }
@@ -148,10 +150,10 @@ const Expenses = () => {
               </tbody>
             </table>
             <div className="flex flex-row justify-center mt-4">
-              <CardsExpenses refreshToken={refreshToken} deleteTransaction={deleteTransaction} refreshedCreditCardData={refreshedCreditCardData} />
+              <CardsExpenses refreshToken={refreshToken}/>
             </div>
             <div className="flex flex-row justify-center mt-4">
-              <AccountsExp refreshToken={refreshToken} deleteTransaction={deleteTransaction} refreshedAccountData={refreshedAccountData} setRefreshedAccountData={setRefreshedAccountData} />
+              <AccountsExp refreshToken={refreshToken} />
             </div>
             <div className="flex flex-row justify-center mt-4">
               <BarPlot data={expenses.reduce((acc, expense) => {
@@ -163,6 +165,9 @@ const Expenses = () => {
                 return acc;
               }, {})} />
             </div>
+            <div className="flex flex-row justify-center mt-4">
+              <CardExpenseDonut refreshToken={refreshToken} />
+              </div>
           </div>
         </div>
       </div>

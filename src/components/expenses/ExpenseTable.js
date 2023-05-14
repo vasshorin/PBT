@@ -24,14 +24,14 @@ const ExpenseTable = ({ expenses, deleteTransaction }) => {
                     <td className="border px-4 py-2">{expense.description}</td>
                     <td className="border px-4 py-2">{expense.categories.join(", ")}</td>
                     <td className="border px-4 py-2">{expense.accountName}</td>
-                {/* <td className="border px-4 py-2"> */}
+                <td className="border px-4 py-2">
                   <button
                     className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
                     onClick={() => deleteTransaction(expense._id)}
                   >
                     Delete
                   </button>
-                {/* </td> */}
+                </td>
               </tr>
             ))}
           </tbody>
