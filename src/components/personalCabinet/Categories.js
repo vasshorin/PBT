@@ -44,31 +44,33 @@ const Categories = ({ refreshToken, user }) => {
     };
 
     return (
-        <>
-            <div className="flex flex-col md:flex-row mb-8">
-                <div className="flex flex-col md:mr-4 mb-4 md:mb-0">
-                    <h2 className="text-xl font-bold mb-4">Categories</h2>
-                    <div className="flex flex-col md:flex-row mb-4">
-                        <input
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            type="text"
-                            placeholder="Enter a new category"
-                            value={categoryName}
-                            onChange={(e) => setcategoryName(e.target.value)}
-                        />
-                        <button
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-4 focus:outline-none focus:shadow-outline"
-                            onClick={handleAddCategory}
-                        >
-                            Add
-                        </button>
-                    </div>
+        <div className="flex flex-col md:flex-row mb-8">
+            <div className="flex flex-col md:mr-4 mb-4 md:mb-0">
+                <h2 className="text-xl font-bold mb-4">Categories</h2>
+                <div className="flex flex-row items-center mb-4">
+                    <input
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2"
+                        type="text"
+                        placeholder="Enter a new category"
+                        value={categoryName}
+                        onChange={(e) => setcategoryName(e.target.value)}
+                    />
+                    <button
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        onClick={handleAddCategory}
+                    >
+                        Add
+                    </button>
+                </div>
+                {categories.length > 0 ? (
                     <ul>
                         {categories.map((category) => (
-                            <li key={category} className="flex justify-between items-center mb-2">
+                            <li
+                                key={category}
+                                className="flex justify-between items-center mb-2 px-4 py-2 rounded-lg bg-gray-200"
+                            >
                                 <span>{category}</span>
                                 <button
-
                                     className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                                     onClick={() => handleRemoveCategory(category)}
                                 >
@@ -77,10 +79,13 @@ const Categories = ({ refreshToken, user }) => {
                             </li>
                         ))}
                     </ul>
-                </div>
+                ) : (
+                    <p className="text-gray-500">No categories yet</p>
+                )}
             </div>
-        </>
-    )
+        </div>
+    );
+
 }
 
 export default Categories

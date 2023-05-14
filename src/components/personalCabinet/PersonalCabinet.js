@@ -31,32 +31,29 @@ const PersonalCabinet = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
       <h1 className="text-3xl font-bold mb-8">Personal Cabinet</h1>
-        <div className="flex flex-col md:flex-col mb-2">
+      <div className="flex flex-col md:flex-col mb-2 space-y-4">
         <Categories 
           refreshToken={refreshToken}
           user={user}
         />
-        <br></br>
         <Accounts 
           refreshToken={refreshToken}
           user={user}
         />
-        <br/>
         <CreditsCards 
           refreshToken={refreshToken}
           user={user}
         />
       </div>
-
-       <button
+  
+      <button
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         onClick={onLogout}
       >
         Logout
       </button>
     </div>
-
   );
-};
 
+}
 export default PersonalCabinet;
