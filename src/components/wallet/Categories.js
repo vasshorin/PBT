@@ -44,8 +44,8 @@ const Categories = ({ refreshToken, user }) => {
 
     };
     return (
-        <div className="bg-white rounded-md shadow-md p-6 w-full md:w-1/2">
-            <div className="flex justify-between items-center mb-4">
+        <div className="bg-white rounded-md shadow-md p-2 w-full md:w-1/3">
+            <div className="flex justify-between items-center mb-2">
                 <h2 className="text-xl font-bold">Categories</h2>
                 <div className="flex items-center">
                     <button
@@ -53,20 +53,14 @@ const Categories = ({ refreshToken, user }) => {
                         title="Add category"
                         onClick={handleAddCategory}
                     >
-                        +
+                        <i class="ri-add-circle-line"></i>
                     </button>
                     <button
                         className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline"
                         title="Tool"
                         onClick={() => setToolDisplayPressed(!toolDisplayPressed)}
                     >
-                        <svg
-                            className="w-4 h-4 fill-current"
-                            viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path d="M18 5v5.586l-5.293-5.293a1 1 0 00-1.414 0l-7 7a1 1 0 000 1.414l5.293 5.293H5a1 1 0 100 2h10a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 100 2h1v3a1 1 0 01-1 1H7a1 1 0 01-1-1V7h1a1 1 0 100-2H5a1 1 0 00-1 1v10a1 1 0 001 1h10a1 1 0 001-1v-3a1 1 0 011-1h2a1 1 0 100-2h-1V5a1 1 0 011-1h2a1 1 0 100-2h-2z" />
-                        </svg>
+                        <i class="ri-tools-line"></i>
                     </button>
                 </div>
             </div>
@@ -74,7 +68,7 @@ const Categories = ({ refreshToken, user }) => {
                 <div className="flex flex-col md:mr-4 mb-4 md:mb-0">
                     <div className="flex flex-row items-center mb-4">
                         <input
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2"
+                            className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2 ${toolDisplayPressed ? '' : 'hidden'}`}
                             type="text"
                             placeholder="Enter a new category"
                             value={categoryName}
@@ -86,9 +80,9 @@ const Categories = ({ refreshToken, user }) => {
             <div className="flex flex-col md:flex-row mb-8">
                 <div className="flex flex-col md:mr-4 mb-4 md:mb-0">
                     <div className="flex flex-row items-center mb-4">
-                        <ul className="list-disc">
+                        <ul className="list-disc w-full">
                             {categories.map((category) => (
-                                <li key={category} className="flex flex-row items-center mb-4">
+                                <li key={category} className="flex flex-row items-center py-2 px-4 mb-2 rounded-lg bg-gray-100 hover:bg-gray-200">
                                     <button
                                         className={`bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full mr-2 focus:outline-none focus:shadow-outline ${toolDisplayPressed ? '' : 'hidden'}`}
                                         title="Remove category"
@@ -101,6 +95,7 @@ const Categories = ({ refreshToken, user }) => {
                             ))}
                         </ul>
                     </div>
+
                 </div>
             </div>
         </div>
