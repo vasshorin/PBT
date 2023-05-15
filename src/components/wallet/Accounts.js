@@ -9,6 +9,7 @@ const Accounts = ({ refreshToken, user }) => {
   const [accountBalance, setAccountBalance] = useState(0);
   const [accounts, setAccounts] = useState(['Bank account', 'Credit card']);
   const [toolDisplayPressed, setToolDisplayPressed] = useState(false);
+  const [selectAccountId, setSelectAccountId] = useState('');
 
   const handleAddAccount = async () => {
     const res = await axios.post('http://localhost:5050/api/newAccount', {
@@ -65,82 +66,160 @@ const Accounts = ({ refreshToken, user }) => {
       return account;
     }));
   };
+
+  const handleAccountClick = (accountId) => {
+    if (selectAccountId === accountId) {
+      setSelectAccountId('');
+    } else {
+      setSelectAccountId(accountId);
+    }
+  };
+
   return (
-    <>
-      <div className='container'>
-        <div class="flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
-          <div className="flex justify-between items-center mb-2">
-            <h2 className="text-xl font-bold">Accounts</h2>
-            <div className="flex items-center">
+      <div class="flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
+        <div className="flex justify-between items-center mb-2">
+          <h2 className="text-xl font-bold">Your accounts</h2>
+          <div className="flex items-center">
+            <button
+              className="text-white font-bold py-2 px-4 ml-4 rounded-full mr-2 focus:outline-none focus:shadow-outline"
+              title="Add credit card"
+              onClick={handleAddAccount}
+            >
+              <i class="ri-add-circle-line"></i>
+            </button>
+            <button
+              className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline"
+              title="Tool"
+              onClick={() => setToolDisplayPressed(!toolDisplayPressed)}
+            >
+              Edit
+              {/* <i class="ri-tools-line"></i> */}
+            </button>
+          </div>
+        </div>
+        <div className="flex flex-col md:flex-row mb-8">
+          <div className="flex flex-col md:mr-4 mb-4 md:mb-0">
+            <div className="flex flex-row items-center mb-4">
+              <label htmlFor="account-name" className={`mr-2 text-gray-700 text-sm font-bold ${toolDisplayPressed ? '' : 'hidden'}`}>Name:</label>
+              <input
+                className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2 ${toolDisplayPressed ? '' : 'hidden'}`}
+                type="text"
+                placeholder="Enter the account name"
+                value={accountName}
+                onChange={(e) => setAccountName(e.target.value)} />
+              <label htmlFor="account-balance" className={`mr-2 text-gray-700 text-sm font-bold ${toolDisplayPressed ? '' : 'hidden'}`}>Balance:</label>
+              <input
+                className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2 ${toolDisplayPressed ? '' : 'hidden'}`}
+                type="text"
+                placeholder="Enter the balance"
+                value={accountBalance}
+                onChange={(e) => setAccountBalance(e.target.value)} />
               <button
-                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 ml-4 rounded-full mr-2 focus:outline-none focus:shadow-outline"
+                className={`bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 ml-4 rounded-full mr-2 focus:outline-none focus:shadow-outline ${toolDisplayPressed ? '' : 'hidden'}`}
                 title="Add credit card"
                 onClick={handleAddAccount}
               >
-                <i class="ri-add-circle-line"></i>
-              </button>
-              <button
-                className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline"
-                title="Tool"
-                onClick={() => setToolDisplayPressed(!toolDisplayPressed)}
-              >
-                <i class="ri-tools-line"></i>
+                Add
               </button>
             </div>
           </div>
-          <div className="flex flex-col md:flex-row mb-8">
-            <div className="flex flex-col md:mr-4 mb-4 md:mb-0">
-              <div className="flex flex-row items-center mb-4">
-                <input
-                  className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2 ${toolDisplayPressed ? '' : 'hidden'}`}
-                  type="text"
-                  placeholder="Enter the account name"
-                  value={accountName}
-                  onChange={(e) => setAccountName(e.target.value)} />
-                <input
-                  className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2 ${toolDisplayPressed ? '' : 'hidden'}`}
-                  type="text"
-                  placeholder="Enter the balance"
-                  value={accountBalance}
-                  onChange={(e) => setAccountBalance(e.target.value)} />
-              </div>
-              </div>
-              </div>
-              <div className="flex flex-col md:flex-row mb-8">
-                <div className="flex flex-col md:mr-4 mb-4 md:mb-0">
-                  <div className="flex flex-row items-center mb-4">
-                    <ul className="list-disc w-full">
-                      {accounts.map((account) => (
-                        <li key={account._id} className="flex flex-row items-center py-2 px-4 mb-2 rounded-lg bg-gray-100 hover:bg-gray-200">
-                          {/* <div className="flex flex-row items-center"> */}
-                          <button
-                            className={`bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full mr-2 focus:outline-none focus:shadow-outline ${toolDisplayPressed ? '' : 'hidden'}`}
-                            title="Delete account"
-                            onClick={() => handleRemoveAccount(account._id)}
-                          >
-                            {/* <i class="ri-delete-bin-line"></i> */}
-                            -
-                          </button>
-                          <button
-                            className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline mr-2 ${toolDisplayPressed ? '' : 'hidden'}`}
-                            title="Edit credit card"
-                            onClick={() => handleUpdateAccount(account._id)}
-                          >
-                            <i class="ri-edit-line"></i>
-                          </button>
-                          <p className="text-gray-700 text-base">{account.name}</p>
-                          {/* </div> */}
-                        </li>
-                      ))}
-                    </ul>
+        </div>
+        <div className="flex flex-col md:flex-row mb-8">
+          <div className="flex flex-col md:mr-4 mb-4 md:mb-0">
+            <div className="flex flex-row items-center mb-4">
+              <ul className="list-disc w-full">
+                {accounts.map((account) => (
+                  <li
+                    key={account._id}
+                    className="flex flex-row items-center py-2 px-4 mb-2 rounded-lg bg-gray-100 hover:bg-gray-200 w-full flex-grow"
+                  >
+                    <div className="account-item flex items-center mr-auto">
+                      <p 
+                          className="text-gray-700 text-base cursor-pointer font-bold mr-4" 
+                          onClick={() => handleAccountClick(account._id)}
+                      >
+                        {account.name}
+                      </p>
+                      {selectAccountId === account._id && (
+                        <div className="dropdown flex items-center ml-10 pl-10">
+                            <p className="text-gray-700 text-sm font-bold mr-6 ml-6">
+                              Balance: ${account.balance}
+                            </p>
+                          </div>
+                      )}
+                    </div>
+                      <div className="flex items-center ml-auto">
+                      <button
+                          className={`bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 ml-4 rounded-full mr-2 focus:outline-none focus:shadow-outline ${toolDisplayPressed ? "" : "hidden"
+                              }`}
+                          title="Delete account"
+                          onClick={() => handleRemoveAccount(account._id)}
+                      >
+                          <i class="ri-delete-bin-line"></i>
+                      </button>
+                      <button
+                          className={`bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline ${toolDisplayPressed ? "" : "hidden"
+                              }`}
+                          title="Edit credit card"
+                          onClick={() => handleUpdateAccount(account._id)}
+                      >
+                          <i class="ri-pencil-line"></i>
+                      </button>
                   </div>
-                </div>
-              </div>
+
+                        </li>
+
+                ))}
+              </ul>
             </div>
-          </div>
-    </>
+          </div> 
+        
+        </div>
+      </div>
+
   );
+
+
 
 }
 
 export default Accounts;
+
+
+
+        // <div key={account._id} className="flex flex-col md:mr-4 mb-4 md:mb-0">
+        //   <div className="flex flex-row items-center mb-4">
+        //     <ul className="list-disc w-full">
+        //       <li className="flex flex-row items-center py-2 px-4 mb-2 rounded-lg bg-gray-100 hover:bg-gray-200">
+        //         <div className="credit-card-item flex items-center mr-auto">
+        //           <p className="text-gray-700 text-base cursor-pointer font-bold mr-4" onClick={() => handleAccountClick(account._id)}>
+        //             {account.name}
+        //           </p>
+        //           {selectAccountId === account._id && (
+        //             <div className="dropdown flex items-center ml-10 pl-10">
+        //               <p className="text-gray-700 text-sm font-bold mr-6 ml-6">
+        //                 Account balance: {account.balance}
+        //               </p>
+        //             </div>
+        //           )}
+        //         </div>
+
+        //         <div className="flex flex-row w-1/2 justify-end">
+        //           <button
+        //             className="text-white font-bold py-2 px-4 ml-4 rounded-full mr-2 focus:outline-none focus:shadow-outline"
+        //             title="Edit account"
+        //             onClick={() => handleUpdateAccount(account._id)}
+        //           >
+        //             <i className="ri-edit-line" />
+        //           </button>
+        //           <button
+        //             className="text-white font-bold py-2 px-4 ml-4 rounded-full mr-2 focus:outline-none focus:shadow-outline"
+        //             title="Delete account"
+        //             onClick={() => handleRemoveAccount(account._id)}
+        //           >
+        //             <i className="ri-delete-bin-line" />
+        //           </button>
+        //           <span className="text-sm font-bold">{account.name}</span>
+        //           <span className="text-xs text-gray-500">{account.balance}</span>
+        //         </div>
+        //       </li>
