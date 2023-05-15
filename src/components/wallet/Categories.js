@@ -4,6 +4,7 @@ import axios from 'axios';
 const Categories = ({ refreshToken, user }) => {
     const [categoryName, setcategoryName] = useState('');
     const [categories, setCategories] = useState([]);
+    const [toolDisplayPressed, setToolDisplayPressed] = useState(false);
 
     // Get the list of accounts from the user db that's the same as the user that's logged in
     useEffect(() => {
@@ -42,50 +43,68 @@ const Categories = ({ refreshToken, user }) => {
         setCategories(categories.filter((cat) => cat !== categoryName));
 
     };
-
     return (
-        <div className="flex flex-col md:flex-row mb-8">
-            <div className="flex flex-col md:mr-4 mb-4 md:mb-0">
-                <h2 className="text-xl font-bold mb-4">Categories</h2>
-                <div className="flex flex-row items-center mb-4">
-                    <input
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2"
-                        type="text"
-                        placeholder="Enter a new category"
-                        value={categoryName}
-                        onChange={(e) => setcategoryName(e.target.value)}
-                    />
+        <div className="bg-white rounded-md shadow-md p-6 w-full md:w-1/2">
+            <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-bold">Categories</h2>
+                <div className="flex items-center">
                     <button
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full mr-2 focus:outline-none focus:shadow-outline"
+                        title="Add category"
                         onClick={handleAddCategory}
                     >
-                        Add
+                        +
+                    </button>
+                    <button
+                        className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline"
+                        title="Tool"
+                        onClick={() => setToolDisplayPressed(!toolDisplayPressed)}
+                    >
+                        <svg
+                            className="w-4 h-4 fill-current"
+                            viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path d="M18 5v5.586l-5.293-5.293a1 1 0 00-1.414 0l-7 7a1 1 0 000 1.414l5.293 5.293H5a1 1 0 100 2h10a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 100 2h1v3a1 1 0 01-1 1H7a1 1 0 01-1-1V7h1a1 1 0 100-2H5a1 1 0 00-1 1v10a1 1 0 001 1h10a1 1 0 001-1v-3a1 1 0 011-1h2a1 1 0 100-2h-1V5a1 1 0 011-1h2a1 1 0 100-2h-2z" />
+                        </svg>
                     </button>
                 </div>
-                {categories.length > 0 ? (
-                    <ul>
-                        {categories.map((category) => (
-                            <li
-                                key={category}
-                                className="flex justify-between items-center mb-2 px-4 py-2 rounded-lg bg-gray-200"
-                            >
-                                <span>{category}</span>
-                                <button
-                                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                                    onClick={() => handleRemoveCategory(category)}
-                                >
-                                    Remove
-                                </button>
-                            </li>
-                        ))}
-                    </ul>
-                ) : (
-                    <p className="text-gray-500">No categories yet</p>
-                )}
+            </div>
+            <div className="flex flex-col md:flex-row mb-8">
+                <div className="flex flex-col md:mr-4 mb-4 md:mb-0">
+                    <div className="flex flex-row items-center mb-4">
+                        <input
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2"
+                            type="text"
+                            placeholder="Enter a new category"
+                            value={categoryName}
+                            onChange={(e) => setcategoryName(e.target.value)}
+                        />
+                    </div>
+                </div>
+            </div>
+            <div className="flex flex-col md:flex-row mb-8">
+                <div className="flex flex-col md:mr-4 mb-4 md:mb-0">
+                    <div className="flex flex-row items-center mb-4">
+                        <ul className="list-disc">
+                            {categories.map((category) => (
+                                <li key={category} className="flex flex-row items-center mb-4">
+                                    <button
+                                        className={`bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full mr-2 focus:outline-none focus:shadow-outline ${toolDisplayPressed ? '' : 'hidden'}`}
+                                        title="Remove category"
+                                        onClick={() => handleRemoveCategory(category)}
+                                    >
+                                        -
+                                    </button>
+                                    <p className="text-gray-700 text-base">{category}</p>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
-    );
-
+    )
 }
 
 export default Categories

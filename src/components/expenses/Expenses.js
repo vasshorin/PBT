@@ -118,12 +118,16 @@ const Expenses = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="flex flex-col">
+      {/* <h2 className="text-lg font-medium text-gray-900 text-center">Transactions</h2> */}
         <CreateNewExpense onExpenseAdded={onExpenseAdded} />
         <div className="flex flex-row">
           <div className="flex flex-col ml-3">
+          <h2 className="text-lg font-medium text-gray-900 text-center">Transactions</h2>
             <ExpenseTable expenses={expenses} deleteTransaction={deleteTransaction} />
           </div>
           <div className="flex flex-col ml-4">
+          <h2 className="text-lg font-medium text-gray-900 text-center ">Account Summary</h2>
+
             <table className="w-full border-collapse text-sm">
               <thead>
                 <tr className="bg-gray-200">
@@ -156,16 +160,16 @@ const Expenses = () => {
               <CardsExpenses refreshToken={refreshToken} />
             </div>
             <div className="flex flex-row justify-center mt-4">
-              <BarPlot data={expenses.reduce((acc, expense) => {
+              {/* <BarPlot data={expenses.reduce((acc, expense) => {
                 if (expense.type === 'expense') {
                   expense.categories.forEach((category) => {
                     acc[category] = (acc[category] || 0) + expense.amount;
                   });
                 }
                 return acc;
-              }, {})} />
+              }, {})} /> */}
             </div>
-            <div className="flex flex-row justify-center mt-4">
+            <div className="flex flex-col justify-center mt-4">
               <CardExpenseDonut refreshToken={refreshToken} />
             </div>
           </div>

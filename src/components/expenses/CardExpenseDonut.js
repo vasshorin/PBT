@@ -40,7 +40,7 @@ const CardsExpenses = ({ refreshToken }) => {
 
   return (
     <>
-      <div className="flex flex-col justify-center">
+      <div className="flex flex-row justify-center">
         {creditCards.length === 0 && <p className="text-center">No credit cards added yet.</p>}
         {creditCards.map((creditCard, index) => (
           <div key={creditCard._id} className="flex flex-col items-center">
