@@ -25,13 +25,17 @@ const BarPlot = ({ data }) => {
 
   useEffect(() => {
     if (data) {
+      const categories = Object.keys(data);
+      const colors = ['#3182CE', '#E53E3E', '#48BB78', '#F6E05E', '#C53030']; // Manually define colors
+      const backgroundColors = categories.map((_, i) => colors[i % colors.length]);
+
       setChartData({
-        labels: Object.keys(data),
+        labels: categories,
         datasets: [
           {
             label: 'Expenses by Category',
             data: Object.values(data),
-            backgroundColor: '#3182CE',
+            backgroundColor: backgroundColors,
           },
         ],
       });
