@@ -44,23 +44,25 @@ const Categories = ({ refreshToken, user }) => {
 
     };
     return (
-        <div className="bg-white rounded-md shadow-md p-2 w-full md:w-1/3">
+        <div className='container'>
+        <div class="flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
             <div className="flex justify-between items-center mb-2">
-                <h2 className="text-xl font-bold">Categories</h2>
+                <h2 className="text-xl font-bold">Spending Categories</h2>
                 <div className="flex items-center">
                     <button
-                        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full mr-2 focus:outline-none focus:shadow-outline"
+                        className="bg-blue-600 hover:bg-grey-700 text-white font-bold py-2 px-4 ml-4 rounded-full mr-2 focus:outline-none focus:shadow-outline"
                         title="Add category"
                         onClick={handleAddCategory}
                     >
-                        <i class="ri-add-circle-line"></i>
+                        <i class="ri-add-line"></i>
                     </button>
                     <button
                         className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline"
                         title="Tool"
                         onClick={() => setToolDisplayPressed(!toolDisplayPressed)}
                     >
-                        <i class="ri-tools-line"></i>
+                        {/* <i class="ri-tools-line"></i> */}
+                        Edit
                     </button>
                 </div>
             </div>
@@ -76,6 +78,7 @@ const Categories = ({ refreshToken, user }) => {
                         />
                     </div>
                 </div>
+                {/* <label htmlFor="credit-card-name" className={`mr-2 text-gray-700 text-sm font-bold ${toolDisplayPressed ? 'hidden' : ''}`}>Name:</label> */}
             </div>
             <div className="flex flex-col md:flex-row mb-8">
                 <div className="flex flex-col md:mr-4 mb-4 md:mb-0">
@@ -98,6 +101,7 @@ const Categories = ({ refreshToken, user }) => {
 
                 </div>
             </div>
+        </div>
         </div>
     )
 }

@@ -6,6 +6,7 @@ const CreditsCards = ({ refreshToken }) => {
     const [creditCardName, setCreditCardName] = useState('');
     const [creditCardBalance, setCreditCardBalance] = useState(0);
     const [creditCardLimit, setCreditCardLimit] = useState(0);
+    const [toolDisplayPressed, setToolDisplayPressed] = useState(false);
 
     useEffect(() => {
         // Get the list of credit cards from the user db that's the same as the user that's logged in
@@ -58,53 +59,98 @@ const CreditsCards = ({ refreshToken }) => {
 
     return (
         <>
-            <div class="flex flex-col md:flex-row items-center mb-6">
-                <h2 class="text-2xl font-bold mr-4 mb-2 md:mb-0">Credit Card</h2>
-                <div class="flex flex-col md:flex-row items-center">
-                    <div class="flex items-center mb-2 md:mb-0">
-                        <label for="credit-card-name" class="mr-2">Name:</label>
-                        <input id="credit-card-name" type="text" class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter card name" value={creditCardName} onChange={(e) => setCreditCardName(e.target.value)} />
+            <div class="flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
+                <div className="flex justify-between items-center mb-2">
+                    <h2 className="text-xl font-bold">Credit Cards</h2>
+                    <div className="flex items-center">
+                        <button
+                            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 ml-4 rounded-full mr-2 focus:outline-none focus:shadow-outline"
+                            title="Add credit card"
+                            onClick={handleAddCreditCard}
+                        >
+                            <i class="ri-add-circle-line"></i>
+                        </button>
+                        <button
+                            className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline"
+                            title="Tool"
+                            onClick={() => setToolDisplayPressed(!toolDisplayPressed)}
+                        >
+                            <i class="ri-tools-line"></i>
+                        </button>
                     </div>
-                    <div class="flex items-center ml-4 mb-2 md:mb-0">
-                        <label for="credit-card-balance" class="mr-2">Balance:</label>
-                        <input id="credit-card-balance" type="text" class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter current balance" value={creditCardBalance} onChange={(e) => setCreditCardBalance(e.target.value)} />
+                </div>
+                <div className="flex flex-col md:flex-row mb-8">
+                    <div className="flex flex-col md:mr-4 mb-4 md:mb-0">
+                        <div className="flex flex-row items-center mb-4">
+                            <input
+                                className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2 ${toolDisplayPressed ? '' : 'hidden'}`}
+                                type="text"
+                                placeholder="Enter card name"
+                                value={creditCardName}
+                                onChange={(e) => setCreditCardName(e.target.value)}
+                            />
+                            {/* <label htmlFor="credit-card-name" className={`mr-2 text-gray-700 text-sm font-bold ${toolDisplayPressed ? 'hidden' : ''}`}>Name:</label> */}
+                        </div>
                     </div>
-                    <div class="flex items-center ml-4 mb-2 md:mb-0">
-                        <label for="credit-card-limit" class="mr-2">Limit:</label>
-                        <input id="credit-card-limit" type="text" class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter credit limit" value={creditCardLimit} onChange={(e) => setCreditCardLimit(e.target.value)} />
+                    <div className="flex flex-col md:mr-4 mb-4 md:mb-0">
+                        <div className="flex flex-row items-center mb-4">
+                            <input
+                                className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2 ${toolDisplayPressed ? '' : 'hidden'}`}
+                                type="text"
+                                placeholder="Enter current balance"
+                                value={creditCardBalance}
+                                onChange={(e) => setCreditCardBalance(e.target.value)}
+                            />
+                            {/* <label htmlFor="credit-card-balance" className={`mr-2 text-gray-700 text-sm font-bold ${toolDisplayPressed ? 'hidden' : ''}`}>Balance:</label> */}
+                        </div>
                     </div>
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-4 focus:outline-none focus:shadow-outline" onClick={handleAddCreditCard}>Add</button>
+                    <div className="flex flex-col md:mr-4 mb-4 md:mb-0">
+                        <div className="flex flex-row items-center mb-4">
+                            <input
+                                className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2 ${toolDisplayPressed ? '' : 'hidden'}`}
+                                type="text"
+                                placeholder="Enter credit limit"
+                                value={creditCardLimit}
+                                onChange={(e) => setCreditCardLimit(e.target.value)}
+                            />
+                            {/* <label htmlFor="credit-card-limit" className={`mr-2 text-gray-700 text-sm font-bold ${toolDisplayPressed ? 'hidden' : ''}`}>Limit:</label> */}
+                        </div>
+
+                    </div>
+                </div>
+                <div className="flex flex-col md:flex-row mb-8">
+                    <div className="flex flex-col md:mr-4 mb-4 md:mb-0">
+                        <div className="flex flex-row items-center mb-4">
+                            <ul className="list-disc w-full">
+                                {creditCards.map((creditCard) => (
+                                    <li key={creditCard._id} className="flex flex-row items-center py-2 px-4 mb-2 rounded-lg bg-gray-100 hover:bg-gray-200">
+                                        {/* <div className="flex flex-row items-center"> */}
+                                        <button
+                                            className={`bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full mr-2 focus:outline-none focus:shadow-outline ${toolDisplayPressed ? '' : 'hidden'}`}
+                                            title="Delete credit card"
+                                            onClick={() => handleRemoveCreditCard(creditCard._id)}
+                                        >
+                                            {/* <i class="ri-delete-bin-line"></i> */}
+                                            -
+                                        </button>
+                                        <p className="text-gray-700 text-base">{creditCard.name}</p>
+                                        {/* </div> */}
+                                        {/* <div className="flex flex-row items-center">
+                                        <p className="text-gray-700 text-sm font-bold mr-2">${creditCard.currentBalance}</p>
+                                        <p className="text-gray-700 text-sm font-bold mr-2">${creditCard.creditLimit}</p>
+                                        <p className="text-gray-700 text-sm font-bold mr-2">${creditCard.availableCredit}</p>
+                                        <p className="text-gray-700 text-sm font-bold mr-2">{creditCard.utilization}%</p>
+                                    </div> */}
+                                    </li>
+
+                                ))}
+                            </ul>
+                        </div>
+
+                    </div>
                 </div>
             </div>
-            {/* {creditCards.length === 0 && <p className="text-center">No credit cards added yet.</p>}
-            <table className="w-full border-collapse">
-                <thead>
-                    <tr className="bg-gray-200">
-                        <th className="px-4 py-2">Credit Card</th>
-                        <th className="px-4 py-2">Balance</th>
-                        <th className="px-4 py-2">Limit</th>
-                        <th className="px-4 py-2">Available Credit</th>
-                        <th className="px-4 py-2">Utilization</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {creditCards.map((creditCard) => (
-                        <tr key={creditCard._id} className="bg-white">
-                            <td className="border px-4 py-2">{creditCard.name}</td>
-                            <td className="border px-4 py-2">{`$${creditCard.currentBalance}`}</td>
-                            <td className="border px-4 py-2">{`$${creditCard.creditLimit}`}</td>
-                            <td className="border px-4 py-2">{`$${creditCard.availableCredit}`}</td>
-                            <td className="border px-4 py-2">{`${creditCard.utilization.toFixed(2)}%`}</td>
-                            <button
-                                className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded ml-4 focus:outline-none focus:shadow-outline"
-                                onClick={() => handleRemoveCreditCard(creditCard._id)}
-                            >
-                                Remove
-                            </button>
-                        </tr>
-                    ))}
-                </tbody>
-            </table> */}
+
 
 
         </>

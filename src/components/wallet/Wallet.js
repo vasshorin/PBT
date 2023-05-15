@@ -7,7 +7,7 @@ const PersonalCabinet = () => {
   const [refreshToken, setRefreshToken] = useState('');
   const [accessToken, setAccessToken] = useState('');
   const [user, setUser] = useState({});
-  
+
 
   useEffect(() => {
     const savedRefreshToken = localStorage.getItem('refreshToken');
@@ -27,31 +27,42 @@ const PersonalCabinet = () => {
     window.location.reload();
     window.location.href = '/login';
   };
-  
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-      <h1 className="text-3xl font-bold mb-8">Personal Cabinet</h1>
-      <div className="flex flex-col md:flex-col mb-2 justify-center space-y-4">
-        <Categories 
-          refreshToken={refreshToken}
-          user={user}
-        />
-        <Accounts 
-          refreshToken={refreshToken}
-          user={user}
-        />
-        <CreditsCards 
-          refreshToken={refreshToken}
-          user={user}
-        />
+    <div>
+      <h1 className="text-3xl font-bold mb-8 text-center pt-20">Manage your accounts</h1>
+      <div className="container">
+        <div>
+          <Categories
+            refreshToken={refreshToken}
+            user={user}
+          />
+        </div>
+        <div>
+          <Accounts
+            refreshToken={refreshToken}
+            user={user}
+          />
+        </div>
+        <div>
+          <CreditsCards
+            refreshToken={refreshToken}
+            user={user}
+          />
+        </div>
       </div>
-  
-      <button
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={onLogout}>
-        Logout
-      </button>
+      <div className="flex justify-center mt-8">
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          onClick={onLogout}
+        >
+          Logout
+        </button>
+      </div>
     </div>
-  );
+
+  )
+
 
 }
 export default PersonalCabinet;
