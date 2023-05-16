@@ -8,6 +8,8 @@ const ExpenseTable = ({ expenses, deleteTransaction, rerenderTable, newExpenses1
   const [refreshedAccountData, setRefreshedAccountData] = useState(false);
   const [refreshedCreditCardData, setRefreshedCreditCardData] = useState(false);
   const [newExpenses, setNewExpenses] = useState([]);
+  const [sortOrder, setSortOrder] = useState('asc');
+
 
 
 const onExpenseSelected = (expense) => {
@@ -75,7 +77,7 @@ useEffect(() => {
       })
     );
     setNewExpenses(updatedTransactions);
-    setNewExpenses1(updatedTransactions);
+    setNewExpenses1(updatedTransactions.reverse());
   };
 
   fetchExpenses();
@@ -136,6 +138,35 @@ const deleteTransactionNew = async (id) => {
   }
 };
 
+const sortExpensesByDate = () => {
+  const sortedExpenses = [...newExpenses].sort((a, b) => {
+    const dateA = new Date(a.date);
+    const dateB = new Date(b.date);
+    if (sortOrder === 'asc') {
+      return dateA - dateB;
+    } else {
+      return dateB - dateA;
+    }
+  });
+
+  setNewExpenses(sortedExpenses);
+  setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+};
+
+const sortExpensesByAmount = () => {
+  const sortedExpenses = [...newExpenses].sort((a, b) => {
+    if (sortOrder === 'asc') {
+      return a.amount - b.amount;
+    } else {
+      return b.amount - a.amount;
+    }
+  });
+
+  setNewExpenses(sortedExpenses);
+  setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+};
+
+
 // console.log(expenses);
 
 
@@ -149,9 +180,11 @@ const deleteTransactionNew = async (id) => {
                 <table className="min-w-full text-left text-sm font-light shadow-lg rounded-lg">
                   <thead className="border-b font-medium dark:border-neutral-500">
                     <tr className='bg-orange-100'>
-                      <th className="px-6 py-4">Date</th>
+                      <th className="px-6 py-4 cursor-pointer" onClick={sortExpensesByDate}>
+                        Date
+                      </th>
                       {/* <th className="px-6 py-4">Type</th> */}
-                      <th className="px-6 py-4">Amount</th>
+                      <th className="px-6 py-4" onClick={sortExpensesByAmount}>Amount</th>
                       <th className="px-6 py-4">Description</th>
                       <th className="px-6 py-4">Categories</th>
                       <th className="px-6 py-4">Accounts</th>
