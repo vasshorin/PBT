@@ -30,7 +30,7 @@ const PersonalCabinet = () => {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-8 text-center pt-20">Manage your accounts</h1>
+      <h1 className="text-3xl font-bold mb-8 text-center pt-20 pl-20">Manage your accounts</h1>
       <div className="container">
         <div>
           <Categories
