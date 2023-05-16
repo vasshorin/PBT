@@ -166,6 +166,33 @@ const sortExpensesByAmount = () => {
   setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
 };
 
+const sortExpensesByCategory = () => {
+  const sortedExpenses = [...newExpenses].sort((a, b) => {
+    if (sortOrder === 'asc') {
+      return a.category.name.localeCompare(b.category.name);
+    } else {
+      return b.category.name.localeCompare(a.category.name);
+
+    }
+  });
+
+  setNewExpenses(sortedExpenses);
+  setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+};
+
+
+const sortExpensesByAccount = () => {
+  const sortedExpenses = [...newExpenses].sort((a, b) => {
+    if (sortOrder === 'asc') {
+      return a.accountData.accountName.localeCompare(b.accountData.accountName);
+    } else {
+      return b.accountData.accountName.localeCompare(a.accountData.accountName);
+    }
+  });
+
+  setNewExpenses(sortedExpenses);
+  setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+};
 
 // console.log(expenses);
 
@@ -184,10 +211,10 @@ const sortExpensesByAmount = () => {
                         Date
                       </th>
                       {/* <th className="px-6 py-4">Type</th> */}
-                      <th className="px-6 py-4" onClick={sortExpensesByAmount}>Amount</th>
+                      <th className="px-6 py-4 cursor-pointer" onClick={sortExpensesByAmount}>Amount</th>
                       <th className="px-6 py-4">Description</th>
-                      <th className="px-6 py-4">Categories</th>
-                      <th className="px-6 py-4">Accounts</th>
+                      <th className="px-6 py-4 cursor-pointer" onClick={sortExpensesByCategory}>Categories</th>
+                      <th className="px-6 py-4 cursor-pointer" onClick={sortExpensesByAccount}>Accounts</th>
                     </tr>
                   </thead>
                   <tbody>
