@@ -4,6 +4,7 @@ import axios from 'axios';
 const Categories = ({ refreshToken, user }) => {
     const [categoryName, setcategoryName] = useState('');
     const [categories, setCategories] = useState([]);
+    const [categoryBudget, setCategoryBudget] = useState(0);
     const [toolDisplayPressed, setToolDisplayPressed] = useState(false);
 
     // Get the list of accounts from the user db that's the same as the user that's logged in
@@ -22,8 +23,11 @@ const Categories = ({ refreshToken, user }) => {
 
     // Add category to the list of categories from the user db that's the same as the user that's logged in
     const handleAddCategory = async () => {
+        console.log(categoryName);
+        console.log(categoryBudget);
         const res = await axios.post('http://localhost:5050/api/newCategory', {
             name: categoryName,
+            budget: categoryBudget,
         }, {
             headers: {
                 'auth-token-refresh': refreshToken,
@@ -76,6 +80,14 @@ const Categories = ({ refreshToken, user }) => {
                             value={categoryName}
                             onChange={(e) => setcategoryName(e.target.value)}
                         />
+
+                        <input 
+                            className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2 ${toolDisplayPressed ? '' : 'hidden'}`}
+                            type="number"
+                            placeholder="Budget"
+                            value={categoryBudget}
+                            onChange={(e) => setCategoryBudget(e.target.value)}
+                        />
                         <button
                         className={`bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full ml-2 focus:outline-none focus:shadow-outline ${toolDisplayPressed ? '' : 'hidden'}`}
                         title="Add category"
@@ -93,8 +105,9 @@ const Categories = ({ refreshToken, user }) => {
                         <div className="flex flex-col items-center mb-4">
                         <ul className="list-disc w-full">
                             {categories.map((category) => (
-                                <li key={category} className="flex flex-row items-center py-2 px-4 mb-2 rounded-lg bg-gray-100 hover:bg-gray-200 w-full flex-grow">
-                                    <p cclassName="text-gray-700 text-base cursor-pointer font-bold mr-4" >{category}</p>
+                                <li key={category._id} 
+                                className="flex flex-row items-center py-2 px-4 mb-2 rounded-lg bg-gray-100 hover:bg-gray-200 w-full flex-grow">
+                                    <p className="text-gray-700 text-base cursor-pointer font-bold mr-4" >{category.name}</p>
                                     <div className="flex items-center ml-auto">
                       <button
                           className={`bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 ml-4 rounded-full mr-2 focus:outline-none focus:shadow-outline ${toolDisplayPressed ? "" : "hidden"
