@@ -21,7 +21,7 @@ const onExpenseSelected = (expense) => {
               <div class="overflow-hidden">
                 <table className="min-w-full text-left text-sm font-light shadow-lg rounded-lg">
                   <thead className="border-b font-medium dark:border-neutral-500">
-                    <tr className='bg-gray-200'>
+                    <tr className='bg-orange-100'>
                       <th className="px-6 py-4">Date</th>
                       {/* <th className="px-6 py-4">Type</th> */}
                       <th className="px-6 py-4">Amount</th>
