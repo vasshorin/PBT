@@ -30,35 +30,36 @@ const PersonalCabinet = () => {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-8 text-center pt-20 pl-20">Manage your accounts</h1>
-      <div className="container">
-        <div>
-          <Categories
-            refreshToken={refreshToken}
-            user={user}
-          />
-        </div>
-        <div>
-          <Accounts
-            refreshToken={refreshToken}
-            user={user}
-          />
-        </div>
-        <div>
-          <CreditsCards
-            refreshToken={refreshToken}
-            user={user}
-          />
-        </div>
-      </div>
-      <div className="flex justify-center mt-8">
-        <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          onClick={onLogout}
-        >
-          Logout
-        </button>
-      </div>
+<div className="text-3xl font-bold mb-8 text-center pt-20 md:pl-20">Manage your accounts</div>
+<div className="flex flex-col md:flex-row justify-center md:justify-start gap-5">
+  <div className="flex-1">
+    <Categories
+      refreshToken={refreshToken}
+      user={user}
+    />
+  </div>
+  <div className="flex-1">
+    <Accounts
+      refreshToken={refreshToken}
+      user={user}
+    />
+  </div>
+  <div className="flex-1">
+    <CreditsCards
+      refreshToken={refreshToken}
+      user={user}
+    />
+  </div>
+</div>
+<div className="flex justify-center mt-8">
+  <button
+    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+    onClick={onLogout}
+  >
+    Logout
+  </button>
+</div>
+
     </div>
 
   )
