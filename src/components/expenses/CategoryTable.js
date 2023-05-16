@@ -30,26 +30,26 @@ const CategoryTable = ({ refreshToken, newExpenses1 }) => {
     <>
       {categories.length === 0 && <p className="text-center">No categories added yet.</p>}
       {categories.length > 0 && (
-        <div className="overflow-x-auto">
-          <table className="w-full border-collapse text-sm">
-            <thead>
+        // <div className="overflow-x-auto">
+           <table className="min-w-full text-left text-sm font-light shadow-lg rounded-lg">
+            <thead className="border-b font-medium dark:border-neutral-500">
               <tr className="bg-orange-100">
-                <th className="px-4 py-2 border">Category</th>
-                <th className="px-4 py-2 border">Current</th>
-                <th className="px-4 py-2 border">Budget</th>
+                <th className="px-6 py-4">Category</th>
+                <th className="px-6 py-4">Current</th>
+                <th className="px-6 py-4">Budget</th>
               </tr>
             </thead>
             <tbody>
               {categories.map((category) => (
-                <tr key={category._id} className="bg-white">
-                  <td className="border px-4 py-2">{category.name}</td>
-                  <td className="border px-4 py-2">{`$${getCategoryTotal(category).toLocaleString()}`}</td>
-                  <td className="border px-4 py-2">{`$${category.budget.toLocaleString()}`}</td>
+                <tr key={category._id} class="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600">
+                  <td className="whitespace-nowrap px-6 py-4">{category.name}</td>
+                  <td className="whitespace-nowrap px-6 py-4">{`$${getCategoryTotal(category).toLocaleString()}`}</td>
+                  <td className="whitespace-nowrap px-6 py-4">{`$${category.budget.toLocaleString()}`}</td>
                 </tr>
               ))}
             </tbody>
           </table>
-        </div>
+        // </div>
       )}
     </>
   );

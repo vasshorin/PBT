@@ -26,18 +26,18 @@ const AccountsExp = ({refreshToken}) => {
     <>
      {accounts.length > 0 ? (
       
-          <table className="w-full border-collapse text-sm">
-            <thead>
+      <table className="min-w-full text-left text-sm font-light shadow-lg rounded-lg">
+      <thead className="border-b font-medium dark:border-neutral-500">
             <tr className='bg-orange-100'>
-                <th className="px-4 py-2 text-left">Account Name</th>
-                <th className="px-4 py-2 text-left">Balance</th>
+                <th className="px-6 py-4 text-left">Account Name</th>
+                <th className="px-6 py-4 text-left">Balance</th>
               </tr>
             </thead>
             <tbody>
               {accounts.map((account) => (
-                <tr key={account._id}>
-                  <td className="border px-4 py-2">{account.name}</td>
-                  <td className="border px-4 py-2">{`$${account.balance}`}</td>
+                <tr key={account._id} class="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600">
+                  <td className=" px-6 py-4">{account.name}</td>
+                  <td className=" px-6 py-4">{`$${account.balance}`}</td>
                 </tr>
               ))}
             </tbody>
