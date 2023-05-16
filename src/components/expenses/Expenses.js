@@ -20,6 +20,8 @@ const Expenses = () => {
   const [accessToken, setAccessToken] = useState('');
   const [refreshedAccountData, setRefreshedAccountData] = useState(false);
   const [refreshedCreditCardData, setRefreshedCreditCardData] = useState(false);
+  const [rerenderTable, setRerenderTable] = useState(false);
+
 
 
   useEffect(() => {
@@ -27,57 +29,68 @@ const Expenses = () => {
       const token = localStorage.getItem('refreshToken');
       const aToken = localStorage.getItem('accessToken');
       const response = await axios.get(`http://localhost:5050/api/transactions`, {
-        headers: { 'auth-token-refresh': token,
-        'auth-token-access': aToken
-       },
-
+        headers: {
+          'auth-token-refresh': token,
+          'auth-token-access': aToken
+        },
       });
       setRefreshToken(token);
       setAccessToken(aToken);
-
-      if(!aToken) {
-        // redirect to login
-          window.location.href = '/login';
-      }
-
+  
       const transactions = response.data.transactions;
+  
+      const updatedTransactions = await Promise.all(
+        transactions.map(async (transaction) => {
+          let accountData = {};
+  
+          const responseGetCategory = await axios.get(
+            `http://localhost:5050/api/getCategory/${transaction.categories}`,
+            {
+              headers: { 'auth-token-refresh': token },
+            }
+          );
 
-      console.log(transactions);
-
-
-      const updatedTransactions = await Promise.all(transactions.map(async transaction => {
-        let accountData = {};
-
-        const responseGetCategory = await axios.get(`http://localhost:5050/api/getCategory/${transaction.categories}`, {
-          headers: { 'auth-token-refresh': token },
-        });
-        const category = responseGetCategory.data.category;
-        if (transaction.accountType === "bank") {
-          const responseGetAccount = await axios.get(`http://localhost:5050/api/getAccount/${transaction.account}`, {
-            headers: { 'auth-token-refresh': token },
-          });
-          const account = responseGetAccount.data.account;
-          accountData = { accountName: account.name, accountBalance: account.balance };
-        } else if (transaction.accountType === "credit") {
-          const responseGetCreditCard = await axios.get(`http://localhost:5050/api/getCreditCard/${transaction.credit}`, {
-            headers: { 'auth-token-refresh': token },
-          });
-          const creditCard = responseGetCreditCard.data.creditCard;
-          accountData = { accountName: creditCard.name, accountBalance: creditCard.currentBalance, availableCredit: creditCard.availableCredit, utilization: creditCard.utilization };
-        }
-
-        return { ...transaction, ...accountData, ...category};
-      }));
-      console.log(updatedTransactions);
+          const category = responseGetCategory.data.category;
+          if (transaction.accountType === 'bank') {
+            const responseGetAccount = await axios.get(
+              `http://localhost:5050/api/getAccount/${transaction.account}`,
+              {
+                headers: { 'auth-token-refresh': token },
+              }
+            );
+            const account = responseGetAccount.data.account;
+            accountData = { accountName: account.name, accountBalance: account.balance };
+          } else if (transaction.accountType === 'credit') {
+            const responseGetCreditCard = await axios.get(
+              `http://localhost:5050/api/getCreditCard/${transaction.credit}`,
+              {
+                headers: { 'auth-token-refresh': token },
+              }
+            );
+            const creditCard = responseGetCreditCard.data.creditCard;
+            accountData = {
+              accountName: creditCard.name,
+              accountBalance: creditCard.currentBalance,
+              availableCredit: creditCard.availableCredit,
+              utilization: creditCard.utilization,
+            };
+          }
+          
+  
+          return { ...transaction, accountData, category };
+        })
+      );
       setExpenses(updatedTransactions);
     };
-
+  
     fetchExpenses();
-  }, []);
+  }, [refreshedAccountData, refreshedCreditCardData]);
+  
 
   const deleteTransaction = async (id) => {
     try {
       const [savedUser, token] = [localStorage.getItem('user'), localStorage.getItem('refreshToken')];
+      console.log("PASSED IN ID" + id)
       const { data: transaction } = await axios.get(`http://localhost:5050/api/transactions/${id}`, {
         headers: { 'auth-token-refresh': token },
       });
@@ -124,7 +137,6 @@ const Expenses = () => {
       setExpenses(updatedExpenses);
       setRefreshedAccountData(true);
       setRefreshedCreditCardData(true);
-      window.location.reload();
     } catch (error) {
       console.log(error.response.data.message);
     }
@@ -132,37 +144,28 @@ const Expenses = () => {
 
 
   const onExpenseAdded = (expense) => {
-    setExpenses((prevExpenses) => [...prevExpenses, expense]);
+    setExpenses((prevExpenses) => [expense, ...prevExpenses]);
+    setRerenderTable((prevValue) => !prevValue);
+    setRefreshedAccountData(true);
   };
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="flex flex-col">
-      {/* <h2 className="text-lg font-medium text-gray-900 text-center">Transactions</h2> */}
-        <CreateNewExpense onExpenseAdded={onExpenseAdded} />
+        <CreateNewExpense onExpenseAdded={onExpenseAdded} />  
         <div className="flex flex-row">
           <div className="flex flex-col ml-3">
           <h2 className="text-lg font-medium text-gray-900 text-center">Transactions</h2>
-            <ExpenseTable expenses={expenses} deleteTransaction={deleteTransaction} />
+            <ExpenseTable expenses={expenses} deleteTransaction={deleteTransaction} rerenderTable={rerenderTable} setRerenderTable={setRerenderTable}/>
           </div>
-          <div className="flex flex-col ml-4">
-          <h2 className="text-lg font-medium text-gray-900 text-center ">Account Summary</h2>
+          <div className="flex flex-col ml-3">
+          <h2 className="text-lg font-medium text-gray-900 text-center mb-2 ">Account Summary</h2>
             <CategoryTable refreshToken={refreshToken} expenses={expenses} /> 
             <div className="flex flex-row justify-center mt-4 shadow-lg">
               <AccountsExp refreshToken={refreshToken} />
             </div>
             <div className="flex flex-row justify-center mt-4 shadow-lg">
               <CardsExpenses refreshToken={refreshToken} />
-            </div>
-            <div className="flex flex-row justify-center mt-4 shadow-lg">
-              {/* <BarPlot data={expenses.reduce((acc, expense) => {
-                if (expense.type === 'expense') {
-                  expense.categories.forEach((category) => {
-                    acc[category] = (acc[category] || 0) + expense.amount;
-                  });
-                }
-                return acc;
-              }, {})} /> */}
             </div>
             <div className="flex flex-col justify-center mt-4">
               <CardExpenseDonut refreshToken={refreshToken} />

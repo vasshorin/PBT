@@ -18,7 +18,8 @@ const CategoryTable = ({ refreshToken, expenses }) => {
 
   const getCategoryTotal = (category) => {
     return expenses.reduce((acc, expense) => {
-      if (expense.type === 'expense' && expense.name.includes(category.name)) {
+      // console.log(expense);
+      if (expense.type === 'expense' && expense.categories === category._id) {
         acc += expense.amount;
       }
       return acc;

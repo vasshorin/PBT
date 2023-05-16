@@ -126,7 +126,7 @@ const CreateNewExpense = ({ onExpenseAdded }) => {
     const userId = JSON.parse(savedUser)._id;
     let accountId = null;
     let creditCardId = null;
-    let catId = selectedCategory._id;
+    // let catId = selectedCategory._id;
     if (selectedAccount.type === 'bank') {
       accountId = selectedAccount._id;
       transactionType = 'bank';
@@ -135,7 +135,10 @@ const CreateNewExpense = ({ onExpenseAdded }) => {
       transactionType = 'credit';
     }
 
-    console.log('\n\ncategoryId\n\n', catId);
+    let categoryId = null;
+    if (selectedCategory && selectedCategory._id) {
+      categoryId = selectedCategory._id;
+    }
 
     const res2 = await axios.post('http://localhost:5050/api/newTransaction', {
       userId: userId,
@@ -143,7 +146,7 @@ const CreateNewExpense = ({ onExpenseAdded }) => {
       amount: amount,
       date: date,
       description: description,
-      categoryId: catId,
+      categoryId: categoryId,
       accountType: transactionType,
       accId: accountId,
       credId: creditCardId,
@@ -166,7 +169,7 @@ const CreateNewExpense = ({ onExpenseAdded }) => {
     setSelectedAccount(null);
     setSelectedCategory(null);
     settype('');
-    window.location.reload();
+    // window.location.reload();
   };
 
 
