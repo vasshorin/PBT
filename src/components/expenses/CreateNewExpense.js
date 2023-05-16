@@ -35,7 +35,7 @@ const CreateNewExpense = ({ onExpenseAdded }) => {
       console.log(res.data.accounts);
       setaccounts(res.data.accounts);
     };
-  
+
     const handleGetCategories = async () => {
       const res = await axios.get('http://localhost:5050/api/getCategories', {
         headers: {
@@ -45,7 +45,7 @@ const CreateNewExpense = ({ onExpenseAdded }) => {
       console.log(res.data.categories);
       setcategories(res.data.categories);
     };
-  
+
     const handleGetCreditCards = async () => {
       const res = await axios.get('http://localhost:5050/api/getCreditCards', {
         headers: {
@@ -55,12 +55,12 @@ const CreateNewExpense = ({ onExpenseAdded }) => {
       console.log(res.data.creditCards);
       setcreditCards(res.data.creditCards);
     };
-  
+
     handleGetCategories();
     handleGetAccounts();
     handleGetCreditCards();
   }, [refreshToken]);
-  
+
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -73,12 +73,12 @@ const CreateNewExpense = ({ onExpenseAdded }) => {
       // handle no account selected
       return;
     }
-  
+
     let newBalance;
     let newCreditLimit;
     let newAvailableCredit;
     let newUtilization;
-  
+
     if (selectedAccount.type === 'credit') {
       const creditLimit = selectedAccount.creditLimit;
       const balance = selectedAccount.currentBalance;
@@ -98,7 +98,7 @@ const CreateNewExpense = ({ onExpenseAdded }) => {
       const balance = selectedAccount.balance;
       newBalance = type === 'expense' ? balance - amount : balance + Number(amount);
     }
-  
+
     let res;
     let transactionType;
     if (selectedAccount.type === 'credit') {
@@ -120,13 +120,13 @@ const CreateNewExpense = ({ onExpenseAdded }) => {
         },
       });
     }
-  
+
     // get the response from the server
     console.log(res);
     const userId = JSON.parse(savedUser)._id;
     let accountId = null;
     let creditCardId = null;
-  
+
     if (selectedAccount.type === 'bank') {
       accountId = selectedAccount._id;
       transactionType = 'bank';
@@ -134,14 +134,14 @@ const CreateNewExpense = ({ onExpenseAdded }) => {
       creditCardId = selectedAccount._id;
       transactionType = 'credit';
     }
-  
+
     const res2 = await axios.post('http://localhost:5050/api/newTransaction', {
       userId: userId,
       type: type,
       amount: amount,
       date: date,
       description: description,
-      categories: selectedCategory,
+      categoryId: selectedCategory,
       accountType: transactionType,
       accId: accountId,
       credId: creditCardId,
@@ -152,9 +152,9 @@ const CreateNewExpense = ({ onExpenseAdded }) => {
     });
 
 
-  
+
     onExpenseAdded(res2.data.transaction);
-  
+
     // get the response from the server
     console.log(res2);
     // clear the form
@@ -166,7 +166,7 @@ const CreateNewExpense = ({ onExpenseAdded }) => {
     settype('');
     window.location.reload();
   };
-  
+
 
   return (
     <div className="flex justify-center">
@@ -239,8 +239,8 @@ const CreateNewExpense = ({ onExpenseAdded }) => {
             >
               <option value="">Select a category</option>
               {Array.isArray(categories) && categories.map((category) => (
-                <option key={category._id} value={category._id}>
-                  {category}
+                <option key={category._id} value={category.name}>
+                  {category.name}
                 </option>
               ))}
             </select>
@@ -250,24 +250,24 @@ const CreateNewExpense = ({ onExpenseAdded }) => {
               accounts
             </label>
             <select
-  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-  id="accounts"
-  value={selectedAccount ? selectedAccount.name : ''}
-  onChange={(e) => {
-    const account = accounts.concat(creditCards).find((account) => account.name === e.target.value);
-    setSelectedAccount(account);
-  }}
->
-  <option value="">Select an account</option>
-  {Array.isArray(accounts) && accounts.concat(creditCards).map((account) => (
-    <option
-      key={account._id}
-      value={account.name}
-    >
-      {account.name}
-    </option>
-  ))}
-</select>
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="accounts"
+              value={selectedAccount ? selectedAccount.name : ''}
+              onChange={(e) => {
+                const account = accounts.concat(creditCards).find((account) => account.name === e.target.value);
+                setSelectedAccount(account);
+              }}
+            >
+              <option value="">Select an account</option>
+              {Array.isArray(accounts) && accounts.concat(creditCards).map((account) => (
+                <option
+                  key={account._id}
+                  value={account.name}
+                >
+                  {account.name}
+                </option>
+              ))}
+            </select>
 
           </div>
           <div className="w-full md:w-1/6 mb-4 md:mb-0 flex items-center justify-center">

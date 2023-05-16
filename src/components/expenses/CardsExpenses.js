@@ -23,7 +23,7 @@ const CardsExpenses = ({refreshToken}) => {
     <div className="overflow-x-auto">
         <table className="w-full border-collapse text-sm">
             <thead>
-                <tr className="bg-gray-200">
+            <tr className='bg-orange-100'>
                     <th className="px-2 py-2">Credit Card</th>
                     <th className="px-2 py-2">Balance</th>
                     <th className="px-2 py-2">Limit</th>
