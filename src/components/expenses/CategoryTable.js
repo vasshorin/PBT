@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const CategoryTable = ({ refreshToken, expenses }) => {
+const CategoryTable = ({ refreshToken, newExpenses1 }) => {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
@@ -17,7 +17,7 @@ const CategoryTable = ({ refreshToken, expenses }) => {
   }, [refreshToken]);
 
   const getCategoryTotal = (category) => {
-    return expenses.reduce((acc, expense) => {
+    return newExpenses1.reduce((acc, expense) => {
       // console.log(expense);
       if (expense.type === 'expense' && expense.categories === category._id) {
         acc += expense.amount;

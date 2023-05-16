@@ -1,7 +1,7 @@
 import React, {useEffect, useState } from 'react';
 import axios from 'axios';
 
-const ExpenseTable = ({ expenses, deleteTransaction, rerenderTable }) => {
+const ExpenseTable = ({ expenses, deleteTransaction, rerenderTable, newExpenses1, setNewExpenses1 }) => {
   const [expenseSelected, setExpenseSelected] = useState('');
   const [refreshToken, setRefreshToken] = useState('');
   const [accessToken, setAccessToken] = useState('');
@@ -75,6 +75,7 @@ useEffect(() => {
       })
     );
     setNewExpenses(updatedTransactions);
+    setNewExpenses1(updatedTransactions);
   };
 
   fetchExpenses();
