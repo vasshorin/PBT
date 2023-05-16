@@ -39,14 +39,19 @@ const Expenses = () => {
         // redirect to login
           window.location.href = '/login';
       }
-      console.log("TOKEN" + accessToken)
 
       const transactions = response.data.transactions;
+
+      console.log(transactions);
 
 
       const updatedTransactions = await Promise.all(transactions.map(async transaction => {
         let accountData = {};
 
+        const responseGetCategory = await axios.get(`http://localhost:5050/api/getCategory/${transaction.categories}`, {
+          headers: { 'auth-token-refresh': token },
+        });
+        const category = responseGetCategory.data.category;
         if (transaction.accountType === "bank") {
           const responseGetAccount = await axios.get(`http://localhost:5050/api/getAccount/${transaction.account}`, {
             headers: { 'auth-token-refresh': token },
@@ -61,9 +66,9 @@ const Expenses = () => {
           accountData = { accountName: creditCard.name, accountBalance: creditCard.currentBalance, availableCredit: creditCard.availableCredit, utilization: creditCard.utilization };
         }
 
-        return { ...transaction, ...accountData };
+        return { ...transaction, ...accountData, ...category};
       }));
-
+      console.log(updatedTransactions);
       setExpenses(updatedTransactions);
     };
 
@@ -85,6 +90,7 @@ const Expenses = () => {
       });
 
       const accountBalance = transactionAccountType === 'bank' ? account.account.balance : account.creditCard.currentBalance;
+      
       const accountName = transactionAccountType === 'bank' ? account.account.name : account.creditCard.name;
 
       let newBalance = accountBalance;

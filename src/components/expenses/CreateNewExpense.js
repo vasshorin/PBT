@@ -126,7 +126,7 @@ const CreateNewExpense = ({ onExpenseAdded }) => {
     const userId = JSON.parse(savedUser)._id;
     let accountId = null;
     let creditCardId = null;
-
+    let catId = selectedCategory._id;
     if (selectedAccount.type === 'bank') {
       accountId = selectedAccount._id;
       transactionType = 'bank';
@@ -135,13 +135,15 @@ const CreateNewExpense = ({ onExpenseAdded }) => {
       transactionType = 'credit';
     }
 
+    console.log('\n\ncategoryId\n\n', catId);
+
     const res2 = await axios.post('http://localhost:5050/api/newTransaction', {
       userId: userId,
       type: type,
       amount: amount,
       date: date,
       description: description,
-      categoryId: selectedCategory,
+      categoryId: catId,
       accountType: transactionType,
       accId: accountId,
       credId: creditCardId,
@@ -234,12 +236,18 @@ const CreateNewExpense = ({ onExpenseAdded }) => {
             <select
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="categories"
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
+              value={selectedCategory ? selectedCategory.name : ''}
+              onChange={(e) => {
+                const category = categories.find((category) => category.name === e.target.value);
+                setSelectedCategory(category);
+              }}
             >
               <option value="">Select a category</option>
               {Array.isArray(categories) && categories.map((category) => (
-                <option key={category._id} value={category.name}>
+                <option
+                  key={category._id}
+                  value={category.name}
+                >
                   {category.name}
                 </option>
               ))}

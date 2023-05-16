@@ -11,6 +11,8 @@ const onExpenseSelected = (expense) => {
   }
 };
 
+console.log(expenses);
+
 
   return (
     <>
@@ -38,9 +40,9 @@ const onExpenseSelected = (expense) => {
                       >
                         <td className="whitespace-nowrap px-6 py-4 font-medium">{new Date(expense.date).toLocaleDateString()}</td>
                         {/* <td className="whitespace-nowrap px-6 py-4">{expense.type}</td> */}
-                        <td className={`whitespace-nowrap px-6 py-4 ${expense.type === 'expense' ? 'text-red-500' : 'text-green-500'}`}>{expense.amount.toLocaleString()}</td>
+                        <td className={`whitespace-nowrap px-6 py-4 ${expense.type === 'expense' ? 'text-red-500' : 'text-green-500'}`}>{'$'}{expense.amount.toLocaleString()}</td>
                         <td className="whitespace-nowrap px-6 py-4">{expense.description}</td>
-                        <td className="whitespace-nowrap px-6 py-4">{expense.categories.join(", ")}</td>
+                        <td className="whitespace-nowrap px-6 py-4">{expense.name}</td>
                         <td className="whitespace-nowrap px-6 py-4">{expense.accountName}</td>
                         <td className="whitespace-nowrap py-4">
                           <button

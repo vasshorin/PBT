@@ -19,7 +19,7 @@ const CardsExpenses = ({refreshToken}) => {
 
   return (
     <>
-    {creditCards.length === 0 && <p className="text-center">No credit cards added yet.</p>}
+    {creditCards.length > 0 ? (
     <div className="overflow-x-auto">
         <table className="w-full border-collapse text-sm">
             <thead>
@@ -44,6 +44,9 @@ const CardsExpenses = ({refreshToken}) => {
             </tbody>
         </table>
     </div>
+    ) : (
+        <p className="text-center"></p>
+    )}
 </>  
 
   )
