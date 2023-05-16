@@ -183,7 +183,7 @@ const CreditsCards = ({ refreshToken }) => {
                                                 className={`bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 ml-4 rounded-full mr-2 focus:outline-none focus:shadow-outline ${toolDisplayPressed ? "" : "hidden"
                                                     }`}
                                                 title="Delete credit card"
-                                                onClick={() => handleRemoveCreditCard(creditCard)}
+                                                onClick={() => handleRemoveCreditCard(creditCard._id)}
                                             >
                                                 <i class="ri-delete-bin-line"></i>
                                             </button>

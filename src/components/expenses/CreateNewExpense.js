@@ -145,7 +145,13 @@ const CreateNewExpense = ({ onExpenseAdded }) => {
       accountType: transactionType,
       accId: accountId,
       credId: creditCardId,
+    }, {
+      headers: {
+        'auth-token-refresh': refreshToken,
+      },
     });
+
+
   
     onExpenseAdded(res2.data.transaction);
   

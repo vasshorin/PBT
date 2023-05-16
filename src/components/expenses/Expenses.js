@@ -16,6 +16,7 @@ const Expenses = () => {
   const [utilization, setUtilization] = useState(0);
   const [user, setUser] = useState({});
   const [refreshToken, setRefreshToken] = useState('');
+  const [accessToken, setAccessToken] = useState('');
   const [refreshedAccountData, setRefreshedAccountData] = useState(false);
   const [refreshedCreditCardData, setRefreshedCreditCardData] = useState(false);
 
@@ -23,11 +24,23 @@ const Expenses = () => {
   useEffect(() => {
     const fetchExpenses = async () => {
       const token = localStorage.getItem('refreshToken');
+      const aToken = localStorage.getItem('accessToken');
       const response = await axios.get(`http://localhost:5050/api/transactions`, {
-        headers: { 'auth-token-refresh': token },
+        headers: { 'auth-token-refresh': token,
+        'auth-token-access': aToken
+       },
+
       });
-      const transactions = response.data.transactions;
       setRefreshToken(token);
+      setAccessToken(aToken);
+
+      if(!aToken) {
+        // redirect to login
+          window.location.href = '/login';
+      }
+      console.log("TOKEN" + accessToken)
+
+      const transactions = response.data.transactions;
 
 
       const updatedTransactions = await Promise.all(transactions.map(async transaction => {
@@ -128,7 +141,7 @@ const Expenses = () => {
           <div className="flex flex-col ml-4">
           <h2 className="text-lg font-medium text-gray-900 text-center ">Account Summary</h2>
 
-            <table className="w-full border-collapse text-sm">
+            <table className="w-full border-collapse text-sm shadow-lg">
               <thead>
                 <tr className="bg-gray-200">
                   <th className="px-4 py-2 border">Category</th>
@@ -153,13 +166,13 @@ const Expenses = () => {
                 ))}
               </tbody>
             </table>
-            <div className="flex flex-row justify-center mt-4">
+            <div className="flex flex-row justify-center mt-4 shadow-lg">
               <AccountsExp refreshToken={refreshToken} />
             </div>
-            <div className="flex flex-row justify-center mt-4">
+            <div className="flex flex-row justify-center mt-4 shadow-lg">
               <CardsExpenses refreshToken={refreshToken} />
             </div>
-            <div className="flex flex-row justify-center mt-4">
+            <div className="flex flex-row justify-center mt-4 shadow-lg">
               {/* <BarPlot data={expenses.reduce((acc, expense) => {
                 if (expense.type === 'expense') {
                   expense.categories.forEach((category) => {
