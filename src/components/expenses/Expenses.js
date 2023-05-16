@@ -6,6 +6,7 @@ import CardsExpenses from './CardsExpenses';
 import ExpenseTable from './ExpenseTable';
 import AccountsExp from './AccountExp';
 import CardExpenseDonut from './CardExpenseDonut';
+import CategoryTable from './CategoryTable';
 
 const Expenses = () => {
   const [expenses, setExpenses] = useState([]);
@@ -140,32 +141,7 @@ const Expenses = () => {
           </div>
           <div className="flex flex-col ml-4">
           <h2 className="text-lg font-medium text-gray-900 text-center ">Account Summary</h2>
-
-            <table className="w-full border-collapse text-sm shadow-lg">
-              <thead>
-                <tr className='bg-orange-100'>
-                  <th className="px-4 py-2 border">Category</th>
-                  <th className="px-4 py-2 border">Amount</th>
-                </tr>
-              </thead>  
-              <tbody>
-                {Object.entries(
-                  expenses.reduce((acc, expense) => {
-                    if (expense.type === "expense") {
-                      expense.categories.forEach((category) => {
-                        acc[category] = (acc[category] || 0) + expense.amount;
-                      });
-                    }
-                    return acc;
-                  }, {})
-                ).map(([category, amount]) => (
-                  <tr key={category} className="hover:bg-gray-100">
-                    <td className="border px-4 py-2">{category}</td>
-                    <td className="border px-4 py-2">${amount.toLocaleString()}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <CategoryTable refreshToken={refreshToken} expenses={expenses} /> 
             <div className="flex flex-row justify-center mt-4 shadow-lg">
               <AccountsExp refreshToken={refreshToken} />
             </div>
