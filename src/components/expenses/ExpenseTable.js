@@ -11,6 +11,8 @@ const ExpenseTable = ({ expenses, deleteTransaction, rerenderTable, newExpenses1
   const [sortOrder, setSortOrder] = useState('asc');
   const [currentPage, setCurrentPage] = useState(1);
   const [expensesPerPage] = useState(10);
+  const [arrow, setArrow] = useState('down');
+
 
   // Calculate indexes for the pagination
   const indexOfLastExpense = currentPage * expensesPerPage;
@@ -209,56 +211,98 @@ const sortExpensesByAccount = () => {
   return (
     <>
       {newExpenses.length > 0 ? (
-        <div class="flex flex-col">
-          <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-              <div class="overflow-hidden">
-                <table className="min-w-full text-left text-sm font-light shadow-lg rounded-lg">
-                  <thead className="border-b font-medium dark:border-neutral-500">
-                    <tr className='bg-orange-100'>
-                      <th className="px-6 py-4 cursor-pointer" onClick={sortExpensesByDate}>
-                        Date
-                      </th>
-                      {/* <th className="px-6 py-4">Type</th> */}
-                      <th className="px-6 py-4 cursor-pointer" onClick={sortExpensesByAmount}>Amount</th>
-                      <th className="px-6 py-4">Description</th>
-                      <th className="px-6 py-4 cursor-pointer" onClick={sortExpensesByCategory}>Categories</th>
-                      <th className="px-6 py-4 cursor-pointer" onClick={sortExpensesByAccount}>Accounts</th>
+      <div className="flex flex-col">
+      <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+          <div className="overflow-hidden">
+            <table className="min-w-full text-left text-sm font-light shadow-lg rounded-lg">
+              <thead className="border-b font-medium dark:border-neutral-500">
+                <tr className="bg-orange-100">
+                  <th className="px-8 py-6 cursor-pointer">
+                    <div className="flex items-center justify-between" onClick={sortExpensesByDate}>
+                      <span>Date</span>
+                      {sortOrder === 'asc' ? (
+                        <span className="text-xs">&#x25B2;</span>
+                      ) : (
+                        <span className="text-xs">&#x25BC;</span>
+                      )}
+                    </div>
+                  </th>
+                  {/* <th className="px-6 py-4">Type</th> */}
+                  <th className="px-6 py-4 cursor-pointer">
+                    <div className="flex items-center justify-between" onClick={sortExpensesByAmount}>
+                      <span>Amount</span>
+                      {sortOrder === 'asc' ? (
+                        <span className="text-xs pl-1">&#x25B2;</span>
+                      ) : (
+                        <span className="text-xs pl-1">&#x25BC;</span>
+                      )}
+                    </div>
+                  </th>
+                  <th className="px-6 py-4">Description</th>
+                  <th className="px-6 py-4 cursor-pointer">
+                    <div className="flex items-center justify-between" onClick={sortExpensesByCategory}>
+                      <span>Categories</span>
+                      {sortOrder === 'asc' ? (
+                        <span className="text-xs pl-1">&#x25B2;</span>
+                      ) : (
+                        <span className="text-xs pl-1">&#x25BC;</span>
+                      )}
+                    </div>
+                  </th>
+                  <th className="px-6 py-4 cursor-pointer">
+                    <div className="flex items-center justify-between" onClick={sortExpensesByAccount}>
+                      <span>Accounts</span>
+                      {sortOrder === 'asc' ? (
+                        <span className="text-xs pl-1">&#x25B2;</span>
+                      ) : (
+                        <span className="text-xs pl-1">&#x25BC;</span>
+                      )}
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-neutral-100 dark:divide-neutral-500">
+                 {newExpenses.map((expense) => (
+                   <tr
+                     key={expense._id}
+                     className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600"
+                     onClick={() => onExpenseSelected(expense)}
+                   >
+                     <td className="whitespace-nowrap px-6 py-4 font-medium">{new Date(expense.date).toLocaleDateString()}</td>
+                     {/* <td className="whitespace-nowrap px-6 py-4">{expense._id}</td> */}
+                     <td
+                       className={`whitespace-nowrap px-6 py-4 ${
+                         expense.type === 'expense' ? 'text-red-500' : 'text-green-500'
+                       }`}
+                     >
+                       {'$'}
+                       {expense.amount.toLocaleString()}
+                     </td>
+                     <td className="whitespace-nowrap px-6 py-4">{expense.description}</td>
+                     <td className="whitespace-nowrap px-6 py-4">{expense.category.name}</td>
+                     <td className="whitespace-nowrap px-6 py-4">{expense.accountData.accountName}</td>
+                     <td className="whitespace-nowrap py-4">
+                       <button
+                         className={`bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 ml-4 rounded-full mr-2 focus:outline-none focus:shadow-outline`}
+                          onClick={() => deleteTransactionNew(expense._id)}
+                        >
+                          Delete
+                        </button>
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody>
-                    {currentExpenses.map((expense) => (
-                      <tr key={expense._id}
-                      class="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600"
-                      onClick={() => onExpenseSelected(expense)}
-                      >
-                        <td className="whitespace-nowrap px-6 py-4 font-medium">{new Date(expense.date).toLocaleDateString()}</td>
-                        {/* <td className="whitespace-nowrap px-6 py-4">{expense._id}</td> */}
-                        <td className={`whitespace-nowrap px-6 py-4 ${expense.type === 'expense' ? 'text-red-500' : 'text-green-500'}`}>{'$'}{expense.amount.toLocaleString()}</td>
-                        <td className="whitespace-nowrap px-6 py-4">{expense.description}</td>
-                        <td className="whitespace-nowrap px-6 py-4">{expense.category.name}</td>
-                        <td className="whitespace-nowrap px-6 py-4">{expense.accountData.accountName}</td>
-                        <td className="whitespace-nowrap py-4">
-                          <button
-                            className={`bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 ml-4 rounded-full mr-2 focus:outline-none focus:shadow-outline ${onExpenseSelected ? 'visible' : 'hidden'}`}
-                            onClick={() => deleteTransactionNew(expense._id)}
-                          >
-                            <i class="ri-delete-bin-line"></i>
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
+      </div>
       ) : (
         <p>No expenses to display.</p>
       )}
     {/* Pagination */}
-    <div className="flex justify-center mt-4">
+      <div className="flex justify-center mt-4">
         <nav className="inline-flex rounded-md shadow">
           <ul className="flex space-x-1">
             {Array.from({ length: Math.ceil(newExpenses.length / expensesPerPage) }, (_, index) => (
