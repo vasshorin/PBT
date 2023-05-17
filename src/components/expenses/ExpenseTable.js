@@ -269,25 +269,25 @@ const sortExpensesByAccount = () => {
                      className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600"
                      onClick={() => onExpenseSelected(expense)}
                    >
-                     <td className="whitespace-nowrap px-6 py-4 font-medium">{new Date(expense.date).toLocaleDateString()}</td>
+                     <td className="whitespace-nowrap px-6 py-2 font-medium">{new Date(expense.date).toLocaleDateString()}</td>
                      {/* <td className="whitespace-nowrap px-6 py-4">{expense._id}</td> */}
                      <td
-                       className={`whitespace-nowrap px-6 py-4 ${
+                       className={`whitespace-nowrap px-6 py-2 ${
                          expense.type === 'expense' ? 'text-red-500' : 'text-green-500'
                        }`}
                      >
                        {'$'}
                        {expense.amount.toLocaleString()}
                      </td>
-                     <td className="whitespace-nowrap px-6 py-4">{expense.description}</td>
-                     <td className="whitespace-nowrap px-6 py-4">{expense.category.name}</td>
-                     <td className="whitespace-nowrap px-6 py-4">{expense.accountData.accountName}</td>
-                     <td className="whitespace-nowrap py-4">
+                     <td className="whitespace-nowrap px-6 py-2">{expense.description}</td>
+                     <td className="whitespace-nowrap px-6 py-2">{expense.category.name}</td>
+                     <td className="whitespace-nowrap px-6 py-2">{expense.accountData.accountName}</td>
+                     <td className="whitespace-nowrap py-2">
                        <button
                          className={`bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 ml-4 rounded-full mr-2 focus:outline-none focus:shadow-outline`}
                           onClick={() => deleteTransactionNew(expense._id)}
                         >
-                          Delete
+                          <i class="ri-delete-bin-line"></i>
                         </button>
                       </td>
                     </tr>
