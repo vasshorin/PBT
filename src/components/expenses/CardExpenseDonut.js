@@ -25,7 +25,10 @@ const CardsExpenses = ({ refreshToken }) => {
 
   // Transform the creditCards data into a format that the chart can use
   const chartData = creditCards.map((creditCard) => ({
-    labels: [creditCard.name],
+    labels: [`Balance: $${creditCard.currentBalance}`,
+      `Available Credit: $${creditCard.creditLimit - creditCard.currentBalance}`,
+
+      ],
     datasets: [
       {
         data: [creditCard.currentBalance, creditCard.creditLimit - creditCard.currentBalance],
