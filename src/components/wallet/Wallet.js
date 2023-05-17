@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import CreditsCards from './CreditsCards';
 import Accounts from './Accounts';
 import Categories from './Categories';
+import PaymentCalculator from './PaymentCalculator';
 
-const PersonalCabinet = () => {
+const Wallet = () => {
   const [refreshToken, setRefreshToken] = useState('');
   const [accessToken, setAccessToken] = useState('');
   const [user, setUser] = useState({});
@@ -50,6 +51,9 @@ const PersonalCabinet = () => {
       user={user}
     />
   </div>
+  <div className="flex-1">
+    <PaymentCalculator />
+    </div>
 </div>
 <div className="flex justify-center mt-8">
   <button
@@ -66,4 +70,4 @@ const PersonalCabinet = () => {
 
 
 }
-export default PersonalCabinet;
+export default Wallet;
