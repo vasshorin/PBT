@@ -13,7 +13,7 @@ const Main = () => {
                   A better way to manage money.
                 </h2>
                 <p className="mt-4 text-lg leading-relaxed text-gray-600 dark:text-gray-300">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                Take control of your finances with our powerful money management tools. Our platform provides a comprehensive solution for budgeting, tracking expenses, and saving money. Say goodbye to financial stress and start achieving your financial goals today.
                 </p>
                 <div className="mt-12">
                   <a
@@ -32,7 +32,7 @@ const Main = () => {
                     Sign up for free
                   </h4>
                   <p className="leading-relaxed mt-1 mb-4 text-gray-600 dark:text-gray-300">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                  Experience the benefits of our platform by signing up for a free account today. Get access to powerful financial tools that can help you track your expenses, create budgets, and achieve your financial goals. Join our community of smart money managers and take control of your finances.
                   </p>
                   <div className="relative w-full mb-3 mt-8">
                     <label
@@ -122,14 +122,14 @@ const Main = () => {
           <div className="md:w-1/3 px-4 mb-8">
             <div className="bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden shadow-lg">
               <img
-                src="https://via.placeholder.com/600x400.png?text=Feature+1"
+                src="https://images.pexels.com/photos/4386327/pexels-photo-4386327.jpeg"
                 alt="Feature 1"
                 className="w-full h-48 object-cover"
               />
               <div className="p-6">
-                <h2 className="text-lg font-medium mb-2">Feature 1</h2>
+                <h2 className="text-lg font-medium mb-2">Tracking expenses</h2>
                 <p className="text-gray-600 dark:text-gray-300">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Keep a close eye on your expenses by using our powerful tracking tools. Easily categorize your expenses, set budgets, and analyze your spending patterns. Stay in control of your finances and make informed financial decisions.
                 </p>
               </div>
             </div>
@@ -139,14 +139,14 @@ const Main = () => {
           <div className="md:w-1/3 px-4 mb-8">
             <div className="bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden shadow-lg">
               <img
-                src="https://via.placeholder.com/600x400.png?text=Feature+2"
+                src="https://images.pexels.com/photos/53621/calculator-calculation-insurance-finance-53621.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
                 alt="Feature 2"
                 className="w-full h-48 object-cover"
               />
               <div className="p-6">
-                <h2 className="text-lg font-medium mb-2">Feature 2</h2>
+                <h2 className="text-lg font-medium mb-2">Payment calculator</h2>
                 <p className="text-gray-600 dark:text-gray-300">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Easily calculate your payments with our payment calculator. Whether you're planning to make a big purchase or considering a loan, our calculator helps you estimate your monthly payments, interest rates, and repayment schedules.
                 </p>
               </div>
             </div>
@@ -156,14 +156,14 @@ const Main = () => {
           <div className="md:w-1/3 px-4 mb-8">
             <div className="bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden shadow-lg">
               <img
-                src="https://via.placeholder.com/600x400.png?text=Feature+3"
+                src="https://images.pexels.com/photos/7054417/pexels-photo-7054417.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
                 alt="Feature 3"
                 className="w-full h-48 object-cover"
               />
               <div className="p-6">
-                <h2 className="text-lg font-medium mb-2">Feature 3</h2>
+                <h2 className="text-lg font-medium mb-2">Budget settings</h2>
                 <p className="text-gray-600 dark:text-gray-300">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Take control of your finances by creating and managing budgets. Set spending limits for different categories and track your progress. Our budget management feature helps you stay on track and achieve your financial goals.
                 </p>
               </div>
             </div>
