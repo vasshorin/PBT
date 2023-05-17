@@ -9,6 +9,15 @@ const ExpenseTable = ({ expenses, deleteTransaction, rerenderTable, newExpenses1
   const [refreshedCreditCardData, setRefreshedCreditCardData] = useState(false);
   const [newExpenses, setNewExpenses] = useState([]);
   const [sortOrder, setSortOrder] = useState('asc');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [expensesPerPage] = useState(10);
+
+  // Calculate indexes for the pagination
+  const indexOfLastExpense = currentPage * expensesPerPage;
+  const indexOfFirstExpense = indexOfLastExpense - expensesPerPage;
+  const currentExpenses = newExpenses.slice(indexOfFirstExpense, indexOfLastExpense);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
 
 
@@ -218,7 +227,7 @@ const sortExpensesByAccount = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {newExpenses.map((expense) => (
+                    {currentExpenses.map((expense) => (
                       <tr key={expense._id}
                       class="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600"
                       onClick={() => onExpenseSelected(expense)}
@@ -248,6 +257,25 @@ const sortExpensesByAccount = () => {
       ) : (
         <p>No expenses to display.</p>
       )}
+    {/* Pagination */}
+    <div className="flex justify-center mt-4">
+        <nav className="inline-flex rounded-md shadow">
+          <ul className="flex space-x-1">
+            {Array.from({ length: Math.ceil(newExpenses.length / expensesPerPage) }, (_, index) => (
+              <li key={index}>
+                <button
+                  onClick={() => paginate(index + 1)}
+                  className={`px-3 py-1 rounded-md ${
+                    currentPage === index + 1 ? 'bg-blue-500 text-white' : 'bg-white text-gray-700'
+                  } hover:bg-blue-500 hover:text-white`}
+                >
+                  {index + 1}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
     </>
   );
 };

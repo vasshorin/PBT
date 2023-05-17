@@ -43,7 +43,7 @@ const CategoryTable = ({ refreshToken, newExpenses1 }) => {
               {categories.map((category) => (
                 <tr key={category._id} class="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600">
                   <td className="whitespace-nowrap px-6 py-4">{category.name}</td>
-                  <td className="whitespace-nowrap px-6 py-4">{`$${getCategoryTotal(category).toLocaleString()}`}</td>
+                  <td className={`whitespace-nowrap px-6 py-4 ${getCategoryTotal(category) > category.budget ? 'text-red-500' : 'text-green-500'}`}>{`$${getCategoryTotal(category).toLocaleString()}`}</td>
                   <td className="whitespace-nowrap px-6 py-4">{`$${category.budget.toLocaleString()}`}</td>
                 </tr>
               ))}
