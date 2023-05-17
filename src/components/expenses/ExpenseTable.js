@@ -263,7 +263,7 @@ const sortExpensesByAccount = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-neutral-100 dark:divide-neutral-500">
-                 {newExpenses.map((expense) => (
+                 {currentExpenses.map((expense) => (
                    <tr
                      key={expense._id}
                      className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600"
