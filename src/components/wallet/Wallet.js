@@ -29,45 +29,34 @@ const Wallet = () => {
     window.location.href = '/login';
   };
 
+ 
   return (
     <div>
-<div className="text-3xl font-bold mb-8 text-center pt-20 md:pl-20">Manage your accounts</div>
-<div className="flex flex-col md:flex-row justify-center md:justify-start gap-5">
-  <div className="flex-1">
-    <Categories
-      refreshToken={refreshToken}
-      user={user}
-    />
-  </div>
-  <div className="flex-1">
-    <Accounts
-      refreshToken={refreshToken}
-      user={user}
-    />
-  </div>
-  <div className="flex-1">
-    <CreditsCards
-      refreshToken={refreshToken}
-      user={user}
-    />
-  </div>
-  <div className="flex-1">
-    <PaymentCalculator />
+      <div className="text-3xl font-bold mb-8 text-center pt-20 md:pl-20">Manage your accounts</div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div>
+          <Categories refreshToken={refreshToken} user={user} />
+        </div>
+        <div>
+          <Accounts refreshToken={refreshToken} user={user} />
+        </div>
+        <div>
+          <CreditsCards refreshToken={refreshToken} user={user} />
+        </div>
+        <div>
+          <PaymentCalculator />
+        </div>
+      </div>
+      <div className="flex justify-center mt-8">
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          onClick={onLogout}
+        >
+          Logout
+        </button>
+      </div>
     </div>
-</div>
-<div className="flex justify-center mt-8">
-  <button
-    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-    onClick={onLogout}
-  >
-    Logout
-  </button>
-</div>
+  );
+};
 
-    </div>
-
-  )
-
-
-}
 export default Wallet;
