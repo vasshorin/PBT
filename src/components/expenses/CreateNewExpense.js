@@ -177,22 +177,7 @@ const CreateNewExpense = ({ onExpenseAdded }) => {
     <div className="flex justify-center">
       <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={onSubmit}>
         <div className="flex flex-wrap justify-end">
-          <div className="w-full md:w-1/6 mb-4 md:mb-0">
-            <label className="block text-gray-700 font-bold mb-2" htmlFor="type">
-              type
-            </label>
-            <select
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="type"
-              value={type}
-              onChange={(e) => settype(e.target.value)}
-            >
-              <option value="">Select an type level</option>
-              <option value="expense">expense</option>
-              <option value="income">income</option>
-            </select>
-          </div>
-          <div className="w-full md:w-1/6 mb-4 md:mb-0">
+                <div className="w-full md:w-1/6 mb-4 md:mb-0">
             <label className="block text-gray-700 font-bold mb-2" htmlFor="date">
               Date
             </label>
@@ -206,8 +191,23 @@ const CreateNewExpense = ({ onExpenseAdded }) => {
             />
           </div>
           <div className="w-full md:w-1/6 mb-4 md:mb-0">
+            <label className="block text-gray-700 font-bold mb-2" htmlFor="type">
+              Type
+            </label>
+            <select
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="type"
+              value={type}
+              onChange={(e) => settype(e.target.value)}
+            >
+              <option value="">Select a type level</option>
+              <option value="expense">Expense</option>
+              <option value="income">Income</option>
+            </select>
+          </div>
+          <div className="w-full md:w-1/6 mb-4 md:mb-0">
             <label className="block text-gray-700 font-bold mb-2" htmlFor="description">
-              description
+              Description
             </label>
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -234,7 +234,7 @@ const CreateNewExpense = ({ onExpenseAdded }) => {
           </div>
           <div className="w-full md:w-1/6 mb-4 md:mb-0">
             <label className="block text-gray-700 font-bold mb-2" htmlFor="categories">
-              categories
+              Categories
             </label>
             <select
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -247,55 +247,47 @@ const CreateNewExpense = ({ onExpenseAdded }) => {
             >
               <option value="">Select a category</option>
               {Array.isArray(categories) && categories.map((category) => (
-                <option
-                  key={category._id}
-                  value={category.name}
-                >
-                  {category.name}
+                <option key={category._id} value={category.name}>
+                {category.name}
                 </option>
-              ))}
-            </select>
-          </div>
-          <div className="w-full md:w-1/6 mb-4 md:mb-0">
-            <label className="block text-gray-700 font-bold mb-2" htmlFor="accounts">
-              accounts
-            </label>
-            <select
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="accounts"
-              value={selectedAccount ? selectedAccount.name : ''}
-              onChange={(e) => {
+                ))}
+                </select>
+                </div>
+                <div className="w-full md:w-1/6 mb-4 md:mb-0">
+                <label className="block text-gray-700 font-bold mb-2" htmlFor="accounts">
+                Accounts
+                </label>
+                <select
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="accounts"
+                value={selectedAccount ? selectedAccount.name : ''}
+                onChange={(e) => {
                 const account = accounts.concat(creditCards).find((account) => account.name === e.target.value);
                 setSelectedAccount(account);
-              }}
-            >
-              <option value="">Select an account</option>
-              {Array.isArray(accounts) && accounts.concat(creditCards).map((account) => (
-                <option
-                  key={account._id}
-                  value={account.name}
+                }}
                 >
-                  {account.name}
+                <option value="">Select an account</option>
+                {Array.isArray(accounts) && accounts.concat(creditCards).map((account) => (
+                <option key={account._id} value={account.name}>
+                {account.name}
                 </option>
-              ))}
-            </select>
-
-          </div>
-          <div className="w-full md:w-1/6 mb-4 md:mb-0 flex items-center justify-center">
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              type="submit"
-            >
-              Submit
-            </button>
-          </div>
-        </div>
-      </form>
-    </div>
-
-
-
-  );
+                ))}
+                </select>
+                </div>
+                <div className="w-full md:w-1/6 mb-4 md:mb-0 flex items-center justify-center">
+                <button
+                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                         type="submit"
+                       >
+                Submit
+                </button>
+                </div>
+                </div>
+                </form>
+                
+                  </div>
+                );
+  
 };
 
 export default CreateNewExpense;
