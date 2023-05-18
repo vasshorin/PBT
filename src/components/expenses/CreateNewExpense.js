@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import moment from 'moment';
+
 
 const CreateNewExpense = ({ onExpenseAdded }) => {
   const [date, setDate] = useState('');
@@ -140,11 +142,13 @@ const CreateNewExpense = ({ onExpenseAdded }) => {
       categoryId = selectedCategory._id;
     }
 
+    const utcDate = moment.utc(date).format('YYYY-MM-DD');
+
     const res2 = await axios.post('http://localhost:5050/api/newTransaction', {
       userId: userId,
       type: type,
       amount: amount,
-      date: date,
+      date: utcDate,
       description: description,
       categoryId: categoryId,
       accountType: transactionType,
