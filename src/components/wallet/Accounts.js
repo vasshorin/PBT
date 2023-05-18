@@ -100,22 +100,22 @@ const Accounts = ({ refreshToken, user }) => {
       <div className="flex flex-col md:flex-row mb-8">
         <div className="flex flex-row md:mr-4 mb-4 md:mb-0">
           <div className="flex flex-row items-center mb-4">
-            <label htmlFor="account-name" className={`mr-2 text-gray-700 text-sm font-bold ${toolDisplayPressed ? '' : 'hidden'}`}>Name:</label>
+            <label htmlFor="account-name" className={`mr-2 text-gray-700 text-sm font-bold`}>Name:</label>
             <input
-              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2 ${toolDisplayPressed ? '' : 'hidden'}`}
+              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2`}
               type="text"
               placeholder="Enter the account name"
               value={accountName}
               onChange={(e) => setAccountName(e.target.value)} />
-            <label htmlFor="account-balance" className={`mr-2 text-gray-700 text-sm font-bold ${toolDisplayPressed ? '' : 'hidden'}`}>Balance:</label>
+            <label htmlFor="account-balance" className={`mr-2 text-gray-700 text-sm font-bold`}>Balance:</label>
             <input
-              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2 ${toolDisplayPressed ? '' : 'hidden'}`}
+              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2`}
               type="text"
               placeholder="Enter the balance"
               value={accountBalance}
               onChange={(e) => setAccountBalance(e.target.value)} />
             <button
-              className={`bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 ml-4 rounded-full mr-2 focus:outline-none focus:shadow-outline ${toolDisplayPressed ? '' : 'hidden'}`}
+              className={`bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 ml-4 rounded-full mr-2 focus:outline-none focus:shadow-outline`}
               title="Add credit card"
               onClick={handleAddAccount}
             >

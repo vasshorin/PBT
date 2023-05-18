@@ -54,6 +54,11 @@ const CreditsCards = ({ refreshToken }) => {
         });
         console.log(response.data);
         setCreditCards([response.data.creditCard, ...creditCards]);
+
+        // Reset the form
+        setCreditCardName('');
+        setCreditCardBalance(0);
+        setCreditCardLimit(0);
     };
 
     const handleRemoveCreditCard = async (creditCardId) => {
@@ -105,9 +110,9 @@ const CreditsCards = ({ refreshToken }) => {
                 <div className="flex flex-col md:flex-row mb-8">
                     <div className="flex flex-col md:mr-4 mb-4 md:mb-0">
                         <div className="flex flex-col items-center mb-4">
-                            <label htmlFor="credit-card-limit" className={`mr-2 text-gray-700 text-sm font-bold w-full ${toolDisplayPressed ? '' : 'hidden'}`}>Name:</label>
+                            <label htmlFor="credit-card-limit" className={`mr-2 text-gray-700 text-sm font-bold w-full`}>Name:</label>
                             <input
-                                className={`shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2 w-full ${toolDisplayPressed ? '' : 'hidden'}`}
+                                className={`shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2 w-full`}
                                 type="text"
                                 placeholder="Card name"
                                 value={creditCardName}
@@ -118,9 +123,9 @@ const CreditsCards = ({ refreshToken }) => {
                     </div>
                     <div className="flex flex-col md:mr-4 mb-4 md:mb-0">
                         <div className="flex flex-col items-center mb-4">
-                            <label htmlFor="credit-card-limit" className={`mr-2 text-gray-700 text-sm font-bold ${toolDisplayPressed ? '' : 'hidden'}`}>Balance:</label>
+                            <label htmlFor="credit-card-limit" className={`mr-2 text-gray-700 text-sm font-bold`}>Balance:</label>
                             <input
-                                className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2 ${toolDisplayPressed ? '' : 'hidden'}`}
+                                className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2`}
                                 type="text"
                                 placeholder="Enter current balance"
                                 value={creditCardBalance}
@@ -131,9 +136,9 @@ const CreditsCards = ({ refreshToken }) => {
                     </div>
                     <div className="flex flex-col md:mr-4 mb-4 md:mb-0">
                         <div className="flex flex-col items-center mb-4">
-                            <label htmlFor="credit-card-limit" className={`mr-2 text-gray-700 text-sm font-bold ${toolDisplayPressed ? '' : 'hidden'}`}>Limit:</label>
+                            <label htmlFor="credit-card-limit" className={`mr-2 text-gray-700 text-sm font-bold`}>Limit:</label>
                             <input
-                                className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2 ${toolDisplayPressed ? '' : 'hidden'}`}
+                                className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2`}
                                 type="text"
                                 placeholder="Enter credit limit"
                                 value={creditCardLimit}
@@ -142,7 +147,7 @@ const CreditsCards = ({ refreshToken }) => {
 
                         </div>
                         <button
-                            className={`bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 ml-4 rounded-full mr-2 focus:outline-none focus:shadow-outline ${toolDisplayPressed ? '' : 'hidden'}`}
+                            className={`bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 ml-4 rounded-full mr-2 focus:outline-none focus:shadow-outline`}
                             title="Add credit card"
                             onClick={handleAddCreditCard}
                         >
