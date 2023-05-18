@@ -2,14 +2,26 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 
 const Accounts = ({ refreshToken, user }) => {
-  // const [categoryName, setcategoryName] = useState('');
-  // const [newAccount, setNewAccount] = useState('');
-  // const [accountTypes, setAccountTypes] = useState(['Bank account', 'Credit card']);
   const [accountName, setAccountName] = useState('');
   const [accountBalance, setAccountBalance] = useState(0);
   const [accounts, setAccounts] = useState(['Bank account', 'Credit card']);
   const [toolDisplayPressed, setToolDisplayPressed] = useState(false);
   const [selectAccountId, setSelectAccountId] = useState('');
+
+  // Get the list of accounts from the user db that's the same as the user that's logged in
+  useEffect(() => {
+    const handleGetAccounts = async () => {
+      const res = await axios.get('http://localhost:5050/api/getAccounts', {
+        headers: {
+          'auth-token-refresh': refreshToken,
+        },
+      });
+      setAccounts(res.data.accounts);
+    };
+
+    handleGetAccounts();
+  }, [refreshToken]);
+
 
   const handleAddAccount = async () => {
     const res = await axios.post('http://localhost:5050/api/newAccount', {
@@ -25,20 +37,6 @@ const Accounts = ({ refreshToken, user }) => {
     setAccountName('');
     setAccountBalance(0);
   };
-
-  // Get the list of accounts from the user db that's the same as the user that's logged in
-  useEffect(() => {
-    const handleGetAccounts = async () => {
-      const res = await axios.get('http://localhost:5050/api/getAccounts', {
-        headers: {
-          'auth-token-refresh': refreshToken,
-        },
-      });
-      setAccounts(res.data.accounts);
-    };
-
-    handleGetAccounts();
-  }, [refreshToken]);
 
 
   const handleRemoveAccount = async (accountId) => {
