@@ -341,6 +341,8 @@ const ExpenseTable = ({ expenses, deleteTransaction, rerenderTable, newExpenses1
                           )}
                         </div>
                       </th>
+                      <th className="px-6 py-4">Actions</th>
+                      
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-neutral-100 dark:divide-neutral-500">
@@ -384,46 +386,56 @@ const ExpenseTable = ({ expenses, deleteTransaction, rerenderTable, newExpenses1
           </div>
         </div>
       ) : (
-        <p>No expenses to display.</p>
+        <table className="min-w-full text-left text-sm font-light shadow-lg rounded-lg">
+        <thead className="border-b font-medium dark:border-neutral-500">
+          <tr className="bg-orange-100">
+            <th className="px-8 py-6 cursor-pointer">
+              <div className="flex items-center justify-between" onClick={sortExpensesByDate}>
+                <span>Date</span>
+                {sortOrder === 'asc' ? (
+                  <span className="text-xs">&#x25B2;</span>
+                ) : (
+                  <span className="text-xs">&#x25BC;</span>
+                )}
+              </div>
+            </th>
+            {/* <th className="px-6 py-4">Type</th> */}
+            <th className="px-6 py-4 cursor-pointer">
+              <div className="flex items-center justify-between" onClick={sortExpensesByAmount}>
+                <span>Amount</span>
+                {sortOrder === 'asc' ? (
+                  <span className="text-xs pl-1">&#x25B2;</span>
+                ) : (
+                  <span className="text-xs pl-1">&#x25BC;</span>
+                )}
+              </div>
+            </th>
+            <th className="px-6 py-4">Description</th>
+            <th className="px-6 py-4 cursor-pointer">
+              <div className="flex items-center justify-between" onClick={sortExpensesByCategory}>
+                <span>Categories</span>
+                {sortOrder === 'asc' ? (
+                  <span className="text-xs pl-1">&#x25B2;</span>
+                ) : (
+                  <span className="text-xs pl-1">&#x25BC;</span>
+                )}
+              </div>
+            </th>
+            <th className="px-6 py-4 cursor-pointer">
+              <div className="flex items-center justify-between" onClick={sortExpensesByAccount}>
+                <span>Accounts</span>
+                {sortOrder === 'asc' ? (
+                  <span className="text-xs pl-1">&#x25B2;</span>
+                ) : (
+                  <span className="text-xs pl-1">&#x25BC;</span>
+                )}
+              </div>
+            </th>
+            <th className="px-6 py-4">Actions</th>
+          </tr>
+        </thead>
+      </table>
       )}
-      {/* Pagination */}
-      <div className="flex justify-center mt-4">
-        <nav className="inline-flex rounded-md shadow">
-          <ul className="flex space-x-1">
-            {hasPreviousPage && (
-              <li>
-                <button
-                  onClick={() => paginate(currentPage - 1)}
-                  className="px-3 py-1 rounded-md bg-white text-gray-700 hover:bg-blue-500 hover:text-white"
-                >
-                  Previous
-                </button>
-              </li>
-            )}
-            {Array.from({ length: totalPages }, (_, index) => (
-              <li key={index}>
-                <button
-                  onClick={() => paginate(index + 1)}
-                  className={`px-3 py-1 rounded-md ${currentPage === index + 1 ? "bg-blue-500 text-white" : "bg-white text-gray-700"
-                    } hover:bg-blue-500 hover:text-white`}
-                >
-                  {index + 1}
-                </button>
-              </li>
-            ))}
-            {hasNextPage && (
-              <li>
-                <button
-                  onClick={() => paginate(currentPage + 1)}
-                  className="px-3 py-1 rounded-md bg-white text-gray-700 hover:bg-blue-500 hover:text-white"
-                >
-                  Next
-                </button>
-              </li>
-            )}
-          </ul>
-        </nav>
-      </div>
     </>
   );
 };

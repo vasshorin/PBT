@@ -94,7 +94,9 @@ const Expenses = () => {
         <div className="flex flex-col sm:flex-row">
           <div className="flex flex-col mb-4 sm:mb-0">
             <h2 className="text-lg font-medium text-gray-900 text-center">Transactions</h2>
+            <div className='mb-4 shadow-lg'>
             <ExpenseTable expenses={expenses} rerenderTable={rerenderTable} setRerenderTable={setRerenderTable} newExpenses1={newExpenses1} setNewExpenses1={setNewExpenses1} />
+            </div>
           </div>
           <div className="flex flex-col ml-0 sm:ml-3">
             <h2 className="text-lg font-medium text-gray-900 text-center mb-2">Account Summary</h2>
