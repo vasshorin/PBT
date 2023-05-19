@@ -285,16 +285,17 @@ const ExpenseTable = ({ expenses, deleteTransaction, rerenderTable, newExpenses1
                     onChange={handleStartDateChange}
                     value={startDate ? startDate.toISOString().split('T')[0] : ''}
                   />
-                </div>
-
-                <div className="flex items-center space-x-2 mb-4">
-                  <label htmlFor="end-date">End Date:</label>
+                                  <label htmlFor="end-date">End Date:</label>
                   <input
                     type="date"
                     id="end-date"
                     onChange={handleEndDateChange}
                     value={endDate ? endDate.toISOString().split('T')[0] : ''}
                   />
+                </div>
+
+                <div className="flex items-center space-x-2 mb-4">
+  
                 </div>
                 <table className="min-w-full text-left text-sm font-light shadow-lg rounded-lg">
                   <thead className="border-b font-medium dark:border-neutral-500">
