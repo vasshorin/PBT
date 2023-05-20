@@ -163,7 +163,7 @@ const Main = () => {
               <div className="p-6">
                 <h2 className="text-lg font-medium mb-2">Budget settings</h2>
                 <p className="text-gray-600 dark:text-gray-300">
-                Take control of your finances by creating and managing budgets. Set spending limits for different categories and track your progress. Our budget management feature helps you stay on track and achieve your financial goals.
+                Take control of your personal finances and empower yourself with the ability to create and effectively manage budgets. With our intuitive platform, you can easily establish spending limits for various categories and diligently monitor your progress. Our comprehensive budget management feature ensures that you remain on track and successfully attain your financial objectives.
                 </p>
               </div>
             </div>

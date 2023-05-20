@@ -8,6 +8,21 @@ const Accounts = ({ refreshToken, user }) => {
   const [toolDisplayPressed, setToolDisplayPressed] = useState(false);
   const [selectAccountId, setSelectAccountId] = useState('');
 
+  const [isMobileView, setIsMobileView] = useState(false);
+
+    useEffect(() => {
+      const handleResize = () => {
+        setIsMobileView(window.innerWidth <= 768); // Adjust the value as per your mobile view breakpoint
+      };
+  
+      window.addEventListener("resize", handleResize);
+      handleResize(); // Check on initial render
+  
+      return () => {
+        window.removeEventListener("resize", handleResize);
+      };
+    }, []);
+
   // Get the list of accounts from the user db that's the same as the user that's logged in
   useEffect(() => {
     const handleGetAccounts = async () => {
@@ -79,7 +94,9 @@ const Accounts = ({ refreshToken, user }) => {
         <h2 className="text-xl font-bold">Your bank  accounts</h2>
         <div className="flex items-center">
           <button
-            className="bg-custom-grey-color hover:bg-gray-700 text-white font-bold py-2 px-4 mr-6 rounded-full focus:outline-none focus:shadow-outline"
+            className={`bg-custom-grey-color hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline ${
+              isMobileView ? "sm:mr-2" : "sm:mr-4"
+            }`}
             title="Tool"
             onClick={() => setToolDisplayPressed(!toolDisplayPressed)}
           >
