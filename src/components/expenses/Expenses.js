@@ -23,6 +23,10 @@ const Expenses = () => {
     const fetchExpenses = async () => {
       const token = localStorage.getItem('refreshToken');
       const aToken = localStorage.getItem('accessToken');
+      if(!token || !aToken) {
+        window.location.href = '/login';
+      }
+  
       const response = await axios.get(`http://localhost:5050/api/transactions`, {
         headers: {
           'auth-token-refresh': token,
@@ -31,7 +35,8 @@ const Expenses = () => {
       });
       setRefreshToken(token);
       setAccessToken(aToken);
-  
+
+ 
       const transactions = response.data.transactions;
   
       const updatedTransactions = await Promise.all(

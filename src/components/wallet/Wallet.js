@@ -20,6 +20,10 @@ const Wallet = () => {
       setUser(JSON.parse(savedUser));
       console.log('token', savedRefreshToken);
     }
+
+    if(!savedRefreshToken || !savedUser || !savedAccessToken) {
+      window.location.href = '/login';
+    }
   }, []);
 
   const onLogout = () => {

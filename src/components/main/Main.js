@@ -186,7 +186,7 @@ const Main = () => {
           </h3>
           <div className="flex items-center justify-center mt-4">
             <span className="px-2 py-1 uppercase font-semibold text-xs text-gray-900 dark:text-white">
-              $9
+              $0
             </span>
             <span className="text-xs text-gray-500 dark:text-gray-400">
               /month
@@ -223,7 +223,7 @@ const Main = () => {
               </svg>
             </div>
             <span className="text-sm text-gray-600 dark:text-gray-400 ml-2">
-              50 Budgets
+              20 Categories
             </span>
           </li>
           <li className="flex items-center mt-4">
@@ -239,7 +239,7 @@ const Main = () => {
               </svg>
             </div>
             <span className="text-sm text-gray-600 dark:text-gray-400 ml-2">
-              5GB Storage
+              No reciept uploads
             </span>
           </li>
         </ul>
@@ -283,7 +283,7 @@ const Main = () => {
               </svg>
             </div>
             <span className="text-sm text-gray-600 dark:text-gray-400 ml-2">
-              100 Budgets
+              Unlimited categories
             </span>
           </li>
           <li className="flex items-center mt-4">
@@ -293,7 +293,7 @@ const Main = () => {
               </svg>
             </div>
             <span className="text-sm text-gray-600 dark:text-gray-400 ml-2">
-              10GB Storage
+              Reciept uploads
             </span>
           </li>
         </ul>
