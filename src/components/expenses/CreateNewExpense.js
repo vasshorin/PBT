@@ -190,6 +190,7 @@ const CreateNewExpense = ({ onExpenseAdded }) => {
               type="date"
               placeholder="Enter date"
               value={date}
+              required
               onChange={(e) => setDate(e.target.value)}
             />
           </div>
@@ -201,6 +202,7 @@ const CreateNewExpense = ({ onExpenseAdded }) => {
               className="shadow appearance-none border rounded w-full py-2 px-3 ml-10 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="type"
               value={type}
+              required
               onChange={(e) => settype(e.target.value)}
             >
               <option value="">Expense type</option>
@@ -218,6 +220,7 @@ const CreateNewExpense = ({ onExpenseAdded }) => {
               type="text"
               placeholder="Enter description"
               value={description}
+              required
               onChange={(e) => setdescription(e.target.value)}
             />
           </div>
@@ -231,6 +234,7 @@ const CreateNewExpense = ({ onExpenseAdded }) => {
               type="number"
               step=".01"
               placeholder="Enter the amount"
+              required
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
             />
@@ -242,6 +246,7 @@ const CreateNewExpense = ({ onExpenseAdded }) => {
             <select
               className="shadow appearance-none border rounded w-full py-2 px-3 ml-10 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="categories"
+              required
               value={selectedCategory ? selectedCategory.name : ''}
               onChange={(e) => {
                 const category = categories.find((category) => category.name === e.target.value);
