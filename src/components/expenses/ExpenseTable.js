@@ -299,7 +299,7 @@ const ExpenseTable = ({ expenses, deleteTransaction, rerenderTable, newExpenses1
                 </div>
                 <table className="min-w-full text-left text-sm font-light shadow-lg rounded-lg">
                   <thead className="border-b font-medium dark:border-neutral-500">
-                    <tr className="bg-orange-100">
+                    <tr className="bg-custom-brown-color">
                       <th className="px-8 py-6 cursor-pointer">
                         <div className="flex items-center justify-between" onClick={sortExpensesByDate}>
                           <span>Date</span>
@@ -389,7 +389,7 @@ const ExpenseTable = ({ expenses, deleteTransaction, rerenderTable, newExpenses1
       ) : (
         <table className="min-w-full text-left text-sm font-light shadow-lg rounded-lg">
         <thead className="border-b font-medium dark:border-neutral-500">
-          <tr className="bg-orange-100">
+          <tr className="bg-custom-brown-color">
             <th className="px-8 py-6 cursor-pointer">
               <div className="flex items-center justify-between" onClick={sortExpensesByDate}>
                 <span>Date</span>

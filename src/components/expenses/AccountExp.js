@@ -28,7 +28,7 @@ const AccountsExp = ({refreshToken}) => {
       
       <table className="min-w-full text-left text-sm font-light shadow-lg rounded-lg">
       <thead className="border-b font-medium dark:border-neutral-500">
-            <tr className='bg-orange-100'>
+            <tr className='bg-custom-brown-color'>
                 <th className="px-6 py-4 text-left">Account Name</th>
                 <th className="px-6 py-4 text-left">Balance</th>
               </tr>

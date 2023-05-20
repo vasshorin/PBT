@@ -47,7 +47,7 @@ const CardsExpenses = ({ refreshToken }) => {
         {creditCards.length === 0 && <p className="text-center">No credit cards added yet.</p>}
         {creditCards.map((creditCard, index) => (
           <div key={creditCard._id} className="flex flex-col items-center">
-            <button className="bg-gray-100 rounded-lg px-4 py-2 m-4 shadow" onClick={() => setShowChart(index)}>
+            <button className="bg-custom-brown-color rounded-lg px-4 py-2 m-4 shadow" onClick={() => setShowChart(index)}>
               {creditCard.name}
             </button>
             {showChart === index && (

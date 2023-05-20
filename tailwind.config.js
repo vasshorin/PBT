@@ -1,10 +1,21 @@
 /** @type {import('tailwindcss').Config} */
+const colors = require('tailwindcss/colors');
+
 module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
     extend: {},
+    colors: {
+      ...colors,
+      'custom-green-color': '#4c976f',
+      'custom-brown-color': '#ecead3',
+      'custom-blue-color': '#477187',
+      'custom-red-color': '#d5836b',
+      'custom-color-dark': '#9fcfb9',
+      'custom-grey-color': '#9d9789',
+    },
   },
   plugins: [],
 }

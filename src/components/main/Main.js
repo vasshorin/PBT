@@ -18,7 +18,7 @@ const Main = () => {
                 <div className="mt-12">
                   <a
                     href="#"
-                    className="bg-blue-500 text-white font-semibold px-6 py-4 rounded shadow hover:bg-blue-600"
+                    className="bg-custom-blue-color text-white font-semibold px-6 py-4 rounded shadow hover:bg-blue-600"
                   >
                     Get Started
                   </a>
@@ -101,7 +101,7 @@ const Main = () => {
 
                   <div className="text-center mt-6">
                     <button
-                      className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                      className="bg-custom-blue-color text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                       type="button"
                     >
                       Create Account
