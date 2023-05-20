@@ -109,9 +109,7 @@ const CreditsCards = ({ refreshToken }) => {
                     <h2 className="text-xl font-bold">Your credit Cards</h2>
                     <div className="flex items-center">
                         <button
-                            className={`bg-custom-grey-color hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline ${
-                                isMobileView ? "" : "sm:mr-4"
-                              }`}
+                            className="bg-custom-grey-color hover:bg-gray-700 text-white font-bold py-2 px-4  mr-4 rounded-full focus:outline-none focus:shadow-outline"
                             title="Tool"
                             onClick={() => setToolDisplayPressed(!toolDisplayPressed)}
                         >

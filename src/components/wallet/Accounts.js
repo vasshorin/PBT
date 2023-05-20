@@ -93,16 +93,17 @@ const Accounts = ({ refreshToken, user }) => {
       <div className="flex justify-between items-center mb-2">
         <h2 className="text-xl font-bold">Your bank accounts</h2>
         <div className="flex items-center">
-          <button
-                 className={`bg-custom-grey-color hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline ${
+              <button
+                className={`bg-custom-grey-color hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline ${
                   isMobileView ? "" : "sm:mr-4"
                 }`}
-            title="Tool"
-            onClick={() => setToolDisplayPressed(!toolDisplayPressed)}
-          >
-            Edit
-          </button>
-        </div>
+        
+                title="Tool"
+                onClick={() => setToolDisplayPressed(!toolDisplayPressed)}
+              >
+                Edit
+              </button>
+            </div>
       </div>
       <div className="flex flex-col md:flex-row mb-8">
         <div className="flex flex-row md:mr-4 mb-4 md:mb-0">
