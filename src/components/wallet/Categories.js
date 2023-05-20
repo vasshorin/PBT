@@ -71,6 +71,7 @@ const Categories = ({ refreshToken, user }) => {
                   type="text"
                   placeholder="Enter a new category"
                   value={categoryName}
+                  required
                   onChange={(e) => setcategoryName(e.target.value)}
                 />
                 <label htmlFor="category-name" className={`mr-2 text-gray-700 text-sm font-bold`}>Balance:</label>
@@ -79,6 +80,7 @@ const Categories = ({ refreshToken, user }) => {
                   type="number"
                   placeholder="Budget"
                   value={categoryBudget}
+                  required
                   onChange={(e) => setCategoryBudget(e.target.value)}
                 />
                 <button

@@ -110,6 +110,7 @@ const CreditsCards = ({ refreshToken }) => {
                                 type="text"
                                 placeholder="Card name"
                                 value={creditCardName}
+                                required
                                 onChange={(e) => setCreditCardName(e.target.value)}
                             />
                             <label htmlFor="credit-card-limit" className={`mr-2 text-gray-700 text-sm font-bold`}>Balance:</label>
@@ -118,6 +119,7 @@ const CreditsCards = ({ refreshToken }) => {
                                 type="text"
                                 placeholder="Enter current balance"
                                 value={creditCardBalance}
+                                required
                                 onChange={(e) => setCreditCardBalance(e.target.value)}
                             />
                             <label htmlFor="credit-card-limit" className={`mr-2 text-gray-700 text-sm font-bold`}>Limit:</label>
@@ -126,6 +128,7 @@ const CreditsCards = ({ refreshToken }) => {
                                 type="text"
                                 placeholder="Enter credit limit"
                                 value={creditCardLimit}
+                                required
                                 onChange={(e) => setCreditCardLimit(e.target.value)}
                             />
                         <button

@@ -84,7 +84,6 @@ const Accounts = ({ refreshToken, user }) => {
             onClick={() => setToolDisplayPressed(!toolDisplayPressed)}
           >
             Edit
-            {/* <i class="ri-tools-line"></i> */}
           </button>
         </div>
       </div>
@@ -97,6 +96,7 @@ const Accounts = ({ refreshToken, user }) => {
               type="text"
               placeholder="Enter the account name"
               value={accountName}
+              required
               onChange={(e) => setAccountName(e.target.value)} />
             <label htmlFor="account-balance" className={`mr-2 text-gray-700 text-sm font-bold`}>Balance:</label>
             <input
@@ -104,6 +104,7 @@ const Accounts = ({ refreshToken, user }) => {
               type="text"
               placeholder="Enter the balance"
               value={accountBalance}
+              required
               onChange={(e) => setAccountBalance(e.target.value)} />
             <button
               className={`bg-custom-green-color hover:bg-green-700 text-white font-bold py-2 px-4 ml-4 rounded-full mr-2 focus:outline-none focus:shadow-outline`}
