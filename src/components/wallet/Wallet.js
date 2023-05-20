@@ -51,14 +51,6 @@ const Wallet = () => {
           <PaymentCalculator />
         </div>
       </div>
-      <div className="flex justify-center mt-8">
-        <button
-          className="bg-custom-exit-color hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          onClick={onLogout}
-        >
-          Logout
-        </button>
-      </div>
     </div>
   );
 };
