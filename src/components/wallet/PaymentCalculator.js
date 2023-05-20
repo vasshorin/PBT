@@ -121,7 +121,7 @@ const PaymentCalculator = () => {
           />
         </div>
         <button
-          className="bg-custom-blue-color hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline"
+          className="bg-custom-blue-color hover:bg-custom-blue-color-dark text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline"
           onClick={handleCalculatePayment}
         >
           Calculate
