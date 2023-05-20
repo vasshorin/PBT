@@ -93,13 +93,7 @@ const CreditsCards = ({ refreshToken }) => {
                     <h2 className="text-xl font-bold">Your credit Cards</h2>
                     <div className="flex items-center">
                         <button
-                            className="text-white font-bold py-2 px-4 ml-4 rounded-full mr-2 focus:outline-none focus:shadow-outline"
-                            title="Add credit card"
-                        >
-                            <i class="ri-add-circle-line"></i>
-                        </button>
-                        <button
-                            className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline"
+                            className="bg-custom-grey-color hover:bg-gray-700 text-white font-bold py-2 px-4  mr-4 rounded-full focus:outline-none focus:shadow-outline"
                             title="Tool"
                             onClick={() => setToolDisplayPressed(!toolDisplayPressed)}
                         >
@@ -109,7 +103,7 @@ const CreditsCards = ({ refreshToken }) => {
                 </div>
                 <div className="flex flex-col md:flex-row mb-8">
                     <div className="flex flex-col md:mr-4 mb-4 md:mb-0">
-                        <div className="flex flex-col items-center mb-4">
+                        <div className="flex flex-row items-center mb-4">
                             <label htmlFor="credit-card-limit" className={`mr-2 text-gray-700 text-sm font-bold w-full`}>Name:</label>
                             <input
                                 className={`shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2 w-full`}
@@ -118,11 +112,6 @@ const CreditsCards = ({ refreshToken }) => {
                                 value={creditCardName}
                                 onChange={(e) => setCreditCardName(e.target.value)}
                             />
-                            {/* <label htmlFor="credit-card-name" className={`mr-2 text-gray-700 text-sm font-bold ${toolDisplayPressed ? 'hidden' : ''}`}>Name:</label> */}
-                        </div>
-                    </div>
-                    <div className="flex flex-col md:mr-4 mb-4 md:mb-0">
-                        <div className="flex flex-col items-center mb-4">
                             <label htmlFor="credit-card-limit" className={`mr-2 text-gray-700 text-sm font-bold`}>Balance:</label>
                             <input
                                 className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2`}
@@ -131,11 +120,6 @@ const CreditsCards = ({ refreshToken }) => {
                                 value={creditCardBalance}
                                 onChange={(e) => setCreditCardBalance(e.target.value)}
                             />
-                            {/* <label htmlFor="credit-card-balance" className={`mr-2 text-gray-700 text-sm font-bold ${toolDisplayPressed ? 'hidden' : ''}`}>Balance:</label> */}
-                        </div>
-                    </div>
-                    <div className="flex flex-col md:mr-4 mb-4 md:mb-0">
-                        <div className="flex flex-col items-center mb-4">
                             <label htmlFor="credit-card-limit" className={`mr-2 text-gray-700 text-sm font-bold`}>Limit:</label>
                             <input
                                 className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2`}
@@ -144,16 +128,16 @@ const CreditsCards = ({ refreshToken }) => {
                                 value={creditCardLimit}
                                 onChange={(e) => setCreditCardLimit(e.target.value)}
                             />
-
-                        </div>
                         <button
-                            className={`bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 ml-4 rounded-full mr-2 focus:outline-none focus:shadow-outline`}
+                            className={`bg-custom-green-color hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full ml-2 focus:outline-none focus:shadow-outline`}
                             title="Add credit card"
                             onClick={handleAddCreditCard}
                         >
                             Add
                         </button>
-                    </div>
+                        </div>
+                        </div>
+
                 </div>
                 <div className="flex flex-col md:flex-col mb-8">
                     <div className="flex flex-col md:mr-4 mb-4 md:mb-0">

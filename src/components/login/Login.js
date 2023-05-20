@@ -14,20 +14,39 @@ function Login() {
   const [searchTerm, setSearchTerm] = useState("");
   const PAGE_SIZE = 10;
   const [currentPage, setCurrentPage] = useState(1);
+  const [error, setError] = useState("");
+  const [errorFlag, setErrorFlag] = useState(false);
 
   const onClickHandle = async (e) => {
     e.preventDefault();
-    const res = await axios.post("http://localhost:5050/api/login", {
-      username: username,
-      password: password,
-    });
-    localStorage.setItem("refreshToken", res.headers["auth-token-refresh"]);
-    localStorage.setItem("accessToken", res.headers["auth-token-access"]);
-    localStorage.setItem("user", JSON.stringify(res.data));
-    setUser(res.data);
-    setAccessToken(res.headers["auth-token-access"]);
-    setRefreshToken(res.headers["auth-token-refresh"]);
+    try {
+      const res = await axios.post("http://localhost:5050/api/login", {
+        username: username,
+        password: password,
+      });
+  
+      if (res.status === 200) {
+        localStorage.setItem("refreshToken", res.headers["auth-token-refresh"]);
+        localStorage.setItem("accessToken", res.headers["auth-token-access"]);
+        localStorage.setItem("user", JSON.stringify(res.data));
+        setUser(res.data);
+        setAccessToken(res.headers["auth-token-access"]);
+        setRefreshToken(res.headers["auth-token-refresh"]);
+        setError(null);
+        window.location.href = "/expenses";
+      } else if (res.status === 401) {
+        setError("Invalid username or password");
+        setErrorFlag(true);
+      } else if (res.status === 402) {
+        setError("Invalid password");
+        setErrorFlag(true);
+      }
+    } catch (error) {
+      setError("An error occurred. Please try again.");
+      setErrorFlag(true);
+    }
   };
+  
 
   useEffect(() => {
     const savedRefreshToken = localStorage.getItem("refreshToken");
@@ -57,6 +76,7 @@ function Login() {
               <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                 Sign in to your account
               </h1>
+              <h3 className={`text-red-500 ${errorFlag ? "" : "hidden"}`}>{error}</h3>
               <form className="space-y-4 md:space-y-6" onSubmit={onClickHandle}>
                 <div>
                   <label

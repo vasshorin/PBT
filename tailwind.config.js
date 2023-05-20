@@ -16,6 +16,7 @@ module.exports = {
       'custom-red-color': '#d5836b',
       'custom-color-dark': '#9fcfb9',
       'custom-grey-color': '#9d9789',
+      'custom-exit-color': '#d84537',
     },
   },
   plugins: [],
