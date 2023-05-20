@@ -54,18 +54,10 @@ const Categories = ({ refreshToken, user }) => {
             <h2 className="text-xl font-bold">Spending Categories</h2>
             <div className="flex items-center">
               <button
-                className="text-white font-bold py-2 px-4 ml-4 rounded-full mr-2 focus:outline-none focus:shadow-outline"
-                title="Add category"
-              // onClick={handleAddCategory}
-              >
-                <i class="ri-add-line"></i>
-              </button>
-              <button
-                className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline"
+                className="bg-custom-grey-color hover:bg-gray-700 text-white font-bold py-2 px-4 mr-4 rounded-full focus:outline-none focus:shadow-outline"
                 title="Tool"
                 onClick={() => setToolDisplayPressed(!toolDisplayPressed)}
               >
-                {/* <i class="ri-tools-line"></i> */}
                 Edit
               </button>
             </div>
@@ -90,11 +82,10 @@ const Categories = ({ refreshToken, user }) => {
                   onChange={(e) => setCategoryBudget(e.target.value)}
                 />
                 <button
-                  className={`bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full ml-2 focus:outline-none focus:shadow-outline`}
+                  className={`bg-custom-green-color hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full ml-2 focus:outline-none focus:shadow-outline`}
                   title="Add category"
                   onClick={handleAddCategory}
                 >
-                  <i class="ri-add-line"></i>
                   Add
                 </button>
               </div>
