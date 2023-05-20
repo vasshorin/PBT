@@ -3,6 +3,7 @@ import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import About from '../about/About';
 import PrivacyPolicy from '../policy/PrivacyPolicy';
 import LicensingPage from '../licensing/LincensingPage';
+import ContactPage from '../contact/Contact';
 
 const Footer = () => {
   return (
@@ -21,7 +22,7 @@ const Footer = () => {
             <Link to="/licensing" class="mr-4 hover:underline md:mr-6">Licensing</Link>
         </li>
         <li>
-            <a href="#" class="hover:underline">Contact</a>
+            <Link to="/contact" class="mr-4 hover:underline md:mr-6">Contact</Link>
         </li>
     </ul>
 </footer>
@@ -30,10 +31,7 @@ const Footer = () => {
         <Route path="/about" element={<About />} />
         <Route path='/privacy' element={<PrivacyPolicy />} />
         <Route path="/licensing" element={<LicensingPage />} />
-        {/* <Route path="/register" element={<Register />} /> */}
-        {/* <Route path="/expenses" element={<Expenses />} /> */}
-        {/* <Route path="/wallet" element={<Wallet />} /> */}
-        {/* <Route path='/cabinet' element={<Cabinet />} /> */}
+        <Route path="/contact" element={<ContactPage />} />
       </Routes>
 </>
   )
