@@ -18,7 +18,7 @@ const Main = () => {
                 <div className="mt-12">
                   <a
                     href="#"
-                    className="bg-custom-blue-color text-white font-semibold px-6 py-4 rounded shadow"
+                    className="bg-custom-blue-color hover:bg-custom-blue-color-dark text-white font-semibold px-6 py-4 rounded shadow"
                   >
                     Get Started
                   </a>
@@ -101,7 +101,7 @@ const Main = () => {
 
                   <div className="text-center mt-6">
                     <button
-                      className="bg-custom-blue-color text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                      className="bg-custom-blue-color hover:bg-custom-blue-color-dark text-white active:bg-custom-blue-color-dark font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                       type="button"
                     >
                       Create Account
@@ -245,7 +245,7 @@ const Main = () => {
         </ul>
         <div className="px-6 py-4">
           <button
-            className="block w-full bg-custom-blue-color hover:bg-indigo-600 text-white font-semibold rounded-lg px-4 py-3"
+            className="block w-full bg-custom-blue-color hover:bg-custom-blue-color-dark text-white font-semibold rounded-lg px-4 py-3"
           >
             Get Started
           </button>
@@ -299,7 +299,7 @@ const Main = () => {
         </ul>
         <div className="px-6 py-4">
           <button
-            className="block w-full bg-custom-blue-color  hover:bg-indigo-600 text-white font-semibold rounded-lg px-4 py-3"
+            className="block w-full bg-custom-blue-color  hover:bg-custom-blue-color-dark text-white font-semibold rounded-lg px-4 py-3"
           >
             Get Started
           </button>
@@ -350,7 +350,7 @@ const Main = () => {
           </p>
         </div>
         <div className="flex items-center mt-6 lg:mt-0">
-          <button className="block w-full bg-custom-blue-color  hover:bg-indigo-600 text-white font-semibold rounded-lg px-4 py-3">
+          <button className="block w-full bg-custom-blue-color  hover:bg-custom-blue-color-dark text-white font-semibold rounded-lg px-4 py-3">
             Contact Us
           </button>
         </div>
@@ -434,7 +434,7 @@ const Main = () => {
           </p>
         </div>
         <div className="flex items-center mt-6 lg:mt-0">
-          <button className="block w-full bg-custom-blue-color  hover:bg-indigo-600 text-white font-semibold rounded-lg px-4 py-3">
+          <button className="block w-full bg-custom-blue-color  hover:bg-custom-blue-color-dark text-white font-semibold rounded-lg px-4 py-3">
             Contact Us
           </button>
         </div>

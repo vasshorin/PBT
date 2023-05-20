@@ -80,7 +80,7 @@ function Cabinet() {
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
   };
-  
+
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   };
@@ -114,7 +114,7 @@ function Cabinet() {
           />
           <button
             type="button"
-            className="bg-custom-blue-color hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="bg-custom-blue-color hover:bg-custom-blue-color-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             onClick={updateUserName}
           >
             Update Username
@@ -135,7 +135,7 @@ function Cabinet() {
           />
                     <button
             type="button"
-            className="bg-custom-blue-color hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="bg-custom-blue-color hover:bg-custom-blue-color-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             onClick={updateUserPassword}
           >
             Update Password
