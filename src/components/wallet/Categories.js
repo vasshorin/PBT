@@ -62,10 +62,10 @@ const Categories = ({ refreshToken, user }) => {
               </button>
             </div>
           </div>
-          <div className={`flex flex-col md:flex-row mb-8`}>
+          <div className="flex flex-col md:flex-row mb-8">
             <div className="flex flex-col md:mr-4 mb-4 md:mb-0">
               <div className="flex flex-row items-center mb-4">
-                <label htmlFor="category-name" className={`mr-2 text-gray-700 text-sm font-bold`}>Name:</label>
+                <label htmlFor="category-name" className="mr-2 text-gray-700 text-sm font-bold">Name:</label>
                 <input
                   className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2`}
                   type="text"
