@@ -79,14 +79,7 @@ const Accounts = ({ refreshToken, user }) => {
         <h2 className="text-xl font-bold">Your bank  accounts</h2>
         <div className="flex items-center">
           <button
-            className="text-white font-bold py-2 px-4 ml-4 rounded-full mr-2 focus:outline-none focus:shadow-outline"
-            title="Add credit card"
-            onClick={handleAddAccount}
-          >
-            <i class="ri-add-circle-line"></i>
-          </button>
-          <button
-            className="bg-custom-grey-color hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline"
+            className="bg-custom-grey-color hover:bg-gray-700 text-white font-bold py-2 px-4 mr-6 rounded-full focus:outline-none focus:shadow-outline"
             title="Tool"
             onClick={() => setToolDisplayPressed(!toolDisplayPressed)}
           >
