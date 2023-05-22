@@ -10,7 +10,7 @@ const AccountsExp = ({refreshToken}) => {
   // Get the list of accounts from the user db that's the same as the user that's logged in
   useEffect(() => {
     const handleGetAccounts = async () => {
-      const res = await axios.get('http://localhost:5050/api/getAccounts', {
+      const res = await axios.get('https://crabby-plum-getup.cyclic.app/api/getAccounts', {
         headers: {
           'auth-token-refresh': refreshToken,
         },

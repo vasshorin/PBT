@@ -197,6 +197,16 @@ const Navbar = () => {
           </div>
         </nav>
       </header>
+
+      <Routes>
+        <Route path="/main" element={<Main />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/expenses" element={<Expenses />} />
+        <Route path="/wallet" element={<Wallet />} />
+        <Route path='/cabinet' element={<Cabinet />} />
+      </Routes>
     </div>
   );
 };
