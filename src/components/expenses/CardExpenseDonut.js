@@ -12,7 +12,7 @@ const CardsExpenses = ({ refreshToken }) => {
 
   useEffect(() => {
     const handleGetCreditCards = async () => {
-      const res = await axios.get('http://localhost:5050/api/getCreditCards', {
+      const res = await axios.get('https://crabby-plum-getup.cyclic.app/api/getCreditCards', {
         headers: {
           'auth-token-refresh': refreshToken,
         },

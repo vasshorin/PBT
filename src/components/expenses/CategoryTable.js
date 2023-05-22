@@ -6,7 +6,7 @@ const CategoryTable = ({ refreshToken, newExpenses1 }) => {
 
   useEffect(() => {
     const handleGetCategories = async () => {
-      const res = await axios.get('http://localhost:5050/api/getCategories', {
+      const res = await axios.get('https://crabby-plum-getup.cyclic.app/api/getCategories', {
         headers: {
           'auth-token-refresh': refreshToken,
         },

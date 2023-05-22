@@ -27,7 +27,7 @@ const Expenses = () => {
         window.location.href = '/login';
       }
   
-      const response = await axios.get(`http://localhost:5050/api/transactions`, {
+      const response = await axios.get(`https://crabby-plum-getup.cyclic.app/api/transactions`, {
         headers: {
           'auth-token-refresh': token,
           'auth-token-access': aToken
@@ -44,7 +44,7 @@ const Expenses = () => {
           let accountData = {};
   
           const responseGetCategory = await axios.get(
-            `http://localhost:5050/api/getCategory/${transaction.categories}`,
+            `https://crabby-plum-getup.cyclic.app/api/getCategory/${transaction.categories}`,
             {
               headers: { 'auth-token-refresh': token },
             }
@@ -53,7 +53,7 @@ const Expenses = () => {
           const category = responseGetCategory.data.category;
           if (transaction.accountType === 'bank') {
             const responseGetAccount = await axios.get(
-              `http://localhost:5050/api/getAccount/${transaction.account}`,
+              `https://crabby-plum-getup.cyclic.app/api/getAccount/${transaction.account}`,
               {
                 headers: { 'auth-token-refresh': token },
               }
@@ -62,7 +62,7 @@ const Expenses = () => {
             accountData = { accountName: account.name, accountBalance: account.balance };
           } else if (transaction.accountType === 'credit') {
             const responseGetCreditCard = await axios.get(
-              `http://localhost:5050/api/getCreditCard/${transaction.credit}`,
+              `https://crabby-plum-getup.cyclic.app/api/getCreditCard/${transaction.credit}`,
               {
                 headers: { 'auth-token-refresh': token },
               }

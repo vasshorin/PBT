@@ -26,7 +26,7 @@ const Accounts = ({ refreshToken, user }) => {
   // Get the list of accounts from the user db that's the same as the user that's logged in
   useEffect(() => {
     const handleGetAccounts = async () => {
-      const res = await axios.get('http://localhost:5050/api/getAccounts', {
+      const res = await axios.get('https://crabby-plum-getup.cyclic.app/api/getAccounts', {
         headers: {
           'auth-token-refresh': refreshToken,
         },
@@ -39,7 +39,7 @@ const Accounts = ({ refreshToken, user }) => {
 
 
   const handleAddAccount = async () => {
-    const res = await axios.post('http://localhost:5050/api/newAccount', {
+    const res = await axios.post('https://crabby-plum-getup.cyclic.app/api/newAccount', {
       name: accountName,
       balance: accountBalance,
     }, {
@@ -55,7 +55,7 @@ const Accounts = ({ refreshToken, user }) => {
 
 
   const handleRemoveAccount = async (accountId) => {
-    const res = await axios.delete(`http://localhost:5050/api/deleteAccount/${accountId}`, {
+    const res = await axios.delete(`https://crabby-plum-getup.cyclic.app/api/deleteAccount/${accountId}`, {
       headers: {
         'auth-token-refresh': refreshToken,
       },
@@ -64,7 +64,7 @@ const Accounts = ({ refreshToken, user }) => {
   };
 
   const handleUpdateAccount = async (accountId) => {
-    const res = await axios.put(`http://localhost:5050/api/updateAccount/${accountId}`, {
+    const res = await axios.put(`https://crabby-plum-getup.cyclic.app/api/updateAccount/${accountId}`, {
       name: accountName,
       balance: accountBalance,
     }, {
