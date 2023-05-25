@@ -1,8 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
-import { useState } from "react";
-// import logo from '../../assets/images/logo.png'
+import { Link, useNavigate } from "react-router-dom";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -16,6 +14,7 @@ function Login() {
   const [currentPage, setCurrentPage] = useState(1);
   const [error, setError] = useState("");
   const [errorFlag, setErrorFlag] = useState(false);
+  const navigate = useNavigate();
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -24,7 +23,7 @@ function Login() {
         username: username,
         password: password,
       });
-  
+
       if (res.status === 200) {
         localStorage.setItem("refreshToken", res.headers["auth-token-refresh"]);
         localStorage.setItem("accessToken", res.headers["auth-token-access"]);
@@ -33,7 +32,8 @@ function Login() {
         setAccessToken(res.headers["auth-token-access"]);
         setRefreshToken(res.headers["auth-token-refresh"]);
         setError(null);
-        window.location.href = "/expenses";
+        // Redirect to cabinet
+        navigate("/wallet");
       } else if (res.status === 401) {
         setError("Invalid username or password");
         setErrorFlag(true);
@@ -46,7 +46,6 @@ function Login() {
       setErrorFlag(true);
     }
   };
-  
 
   useEffect(() => {
     const savedRefreshToken = localStorage.getItem("refreshToken");
@@ -69,6 +68,7 @@ function Login() {
           </p>
         </div>
         <form onSubmit={onSubmit} className="mx-auto mb-0 mt-8 max-w-md space-y-4">
+          {errorFlag && <p className="text-red-500 text-center">{error}</p>}
           <div>
             <label htmlFor="username" className="sr-only">
               Username
