@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function Cabinet() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch user data from API here
     const refreshToken = localStorage.getItem("refreshToken");
     if (!refreshToken) {
       // Redirect to login
-      return;
+      navigate("/login");
     }
 
     const fetchUser = async () => {

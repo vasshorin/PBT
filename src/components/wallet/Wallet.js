@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import CreditsCards from './CreditsCards';
 import Accounts from './Accounts';
 import Categories from './Categories';
@@ -8,6 +9,7 @@ const Wallet = () => {
   const [refreshToken, setRefreshToken] = useState('');
   const [accessToken, setAccessToken] = useState('');
   const [user, setUser] = useState({});
+  const navigate = useNavigate();
 
 
   useEffect(() => {
@@ -22,7 +24,7 @@ const Wallet = () => {
     }
 
     if(!savedRefreshToken || !savedUser || !savedAccessToken) {
-      window.location.href = '/login';
+      navigate('/login');
     }
   }, []);
 
@@ -30,7 +32,7 @@ const Wallet = () => {
     localStorage.removeItem('user');
     localStorage.removeItem('refreshToken');
     window.location.reload();
-    window.location.href = '/login';
+    navigate('/login');
   };
 
  

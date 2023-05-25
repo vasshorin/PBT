@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
-import Expenses from '../expenses/Expenses';
-import Login from '../login/Login';
-import Register from '../register/Register';
-import Main from '../main/Main';
-import About from '../about/About';
-import Wallet from '../wallet/Wallet';
-import Cabinet from '../cabinet/Cabinet';
 
 const Navbar = () => {
   const [refreshToken, setRefreshToken] = useState('');
@@ -60,7 +53,7 @@ const Navbar = () => {
       <header>
         <nav className="bg-custom-red-color border-gray-200 px-4 lg:px-6 py-2.5 mb-4 dark:bg-gray-800">
           <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
-            <Link to="/main" className="flex items-center">
+            <Link to="/" className="flex items-center">
               <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
                 PBT
               </span>
@@ -134,9 +127,9 @@ const Navbar = () => {
               <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
                 <li>
                   <Link
-                    to="/main"
+                    to="/"
                     className={`block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 ${
-                      location.pathname === '/main'
+                      location.pathname === '/'
                         ? 'lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700'
                         : 'lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700'
                     }`}
@@ -198,15 +191,6 @@ const Navbar = () => {
         </nav>
       </header>
 
-      <Routes>
-        <Route path="/main" element={<Main />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/expenses" element={<Expenses />} />
-        <Route path="/wallet" element={<Wallet />} />
-        <Route path='/cabinet' element={<Cabinet />} />
-      </Routes>
     </div>
   );
 };

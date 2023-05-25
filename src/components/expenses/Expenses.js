@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import CreateNewExpense from './CreateNewExpense';
 import BarPlot from './BarPlot';
 import axios from 'axios';
@@ -16,6 +17,7 @@ const Expenses = () => {
   const [refreshedCreditCardData, setRefreshedCreditCardData] = useState(false);
   const [rerenderTable, setRerenderTable] = useState(false);
   const [newExpenses1, setNewExpenses1] = useState([]);
+  const navigate = useNavigate();
 
 
 
@@ -24,7 +26,7 @@ const Expenses = () => {
       const token = localStorage.getItem('refreshToken');
       const aToken = localStorage.getItem('accessToken');
       if(!token || !aToken) {
-        window.location.href = '/login';
+        navigate('/login');
       }
   
       const response = await axios.get(`https://crabby-plum-getup.cyclic.app/api/transactions`, {
