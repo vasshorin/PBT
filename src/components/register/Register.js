@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -16,7 +17,7 @@ const Register = () => {
         password: password,
       });
       // Redirect to login page
-      window.location.href = "/login";
+      navigate("/login");
     } catch (error) {
       console.log(error);
     }
