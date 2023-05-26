@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Main = () => {
@@ -7,6 +7,7 @@ const Main = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [agreed, setAgreed] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -19,7 +20,7 @@ const Main = () => {
 
     });
     // redirect to login page
-    window.location.href = "/login";
+    navigate('/login');
 
   }
   return (
@@ -37,12 +38,12 @@ const Main = () => {
                   Take control of your finances with our powerful money management tools. Our platform provides a comprehensive solution for budgeting, tracking expenses, and saving money. Say goodbye to financial stress and start achieving your financial goals today.
                 </p>
                 <div className="mt-12">
-                  <Link
+                  {/* <Link
                     to="/register"
                     className="bg-custom-blue-color hover:bg-custom-blue-color-dark text-white font-semibold px-6 py-4 rounded shadow"
                   >
                     Get Started
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
             </div>
@@ -124,7 +125,6 @@ const Main = () => {
                           <Link
                             to="/privacy"
                             className="text-blue-500 dark:text-blue-300"
-                            onClick={(e) => e.preventDefault()}
                           >
                             Privacy Policy
                           </Link>
@@ -272,11 +272,17 @@ const Main = () => {
                       </li>
                     </ul>
                     <div className="px-6 py-4">
-                      <button
-                        className="block w-full bg-custom-blue-color hover:bg-custom-blue-color-dark text-white font-semibold rounded-lg px-4 py-3"
+
+                      <Link
+                        to="/register"
+                        className=""
                       >
-                        Get Started
-                      </button>
+                        <button
+                          className="block w-full bg-custom-blue-color hover:bg-custom-blue-color-dark text-white font-semibold rounded-lg px-4 py-3"
+                        >
+                          Get Started
+                        </button>
+                      </Link>
                     </div>
                   </div>
                   <div className="max-w-xs bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden mt-8 lg:mt-0 lg:ml-8 mx-auto lg:mx-0">
@@ -338,11 +344,17 @@ const Main = () => {
                       </li>
                     </ul>
                     <div className="px-6 py-4">
-                      <button
-                        className="block w-full bg-custom-blue-color hover:bg-custom-blue-color-dark text-white font-semibold rounded-lg px-4 py-3"
+
+                      <Link
+                        to="/register"
+                        className=""
                       >
-                        Get Started
-                      </button>
+                        <button
+                          className="block w-full bg-custom-blue-color hover:bg-custom-blue-color-dark text-white font-semibold rounded-lg px-4 py-3"
+                        >
+                          Get Started
+                        </button>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -360,9 +372,14 @@ const Main = () => {
                       </p>
                     </div>
                     <div className="flex items-center mt-6 lg:mt-0">
-                      <button className="block w-full bg-custom-blue-color  hover:bg-custom-blue-color-dark text-white font-semibold rounded-lg px-4 py-3">
+                    <Link
+                        to="/contact"
+                        className=""
+                      >
+                          <button className="block w-full bg-custom-blue-color  hover:bg-custom-blue-color-dark text-white font-semibold rounded-lg px-4 py-3">
                         Contact Us
                       </button>
+                      </Link>
                     </div>
                   </div>
                   <div className="flex flex-col lg:flex-row mt-8">
@@ -444,9 +461,17 @@ const Main = () => {
                       </p>
                     </div>
                     <div className="flex items-center mt-6 lg:mt-0">
-                      <button className="block w-full bg-custom-blue-color  hover:bg-custom-blue-color-dark text-white font-semibold rounded-lg px-4 py-3">
+
+
+                      <Link
+                        to="/contact"
+                        className=""
+                      >
+                          <button className="block w-full bg-custom-blue-color  hover:bg-custom-blue-color-dark text-white font-semibold rounded-lg px-4 py-3">
                         Contact Us
                       </button>
+                      </Link>
+                    
                     </div>
                   </div>
                 </div>
