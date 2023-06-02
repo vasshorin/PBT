@@ -78,7 +78,7 @@ const PaymentCalculator = () => {
 
   return (
     <>
-     <div className="flex flex-col items-center p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
+     <div className="flex flex-col items-center p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow xl:p-8">
   <div className="w-full md:w-1/2">
     <div className="flex flex-col md:ml-4">
       <h3 className="text-lg font-bold mb-2">Credit Card Payment Calculator</h3>

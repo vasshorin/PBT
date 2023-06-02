@@ -298,7 +298,7 @@ const ExpenseTable = ({ expenses, deleteTransaction, rerenderTable, newExpenses1
   
                 </div>
                 <table className="min-w-full text-left text-sm font-light shadow-lg rounded-lg">
-                  <thead className="border-b font-medium dark:border-neutral-500">
+                  <thead className="border-b font-medium">
                     <tr className="bg-custom-brown-color">
                       <th className="px-8 py-6 cursor-pointer">
                         <div className="flex items-center justify-between" onClick={sortExpensesByDate}>
@@ -346,12 +346,12 @@ const ExpenseTable = ({ expenses, deleteTransaction, rerenderTable, newExpenses1
                       
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-neutral-100 dark:divide-neutral-500">
+                  <tbody className="divide-y divide-neutral-100">
                     {currentExpenses.map((expense) => (
                       // console.log(expense),
                       <tr
                         key={expense._id}
-                        className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600"
+                        className="border-b transition duration-300 ease-in-out hover:bg-neutral-100"
                         onClick={() => onExpenseSelected(expense)}
                       >
                         {/* <td className="whitespace-nowrap px-6 py-2 font-medium">{expense.formattedDate}</td> */}
@@ -388,7 +388,7 @@ const ExpenseTable = ({ expenses, deleteTransaction, rerenderTable, newExpenses1
         </div>
       ) : (
         <table className="min-w-full text-left text-sm font-light shadow-lg rounded-lg">
-        <thead className="border-b font-medium dark:border-neutral-500">
+        <thead className="border-b font-medium">
           <tr className="bg-custom-brown-color">
             <th className="px-8 py-6 cursor-pointer">
               <div className="flex items-center justify-between" onClick={sortExpensesByDate}>

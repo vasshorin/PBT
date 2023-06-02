@@ -55,7 +55,7 @@ const Accounts = ({ refreshToken, user }) => {
 
 
   const handleRemoveAccount = async (accountId) => {
-    const res = await axios.delete(`https://crabby-plum-getup.cyclic.app/api/deleteAccount/${accountId}`, {
+    await axios.delete(`https://crabby-plum-getup.cyclic.app/api/deleteAccount/${accountId}`, {
       headers: {
         'auth-token-refresh': refreshToken,
       },
@@ -89,7 +89,7 @@ const Accounts = ({ refreshToken, user }) => {
   };
 
   return (
-    <div class="flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
+    <div class="flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow">
       <div className="flex justify-between items-center mb-2">
         <h2 className="text-xl font-bold">Your bank accounts</h2>
         <div className="flex items-center">

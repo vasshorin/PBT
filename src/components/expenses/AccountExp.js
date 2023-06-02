@@ -27,7 +27,7 @@ const AccountsExp = ({refreshToken}) => {
      {accounts.length > 0 ? (
       
       <table className="min-w-full text-left text-sm font-light shadow-lg rounded-lg">
-      <thead className="border-b font-medium dark:border-neutral-500">
+      <thead className="border-b font-medium">
             <tr className='bg-custom-brown-color'>
                 <th className="px-6 py-4 text-left">Account Name</th>
                 <th className="px-6 py-4 text-left">Balance</th>
@@ -35,7 +35,7 @@ const AccountsExp = ({refreshToken}) => {
             </thead>
             <tbody>
               {accounts.map((account) => (
-                <tr key={account._id} class="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600">
+                <tr key={account._id} class="border-b transition duration-300 ease-in-out hover:bg-neutral-100">
                   <td className=" px-6 py-4">{account.name}</td>
                   <td className=" px-6 py-4">{`$${account.balance}`}</td>
                 </tr>

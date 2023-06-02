@@ -22,7 +22,7 @@ const CardsExpenses = ({refreshToken}) => {
     {creditCards.length > 0 ? (
     <div className="overflow-x-auto">
        <table className="min-w-full text-left text-sm font-light shadow-lg rounded-lg">
-            <thead className="border-b font-medium dark:border-neutral-500">
+            <thead className="border-b font-medium">
             <tr className='bg-custom-brown-color'>
                     <th className="px-6 py-4">Credit Card</th>
                     <th className="px-6 py-4">Balance</th>
@@ -33,7 +33,7 @@ const CardsExpenses = ({refreshToken}) => {
             </thead>
             <tbody>
                 {creditCards.map((creditCard) => (
-                    <tr key={creditCard._id} class="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600">
+                    <tr key={creditCard._id} class="border-b transition duration-300 ease-in-out hover:bg-neutral-100">
                         <td className="whitespace-nowrap px-6 py-4">{creditCard.name}</td>
                         <td className="whitespace-nowrap px-6 py-4">{`$${creditCard.currentBalance.toLocaleString()}`}</td>
                         <td className="whitespace-nowrap px-6 py-4">{`$${creditCard.creditLimit.toLocaleString()}`}</td>

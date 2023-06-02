@@ -26,7 +26,7 @@ const Wallet = () => {
     if(!savedRefreshToken || !savedUser || !savedAccessToken) {
       navigate('/login');
     }
-  }, []);
+  }, [refreshToken]);
 
   const onLogout = () => {
     localStorage.removeItem('user');
