@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import image from '../../assets/images/stress.svg';
+import cc from '../../assets/images/credit-card.svg';
 
 const Main = () => {
   const [username, setUsername] = useState('');
@@ -37,7 +39,6 @@ const Main = () => {
                 <p className="mt-4 text-lg leading-relaxed text-gray-600">
                   Take control of your finances with our powerful money management tools. Our platform provides a comprehensive solution for budgeting, tracking expenses, and saving money. Say goodbye to financial stress and start achieving your financial goals today.
                 </p>
-                <div className="mt-12">
                   {/* <Link
                     to="/register"
                     className="bg-custom-blue-color hover:bg-custom-blue-color-dark text-white font-semibold px-6 py-4 rounded shadow"
@@ -46,8 +47,7 @@ const Main = () => {
                   </Link> */}
                 </div>
               </div>
-            </div>
-            <div className="w-full md:w-6/12 mt-10 lg:w-6/12 xl:w-6/12 px-4">
+            {/* <div className="w-full md:w-6/12 mt-10 lg:w-6/12 xl:w-6/12 px-4">
               <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-300">
                 <div className="flex-auto p-5 lg:p-10">
                   <h4 className="text-2xl font-semibold">
@@ -143,22 +143,29 @@ const Main = () => {
                   </form>
                 </div>
               </div>
-            </div>
+            </div> */}
+                  <img
+                  src={image}
+                  alt="..."
+                  className="w-full mx-auto"
+                  style={{ maxWidth: '600px' }}
+                />
           </div>
         </div>
       </div>
+      
       {/* Features */}
       <section className="bg-white">
         <div className="container mx-auto px-4 py-10">
-          <div className="flex flex-wrap -mx-4">
+          <div className="flex flex-column -mx-4">
             {/* Card 1 */}
             <div className="md:w-1/3 px-4 mb-8">
               <div className="bg-gray-100 rounded-lg overflow-hidden shadow-lg">
                 <img
-                  src="https://images.pexels.com/photos/4386327/pexels-photo-4386327.jpeg"
-                  alt="Feature 1"
-                  className="w-full h-48 object-cover"
-                />
+                src={cc}
+                alt="Feature 1"
+                className="w-full h-64 object-cover object-center"
+              />
                 <div className="p-6">
                   <h2 className="text-lg font-medium mb-2">Tracking expenses</h2>
                   <p className="text-gray-600">
@@ -201,6 +208,9 @@ const Main = () => {
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* CTA */}
             <section className="bg-gray-50">
 
               <div className="max-w-6xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
@@ -478,7 +488,7 @@ const Main = () => {
               </div>
             </section>
           </div>
-        </div>
+        {/* </div> */}
       </section>
     </div>
   )
