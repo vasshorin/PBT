@@ -3,6 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import image from '../../assets/images/stress.svg';
 import cc from '../../assets/images/credit-card.svg';
+import main from '../../assets/images/homepage.png';
+import home from '../../assets/images/home1.png';
+import Features from './Features';
 
 const Main = () => {
   const [username, setUsername] = useState('');
@@ -33,18 +36,67 @@ const Main = () => {
           <div className="flex flex-wrap items-center">
             <div className="w-full md:w-6/12 lg:w-6/12 xl:w-6/12 px-4">
               <div className="pt-32 sm:pt-0">
-                <h2 className="font-semibold text-4xl text-gray-800">
-                  A better way to manage money.
-                </h2>
-                <p className="mt-4 text-lg leading-relaxed text-gray-600">
+              <h4 className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl sm:leading-10"> 
+                    A better way to send money
+                  </h4>
+                  <p className="mt-3 text-lg leading-7 text-gray-500">
                   Take control of your finances with our powerful money management tools. Our platform provides a comprehensive solution for budgeting, tracking expenses, and saving money. Say goodbye to financial stress and start achieving your financial goals today.
                 </p>
-                  {/* <Link
-                    to="/register"
-                    className="bg-custom-blue-color hover:bg-custom-blue-color-dark text-white font-semibold px-6 py-4 rounded shadow"
-                  >
-                    Get Started
-                  </Link> */}
+                {/* <ul className="mt-10">
+                    <li className="mt-10">
+                      <div className="flex">
+                        <div className="flex-shrink-0">
+                          <div className="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+                            <svg
+                              className="h-6 w-6"
+                              stroke="currentColor"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M5 13l4 4L19 7"
+                              />
+                            </svg>
+                          </div>
+                        </div>
+                        <div className="ml-4">
+                          <h5 className="text-lg leading-6 font-medium text-gray-900">
+                            Competitive exchange rates
+                          </h5>
+                          <p className="mt-2 text-base leading-6 text-gray-500">  
+                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque,
+                            iste dolor cupiditate blanditiis ratione.
+                          </p>
+                        </div>
+                      </div>
+                    </li>
+                    <li className="mt-10">
+                      <div className="flex">
+                        <div className="flex-shrink-0">
+                          <div className="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+                            <svg
+                              className="h-6 w-6"
+                              stroke="currentColor"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                              
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M5 13l4 4L19 7"
+                              />
+                            </svg>
+                          </div>
+                        </div>
+                        </div>
+                        </li>
+                        </ul> */}
                 </div>
               </div>
             {/* <div className="w-full md:w-6/12 mt-10 lg:w-6/12 xl:w-6/12 px-4">
@@ -153,62 +205,24 @@ const Main = () => {
           </div>
         </div>
       </div>
+
+          
+      <div className='bg-white py-10 px-10 w-full'>
+        <img
+          src={home}
+          alt='...'
+          className='w-full mx-auto'
+          style={{ maxWidth: '1280px' }}
+        />
+
+
+        </div>
       
       {/* Features */}
       <section className="bg-white">
+        <h1 className='text-4xl text-center font-bold py-10'>Features</h1>
         <div className="container mx-auto px-4 py-10">
-          <div className="flex flex-column -mx-4">
-            {/* Card 1 */}
-            <div className="md:w-1/3 px-4 mb-8">
-              <div className="bg-gray-100 rounded-lg overflow-hidden shadow-lg">
-                <img
-                src={cc}
-                alt="Feature 1"
-                className="w-full h-64 object-cover object-center"
-              />
-                <div className="p-6">
-                  <h2 className="text-lg font-medium mb-2">Tracking expenses</h2>
-                  <p className="text-gray-600">
-                    Keep a close eye on your expenses by using our powerful tracking tools. Easily categorize your expenses, set budgets, and analyze your spending patterns. Stay in control of your finances and make informed financial decisions.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Card 2 */}
-            <div className="md:w-1/3 px-4 mb-8">
-              <div className="bg-gray-100 rounded-lg overflow-hidden shadow-lg">
-                <img
-                  src="https://images.pexels.com/photos/53621/calculator-calculation-insurance-finance-53621.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                  alt="Feature 2"
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-6">
-                  <h2 className="text-lg font-medium mb-2">Payment calculator</h2>
-                  <p className="text-gray-600">
-                    Easily calculate your payments with our payment calculator. Whether you're planning to make a big purchase or considering a loan, our calculator helps you estimate your monthly payments, interest rates, and repayment schedules.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Card 3 */}
-            <div className="md:w-1/3 px-4 mb-8">
-              <div className="bg-gray-100 rounded-lg overflow-hidden shadow-lg">
-                <img
-                  src="https://images.pexels.com/photos/7054417/pexels-photo-7054417.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                  alt="Feature 3"
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-6">
-                  <h2 className="text-lg font-medium mb-2">Budget settings</h2>
-                  <p className="text-gray-600">
-                    Take control of your personal finances and empower yourself with the ability to create and effectively manage budgets. With our intuitive platform, you can easily establish spending limits for various categories and diligently monitor your progress. Our comprehensive budget management feature ensures that you remain on track and successfully attain your financial objectives.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+       <Features /> 
 
           {/* CTA */}
             <section className="bg-gray-50">
