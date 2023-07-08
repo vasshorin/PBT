@@ -11,15 +11,19 @@ const CardsExpenses = ({ refreshToken }) => {
 
 
   useEffect(() => {
-    const handleGetCreditCards = async () => {
-      const res = await axios.get('https://crabby-plum-getup.cyclic.app/api/getCreditCards', {
+    const fetchExpensesDonut = async () => {
+      try {
+        const res = await axios.get('https://crabby-plum-getup.cyclic.app/api/getCreditCards', {
         headers: {
           'auth-token-refresh': refreshToken,
         },
       });
       setCreditCards(res.data.creditCards);
+      } catch (err) {
+        console.log(err);
+      }      
     };
-    handleGetCreditCards();
+    fetchExpensesDonut();
   }, [refreshToken]);
 
 
