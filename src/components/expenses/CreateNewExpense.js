@@ -3,89 +3,54 @@ import axios from 'axios';
 import moment from 'moment';
 
 
-const CreateNewExpense = ({ onExpenseAdded }) => {
+const CreateNewExpense = ({ onExpenseAdded, refreshToken }) => {
   const [date, setDate] = useState('');
-  const [description, setdescription] = useState('');
+  const [description, setDescription] = useState('');
   const [amount, setAmount] = useState('');
-  const [categories, setcategories] = useState('');
-  const [accounts, setaccounts] = useState('');
-  const [creditCards, setcreditCards] = useState('');
-  const [account, setaccount] = useState('');
-  const [balance, setbalance] = useState('');
-  const [type, settype] = useState('');
-  const [refreshToken, setRefreshToken] = useState('');
   const [selectedAccount, setSelectedAccount] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [selectedCreditCard, setSelectedCreditCard] = useState(null);
-
-
-  useEffect(() => {
-    const savedUser = localStorage.getItem('user');
-    const savedRefreshToken = localStorage.getItem('refreshToken');
-    if (savedUser && savedRefreshToken) {
-      setRefreshToken(savedRefreshToken);
-    }
-  }, []);
+  const [type, setType] = useState('expense');
+  const [data, setData] = useState({
+    categories: [],
+    accounts: [],
+    creditCards: [],
+  });
 
   useEffect(() => {
-    const handleGetAccounts = async () => {
-      const res = await axios.get('https://crabby-plum-getup.cyclic.app/api/getAccounts', {
-        headers: {
+    const fetchData = async () => {
+      try {
+        const headers = {
           'auth-token-refresh': refreshToken,
-        },
-      });
-      console.log(res.data.accounts);
-      setaccounts(res.data.accounts);
+        };
+
+        const [categoriesResponse, accountsResponse, creditCardsResponse] = await Promise.all([
+          axios.get('https://crabby-plum-getup.cyclic.app/api/getCategories', { headers }),
+          axios.get('https://crabby-plum-getup.cyclic.app/api/getAccounts', { headers }),
+          axios.get('https://crabby-plum-getup.cyclic.app/api/getCreditCards', { headers }),
+        ]);
+
+        setData({
+          categories: categoriesResponse.data.categories,
+          accounts: accountsResponse.data.accounts,
+          creditCards: creditCardsResponse.data.creditCards,
+        });
+      } catch (error) {
+        console.error(error);
+      }
     };
 
-    const handleGetCategories = async () => {
-      const res = await axios.get('https://crabby-plum-getup.cyclic.app/api/getCategories', {
-        headers: {
-          'auth-token-refresh': refreshToken,
-        },
-      });
-      console.log(res.data.categories);
-      setcategories(res.data.categories);
-    };
-
-    const handleGetCreditCards = async () => {
-      const res = await axios.get('https://crabby-plum-getup.cyclic.app/api/getCreditCards', {
-        headers: {
-          'auth-token-refresh': refreshToken,
-        },
-      });
-      console.log(res.data.creditCards);
-      setcreditCards(res.data.creditCards);
-    };
-
-    handleGetCategories();
-    handleGetAccounts();
-    handleGetCreditCards();
+    fetchData();
   }, [refreshToken]);
 
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    const savedUser = localStorage.getItem('user');
-    if (!savedUser) {
-      // handle user not logged in
-      return;
-    }
-    if (!selectedAccount) {
-      // handle no account selected
-      return;
-    }
+  const calculateBalance = (account, type) => {
+    if (account.type === 'credit') {
+      const creditLimit = account.creditLimit;
+      const balance = account.currentBalance;
+      const availableCredit = account.availableCredit;
 
-    let newBalance;
-    let newCreditLimit;
-    let newAvailableCredit;
-    let newUtilization;
+      let newBalance, newAvailableCredit, newUtilization;
 
-    if (selectedAccount.type === 'credit') {
-      const creditLimit = selectedAccount.creditLimit;
-      const balance = selectedAccount.currentBalance;
-      const availableCredit = selectedAccount.availableCredit;
-      const utilization = selectedAccount.utilization;
       if (type === 'expense') {
         newAvailableCredit = availableCredit - Number(amount);
         newUtilization = ((creditLimit - newAvailableCredit) / creditLimit) * 100;
@@ -95,46 +60,69 @@ const CreateNewExpense = ({ onExpenseAdded }) => {
         newUtilization = ((creditLimit - newAvailableCredit) / creditLimit) * 100;
         newBalance = balance - Number(amount);
       }
-      newCreditLimit = creditLimit;
+
+      return {
+        newBalance,
+        newAvailableCredit,
+        newUtilization,
+        newCreditLimit: creditLimit,
+      };
     } else {
-      const balance = selectedAccount.balance;
-      newBalance = type === 'expense' ? balance - amount : balance + Number(amount);
+      const balance = account.balance;
+      const newBalance = type === 'expense' ? balance - amount : balance + Number(amount);
+      return {
+        newBalance,
+      };
     }
+  };
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const savedUser = localStorage.getItem('user');
+    if (!savedUser) {
+      return;
+    }
+    if (!selectedAccount) {
+      return;
+    }
+
+    const { newBalance, newAvailableCredit, newUtilization, newCreditLimit } = calculateBalance(
+      selectedAccount,
+      type
+    );
 
     let res;
     let transactionType;
+    const headers = { 'auth-token-refresh': refreshToken };
+
     if (selectedAccount.type === 'credit') {
-      res = await axios.put(`https://crabby-plum-getup.cyclic.app/api/updateCreditCardBalance/${selectedAccount._id}`, {
-        balance: newBalance,
-        availableCredit: newAvailableCredit,
-        utilization: newUtilization,
-      }, {
-        headers: {
-          'auth-token-refresh': refreshToken,
+      res = await axios.put(
+        `https://crabby-plum-getup.cyclic.app/api/updateCreditCardBalance/${selectedAccount._id}`,
+        {
+          balance: newBalance,
+          availableCredit: newAvailableCredit,
+          utilization: newUtilization,
         },
-      });
+        { headers }
+      );
+      transactionType = 'credit';
     } else {
-      res = await axios.put(`https://crabby-plum-getup.cyclic.app/api/updateAccountBalance/${selectedAccount._id}`, {
-        balance: newBalance,
-      }, {
-        headers: {
-          'auth-token-refresh': refreshToken,
-        },
-      });
+      res = await axios.put(
+        `https://crabby-plum-getup.cyclic.app/api/updateAccountBalance/${selectedAccount._id}`,
+        { balance: newBalance },
+        { headers }
+      );
+      transactionType = 'bank';
     }
 
-    // get the response from the server
     console.log(res);
     const userId = JSON.parse(savedUser)._id;
     let accountId = null;
     let creditCardId = null;
-    // let catId = selectedCategory._id;
     if (selectedAccount.type === 'bank') {
       accountId = selectedAccount._id;
-      transactionType = 'bank';
     } else if (selectedAccount.type === 'credit') {
       creditCardId = selectedAccount._id;
-      transactionType = 'credit';
     }
 
     let categoryId = null;
@@ -144,37 +132,34 @@ const CreateNewExpense = ({ onExpenseAdded }) => {
 
     const utcDate = moment.utc(date).format('YYYY-MM-DD');
 
-    const res2 = await axios.post('https://crabby-plum-getup.cyclic.app/api/newTransaction', {
-      userId: userId,
-      type: type,
-      amount: amount,
-      date: utcDate,
-      description: description,
-      categoryId: categoryId,
-      accountType: transactionType,
-      accId: accountId,
-      credId: creditCardId,
-    }, {
-      headers: {
-        'auth-token-refresh': refreshToken,
+    const res2 = await axios.post(
+      'https://crabby-plum-getup.cyclic.app/api/newTransaction',
+      {
+        userId,
+        type,
+        amount,
+        date: utcDate,
+        description,
+        categoryId,
+        accountType: transactionType,
+        accId: accountId,
+        credId: creditCardId,
       },
-    });
-
-
+      { headers }
+    );
 
     onExpenseAdded(res2.data.transaction);
-
-    // get the response from the server
     console.log(res2);
-    // clear the form
+
     setDate('');
-    setdescription('');
+    setDescription('');
     setAmount('');
     setSelectedAccount(null);
     setSelectedCategory(null);
-    settype('');
+    setType('');
   };
 
+  const { categories, accounts, creditCards } = data;
 
   return (
    <form className="w-full max-w-full bg-white shadow-lg rounded pt-4 pb-8 mb-10 border-t border-gray-200" onSubmit={onSubmit}>
@@ -202,7 +187,7 @@ const CreateNewExpense = ({ onExpenseAdded }) => {
         id="type"
         value={type}
         required
-        onChange={(e) => settype(e.target.value)}
+        onChange={(e) => setType(e.target.value)}
       >
         <option value="">Expense type</option>
         <option value="expense">Expense</option>
@@ -220,7 +205,7 @@ const CreateNewExpense = ({ onExpenseAdded }) => {
         placeholder="Enter description"
         value={description}
         required
-        onChange={(e) => setdescription(e.target.value)}
+        onChange={(e) => setDescription(e.target.value)}
       />
     </div>
     <div className="w-full sm:w-1/2 md:w-1/4 lg:w-1/6 mb-4">
