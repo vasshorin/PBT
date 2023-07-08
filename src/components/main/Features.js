@@ -58,6 +58,25 @@ const Features = () => {
               </div>
             </div>
           </div>
+
+          {/* <div className="md:w-1/3 px-4 mb-8">
+            <div className="bg-gray-100 rounded-lg overflow-hidden shadow-lg">
+              <img
+                src={f3}
+                alt="Feature 4"
+                className="w-full object-cover object-center"
+              />
+              <div className="p-6">
+                <h2 className="text-lg font-medium mb-2">Subscription calendar</h2>
+                <p className="text-gray-600">
+                  Keep track of your subscriptions and never miss a payment again. Our subscription calendar allows you to view all your upcoming payments in one place. You can also set reminders to ensure that you never miss a payment.
+                </p>
+              </div>
+            </div>
+          </div>
+           */}
+
+
     </>
   )
 
