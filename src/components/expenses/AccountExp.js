@@ -9,16 +9,21 @@ const AccountsExp = ({refreshToken}) => {
       
   // Get the list of accounts from the user db that's the same as the user that's logged in
   useEffect(() => {
-    const handleGetAccounts = async () => {
-      const res = await axios.get('https://crabby-plum-getup.cyclic.app/api/getAccounts', {
+    const fetchAccounts = async () => {
+      try {
+        const res = await axios.get('https://crabby-plum-getup.cyclic.app/api/getAccounts', {
         headers: {
           'auth-token-refresh': refreshToken,
         },
       });
       setAccounts(res.data.accounts);
+      } catch (error) {
+        console.error(error);
+      }
+    
     };
 
-    handleGetAccounts();
+    fetchAccounts();
   }, [refreshToken]);
 
 
@@ -43,7 +48,7 @@ const AccountsExp = ({refreshToken}) => {
             </tbody>
           </table>
         ) : (
-          <p>No accounts found</p>
+          <p className='text-center'>No accounts found</p>
         )}
     </>
     );
