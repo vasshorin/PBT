@@ -6,15 +6,20 @@ const CardsExpenses = ({refreshToken}) => {
 
     useEffect(() => {
         // Get the list of credit cards from the user db that's the same as the user that's logged in
-        const handleGetCreditCards = async () => {
-            const res = await axios.get('https://crabby-plum-getup.cyclic.app/api/getCreditCards', {
-                headers: {
-                    'auth-token-refresh': refreshToken,
-                },
-            });
-            setCreditCards(res.data.creditCards);
+        const fetchCreditCards = async () => {
+            try {
+                const res = await axios.get('https://crabby-plum-getup.cyclic.app/api/getCreditCards', {
+                    headers: {
+                        'auth-token-refresh': refreshToken,
+                    },
+                });
+                setCreditCards(res.data.creditCards);
+            } catch (error) {
+                console.error(error);
+            }
+           
         }
-        handleGetCreditCards();
+        fetchCreditCards();
     }, [refreshToken]);
 
   return (
@@ -45,7 +50,7 @@ const CardsExpenses = ({refreshToken}) => {
         </table>
     </div>
     ) : (
-        <p className="text-center"></p>
+        <p className="text-center">No credit cards available.</p>
     )}
 </>  
 
