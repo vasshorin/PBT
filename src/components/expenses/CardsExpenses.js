@@ -5,7 +5,6 @@ const CardsExpenses = ({refreshToken}) => {
     const [creditCards, setCreditCards] = useState([]);
 
     useEffect(() => {
-        // Get the list of credit cards from the user db that's the same as the user that's logged in
         const fetchCreditCards = async () => {
             try {
                 const res = await axios.get('http://localhost:5050/api/getCreditCards', {
@@ -17,7 +16,6 @@ const CardsExpenses = ({refreshToken}) => {
             } catch (error) {
                 console.error(error);
             }
-           
         }
         fetchCreditCards();
     }, [refreshToken]);
