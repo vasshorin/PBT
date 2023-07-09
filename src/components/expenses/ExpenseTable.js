@@ -26,7 +26,7 @@ const ExpenseTable = ({ expenses, deleteTransaction, rerenderTable, newExpenses1
     const fetchExpenses = async () => {
       const token = localStorage.getItem('refreshToken');
       const aToken = localStorage.getItem('accessToken');
-      const response = await axios.get(`https://crabby-plum-getup.cyclic.app/api/transactions`, {
+      const response = await axios.get(`http://localhost:5050/api/transactions`, {
         headers: {
           'auth-token-refresh': token,
           'auth-token-access': aToken
@@ -42,7 +42,7 @@ const ExpenseTable = ({ expenses, deleteTransaction, rerenderTable, newExpenses1
           let accountData = {};
 
           const responseGetCategory = await axios.get(
-            `https://crabby-plum-getup.cyclic.app/api/getCategory/${transaction.categories}`,
+            `http://localhost:5050/api/getCategory/${transaction.categories}`,
             {
               headers: { 'auth-token-refresh': token },
             }
@@ -51,7 +51,7 @@ const ExpenseTable = ({ expenses, deleteTransaction, rerenderTable, newExpenses1
           const category = responseGetCategory.data.category;
           if (transaction.accountType === 'bank') {
             const responseGetAccount = await axios.get(
-              `https://crabby-plum-getup.cyclic.app/api/getAccount/${transaction.account}`,
+              `http://localhost:5050/api/getAccount/${transaction.account}`,
               {
                 headers: { 'auth-token-refresh': token },
               }
@@ -60,7 +60,7 @@ const ExpenseTable = ({ expenses, deleteTransaction, rerenderTable, newExpenses1
             accountData = { accountName: account.name, accountBalance: account.balance };
           } else if (transaction.accountType === 'credit') {
             const responseGetCreditCard = await axios.get(
-              `https://crabby-plum-getup.cyclic.app/api/getCreditCard/${transaction.credit}`,
+              `http://localhost:5050/api/getCreditCard/${transaction.credit}`,
               {
                 headers: { 'auth-token-refresh': token },
               }
@@ -149,14 +149,14 @@ const ExpenseTable = ({ expenses, deleteTransaction, rerenderTable, newExpenses1
     try {
       const [savedUser, token] = [localStorage.getItem('user'), localStorage.getItem('refreshToken')];
       console.log("PASSED IN ID" + id)
-      const { data: transaction } = await axios.get(`https://crabby-plum-getup.cyclic.app/api/transactions/${id}`, {
+      const { data: transaction } = await axios.get(`http://localhost:5050/api/transactions/${id}`, {
         headers: { 'auth-token-refresh': token },
       });
 
       const transactionAccountType = transaction.transaction.accountType;
       const transactionAccount = transactionAccountType === 'bank' ? transaction.transaction.account : transaction.transaction.credit;
 
-      const { data: account } = await axios.get(`https://crabby-plum-getup.cyclic.app/api/get${transactionAccountType === 'bank' ? 'Account' : 'CreditCard'}/${transactionAccount}`, {
+      const { data: account } = await axios.get(`http://localhost:5050/api/get${transactionAccountType === 'bank' ? 'Account' : 'CreditCard'}/${transactionAccount}`, {
         headers: { 'auth-token-refresh': token },
       });
 
@@ -178,16 +178,16 @@ const ExpenseTable = ({ expenses, deleteTransaction, rerenderTable, newExpenses1
         const availableCredit = account.creditCard.availableCredit;
         const newAvailableCredit = transactionType === 'expense' ? availableCredit + transaction.transaction.amount : availableCredit - transaction.transaction.amount;
         const newUtilization = newAvailableCredit === 0 ? 1 : newBalance / newAvailableCredit;
-        await axios.put(`https://crabby-plum-getup.cyclic.app/api/updateCreditCardBalance/${transactionAccount}`, { balance: newBalance, availableCredit: newAvailableCredit, utilization: newUtilization }, {
+        await axios.put(`http://localhost:5050/api/updateCreditCardBalance/${transactionAccount}`, { balance: newBalance, availableCredit: newAvailableCredit, utilization: newUtilization }, {
           headers: { 'auth-token-refresh': token },
         });
       } else {
-        await axios.put(`https://crabby-plum-getup.cyclic.app/api/updateAccountBalance/${transactionAccount}`, { balance: newBalance }, {
+        await axios.put(`http://localhost:5050/api/updateAccountBalance/${transactionAccount}`, { balance: newBalance }, {
           headers: { 'auth-token-refresh': token },
         });
       }
 
-      const { data: deletedTransaction } = await axios.delete(`https://crabby-plum-getup.cyclic.app/api/transactions/${id}`, {
+      const { data: deletedTransaction } = await axios.delete(`http://localhost:5050/api/transactions/${id}`, {
         headers: { 'auth-token-refresh': token },
       });
 

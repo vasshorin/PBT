@@ -24,9 +24,9 @@ const CreateNewExpense = ({ onExpenseAdded, refreshToken }) => {
         };
 
         const [categoriesResponse, accountsResponse, creditCardsResponse] = await Promise.all([
-          axios.get('https://crabby-plum-getup.cyclic.app/api/getCategories', { headers }),
-          axios.get('https://crabby-plum-getup.cyclic.app/api/getAccounts', { headers }),
-          axios.get('https://crabby-plum-getup.cyclic.app/api/getCreditCards', { headers }),
+          axios.get('http://localhost:5050/api/getCategories', { headers }),
+          axios.get('http://localhost:5050/api/getAccounts', { headers }),
+          axios.get('http://localhost:5050/api/getCreditCards', { headers }),
         ]);
 
         setData({
@@ -97,7 +97,7 @@ const CreateNewExpense = ({ onExpenseAdded, refreshToken }) => {
 
     if (selectedAccount.type === 'credit') {
       res = await axios.put(
-        `https://crabby-plum-getup.cyclic.app/api/updateCreditCardBalance/${selectedAccount._id}`,
+        `http://localhost:5050/api/updateCreditCardBalance/${selectedAccount._id}`,
         {
           balance: newBalance,
           availableCredit: newAvailableCredit,
@@ -108,7 +108,7 @@ const CreateNewExpense = ({ onExpenseAdded, refreshToken }) => {
       transactionType = 'credit';
     } else {
       res = await axios.put(
-        `https://crabby-plum-getup.cyclic.app/api/updateAccountBalance/${selectedAccount._id}`,
+        `http://localhost:5050/api/updateAccountBalance/${selectedAccount._id}`,
         { balance: newBalance },
         { headers }
       );
@@ -133,7 +133,7 @@ const CreateNewExpense = ({ onExpenseAdded, refreshToken }) => {
     const utcDate = moment.utc(date).format('YYYY-MM-DD');
 
     const res2 = await axios.post(
-      'https://crabby-plum-getup.cyclic.app/api/newTransaction',
+      'http://localhost:5050/api/newTransaction',
       {
         userId,
         type,

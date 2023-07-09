@@ -24,7 +24,7 @@ const Categories = ({ refreshToken, user }) => {
     // Get the list of accounts from the user db that's the same as the user that's logged in
     useEffect(() => {
         const handleGetCategories = async () => {
-            const res = await axios.get('https://crabby-plum-getup.cyclic.app/api/getCategories', {
+            const res = await axios.get('http://localhost:5050/api/getCategories', {
                 headers: {
                     'auth-token-refresh': refreshToken,
                 },
@@ -39,7 +39,7 @@ const Categories = ({ refreshToken, user }) => {
     const handleAddCategory = async () => {
         console.log(categoryName);
         console.log(categoryBudget);
-        const res = await axios.post('https://crabby-plum-getup.cyclic.app/api/newCategory', {
+        const res = await axios.post('http://localhost:5050/api/newCategory', {
             name: categoryName,
             budget: categoryBudget,
         }, {
@@ -54,7 +54,7 @@ const Categories = ({ refreshToken, user }) => {
 
     // Remove category from the list of categories from the user db that's the same as the user that's logged in
     const handleRemoveCategory = async (categoryId) => {
-        const res = await axios.delete(`https://crabby-plum-getup.cyclic.app/api/deleteCategory/${categoryId}`, {
+        const res = await axios.delete(`http://localhost:5050/api/deleteCategory/${categoryId}`, {
             headers: {
                 'auth-token-refresh': refreshToken,
             },

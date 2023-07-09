@@ -8,7 +8,7 @@ const CardsExpenses = ({refreshToken}) => {
         // Get the list of credit cards from the user db that's the same as the user that's logged in
         const fetchCreditCards = async () => {
             try {
-                const res = await axios.get('https://crabby-plum-getup.cyclic.app/api/getCreditCards', {
+                const res = await axios.get('http://localhost:5050/api/getCreditCards', {
                     headers: {
                         'auth-token-refresh': refreshToken,
                     },

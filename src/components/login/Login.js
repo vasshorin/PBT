@@ -19,7 +19,7 @@ function Login() {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("https://crabby-plum-getup.cyclic.app/api/login", {
+      const res = await axios.post("http://localhost:5050/api/login", {
         username: username,
         password: password,
       });

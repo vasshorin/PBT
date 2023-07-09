@@ -18,7 +18,7 @@ const Main = () => {
     e.preventDefault();
 
     e.preventDefault();
-    const res = axios.post("https://crabby-plum-getup.cyclic.app/api/register", {
+    const res = axios.post("http://localhost:5050/api/register", {
       email: email,
       username: username,
       password: password,

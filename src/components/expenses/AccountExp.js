@@ -11,7 +11,7 @@ const AccountsExp = ({refreshToken}) => {
   useEffect(() => {
     const fetchAccounts = async () => {
       try {
-        const res = await axios.get('https://crabby-plum-getup.cyclic.app/api/getAccounts', {
+        const res = await axios.get('http://localhost:5050/api/getAccounts', {
         headers: {
           'auth-token-refresh': refreshToken,
         },
@@ -42,7 +42,7 @@ const AccountsExp = ({refreshToken}) => {
               {accounts.map((account) => (
                 <tr key={account._id} class="border-b transition duration-300 ease-in-out hover:bg-neutral-100">
                   <td className=" px-6 py-4">{account.name}</td>
-                  <td className=" px-6 py-4">{`$${account.balance}`}</td>
+                  <td className=" px-6 py-4">{`$${account.balance.toFixed(2)}`}</td>
                 </tr>
               ))}
             </tbody>

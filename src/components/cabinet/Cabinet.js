@@ -17,7 +17,7 @@ function Cabinet() {
     }
 
     const fetchUser = async () => {
-      const response = await axios.get("https://crabby-plum-getup.cyclic.app/api/user", {
+      const response = await axios.get("http://localhost:5050/api/user", {
         headers: {
           'auth-token-refresh': refreshToken,
         },
@@ -41,7 +41,7 @@ function Cabinet() {
     }
 
     const response = await axios.put(
-      "https://crabby-plum-getup.cyclic.app/api/updateUserName",
+      "http://localhost:5050/api/updateUserName",
       {
         username,
       },
@@ -61,7 +61,7 @@ function Cabinet() {
     const refreshToken = localStorage.getItem("refreshToken");
 
     const response = await axios.put(
-      "https://crabby-plum-getup.cyclic.app/api/updatePassword",
+      "http://localhost:5050/api/updatePassword",
       {
         password,
       },
