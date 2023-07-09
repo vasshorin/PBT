@@ -39,186 +39,23 @@ const Main = () => {
             <div className="w-full md:w-6/12 lg:w-6/12 xl:w-6/12 px-4">
               <div className="pt-32 sm:pt-0">
               <h4 className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl sm:leading-10"> 
-                    A better way to send money
+                    A better way to control money
                   </h4>
                   <p className="mt-3 text-lg leading-7 text-gray-500">
                   Take control of your finances with our powerful money management tools. Our platform provides a comprehensive solution for budgeting, tracking expenses, and saving money. Say goodbye to financial stress and start achieving your financial goals today.
                 </p>
-                {/* <ul className="mt-10">
-                    <li className="mt-10">
-                      <div className="flex">
-                        <div className="flex-shrink-0">
-                          <div className="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
-                            <svg
-                              className="h-6 w-6"
-                              stroke="currentColor"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M5 13l4 4L19 7"
-                              />
-                            </svg>
-                          </div>
-                        </div>
-                        <div className="ml-4">
-                          <h5 className="text-lg leading-6 font-medium text-gray-900">
-                            Competitive exchange rates
-                          </h5>
-                          <p className="mt-2 text-base leading-6 text-gray-500">  
-                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque,
-                            iste dolor cupiditate blanditiis ratione.
-                          </p>
-                        </div>
-                      </div>
-                    </li>
-                    <li className="mt-10">
-                      <div className="flex">
-                        <div className="flex-shrink-0">
-                          <div className="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
-                            <svg
-                              className="h-6 w-6"
-                              stroke="currentColor"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                              
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M5 13l4 4L19 7"
-                              />
-                            </svg>
-                          </div>
-                        </div>
-                        </div>
-                        </li>
-                        </ul> */}
                 </div>
               </div>
-            {/* <div className="w-full md:w-6/12 mt-10 lg:w-6/12 xl:w-6/12 px-4">
-              <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-300">
-                <div className="flex-auto p-5 lg:p-10">
-                  <h4 className="text-2xl font-semibold">
-                    Sign up for free
-                  </h4>
-                  <p className="leading-relaxed mt-1 mb-4 text-gray-600">
-                    Experience the benefits of our platform by signing up for a free account today. Get access to powerful financial tools that can help you track your expenses, create budgets, and achieve your financial goals. Join our community of smart money managers and take control of your finances.
-                  </p>
-                  <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
-                    <div>
-                      <label
-                        htmlFor="username"
-                        className="block uppercase text-gray-700 text-xs font-bold mb-2"
-                      >
-                        Username
-                      </label>
-                      <input
-                        type="text"
-                        id="username"
-                        className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
-                        placeholder="Full Name"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label
-                        htmlFor="email"
-                        className="block uppercase text-gray-700 text-xs font-bold mb-2"
-                      >
-                        Email
-                      </label>
-                      <input
-                        type="email"
-                        id="email"
-                        className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
-                        placeholder="Email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                      />
-                    </div>
-
-                    <div>
-                      <label
-                        htmlFor="password"
-                        className="block uppercase text-gray-700 text-xs font-bold mb-2"
-                      >
-                        Password
-                      </label>
-                      <input
-                        type="password"
-                        id="password"
-                        className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
-                        placeholder="Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                      />
-                    </div>
-
-                    <div>
-                      <label className="inline-flex items-center cursor-pointer">
-                        <input
-                          id="customCheckLogin"
-                          type="checkbox"
-                          className="form-checkbox text-blue-500 ml-1 w-5 h-5 ease-linear transition-all duration-150"
-                          checked={agreed}
-                          onChange={() => setAgreed(!agreed)}
-                          required
-                        />
-                        <span className="ml-2 text-sm font-semibold text-gray-700">
-                          I agree with the{' '}
-                          <Link
-                            to="/privacy"
-                            className="text-blue-500"
-                          >
-                            Privacy Policy
-                          </Link>
-                        </span>
-                      </label>
-                    </div>
-
-                    <div className="text-center mt-6">
-                      <button
-                        type="submit"
-                        className="bg-custom-blue-color hover:bg-custom-blue-color-dark text-white active:bg-custom-blue-color-dark font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                      >
-                        Create Account
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div> */}
                   <img
                   src={image}
                   alt="..."
-                  className="w-full mx-auto"
+                  className="w-full mx-auto skew-y-12"
                   style={{ maxWidth: '600px' }}
                 />
           </div>
         </div>
       </div>
 
-          
-      {/* <div className='bg-white py-10 px-10 w-full'>
-        <img
-          src={home}
-          alt='...'
-          className='w-full mx-auto'
-          style={{ maxWidth: '1280px' }}
-        />
-
-
-        </div> */}
       
       {/* Features */}
       <section className="bg-white">

@@ -1,12 +1,15 @@
 import React from 'react';
 import cc from '../../assets/images/creditcards.png';
-import { useParallaxController } from 'react-scroll-parallax';
 import expenses from '../../assets/images/expenses.png';
 import visuals from '../../assets/images/visuals.png';
 import categories from '../../assets/images/categories.png';
 
 const Features = () => {
-
+  // const parallaxConfig = useSpring({
+  //   from: { transform: 'translateY(100px)', opacity: 0 },
+  //   to: { transform: 'translateY(0)', opacity: 1 },
+  //   config: { tension: 20, friction: 10 },
+  // });
 
   return (
     <>
@@ -14,10 +17,10 @@ const Features = () => {
         {/* Expenses */}
         <div className="flex flex-row px-4 mb-8 items-center gap-10">
           <div className="w-1/2">
-            <img src={expenses} alt="Feature 1" className="w-full object-cover object-center" />
+            <img src={expenses} alt="Feature 1" className="w-full object-cover object-center"  />
           </div>
           <div className="p-6 w-1/2">
-            <h2 className="text-lg font-medium mb-2">Tracking expenses</h2>
+            <h2 className="text-xl font-bold mb-2">Tracking expenses</h2>
             <p className="text-gray-600">
               <ul className="list-disc list-inside">
                 <li className="text-gray-600">Keep a close eye on your expenses by using our powerful tracking tools.</li>
@@ -33,7 +36,7 @@ const Features = () => {
         {/* Credit Card */}
         <div className="flex flex-row px-4 mb-8 items-center gap-10">
           <div className="p-6 w-1/2">
-            <h2 className="text-lg font-medium mb-2">Credit Card Health</h2>
+            <h2 className="text-lg font-bold mb-2">Credit Card Health</h2>
             <p className="text-gray-600">
               <ul className="list-disc list-inside">
                 <li className="text-gray-600">Our credit card health tool allows you to keep track of your credit card usage.</li>
@@ -43,7 +46,7 @@ const Features = () => {
             </p>
           </div>
           <div className="w-1/2">
-            <img src={cc} alt="Feature 2" className="w-full object-cover object-center" />
+            <img src={cc} alt="Feature 2" className="w-full object-cover object-center"/>
           </div>
         </div>
 
@@ -53,7 +56,7 @@ const Features = () => {
             <img src={visuals} alt="Feature 3" className="w-full object-cover object-center" />
           </div>
           <div className="p-6 w-1/2">
-            <h2 className="text-lg font-medium mb-2">Visual Representation</h2>
+            <h2 className="text-lg font-bold mb-2">Visual Representation</h2>
             <p className="text-gray-600">
               <ul className="list-disc list-inside">
                 <li className="text-gray-600">Our visual representation tools allow you to see your financial data in a new light.</li>
@@ -67,9 +70,9 @@ const Features = () => {
         </div>
 
         {/* Categories Expenses */}
-        <div className="flex flex-row px-4 mb-8 items-center gap-10">
+        <div className="flex flex-row px-4 mb-8 items-center gap-10 pb-12">
           <div className="p-6 w-1/2">
-            <h2 className="text-lg font-medium mb-2">Categorize Expenses</h2>
+            <h2 className="text-lg font-bold mb-2">Categorize Expenses</h2>
             <p className="text-gray-600">
               <ul className="list-disc list-inside">
                 <li className="text-gray-600">Easily categorize your expenses to get a better understanding of your spending.</li>

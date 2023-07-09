@@ -17,7 +17,7 @@ import { ParallaxProvider } from 'react-scroll-parallax';
 
 function App() {
   return (
-    <ParallaxProvider>
+    <>
     <Navbar />
     <Routes>
       <Route path="/" element={<Main />} />
@@ -32,7 +32,7 @@ function App() {
       <Route path="/contact" element={<ContactPage />} />
     </Routes>
     <Footer />
-    </ParallaxProvider>
+    </>
   );
 }
 
