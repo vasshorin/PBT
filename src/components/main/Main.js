@@ -6,8 +6,10 @@ import cc from '../../assets/images/credit-card.svg';
 import main from '../../assets/images/homepage.png';
 import home from '../../assets/images/home1.png';
 import Features from './Features';
+import { useParallax } from 'react-scroll-parallax';
 
 const Main = () => {
+
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -207,7 +209,7 @@ const Main = () => {
       </div>
 
           
-      <div className='bg-white py-10 px-10 w-full'>
+      {/* <div className='bg-white py-10 px-10 w-full'>
         <img
           src={home}
           alt='...'
@@ -216,7 +218,7 @@ const Main = () => {
         />
 
 
-        </div>
+        </div> */}
       
       {/* Features */}
       <section className="bg-white">

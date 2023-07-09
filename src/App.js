@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/navbar/Navbar';
 import Main from './components/main/Main';
 import Footer from './components/footer/Footer';
@@ -12,11 +12,12 @@ import Cabinet from './components/cabinet/Cabinet';
 import PrivacyPolicy from './components/policy/PrivacyPolicy';
 import LicensingPage from './components/licensing/LincensingPage';
 import ContactPage from './components/contact/Contact';
+import { ParallaxProvider } from 'react-scroll-parallax';
 
 
 function App() {
   return (
-    <>
+    <ParallaxProvider>
     <Navbar />
     <Routes>
       <Route path="/" element={<Main />} />
@@ -31,7 +32,7 @@ function App() {
       <Route path="/contact" element={<ContactPage />} />
     </Routes>
     <Footer />
-    </>
+    </ParallaxProvider>
   );
 }
 
