@@ -187,7 +187,7 @@ const Expenses = () => {
     </div>
     <div className="flex flex-col ml-0 sm:ml-3 w-full sm:w-1/2">
       <h2 className="text-2xl font-medium text-gray-900 text-center mb-2">Account Summary</h2>
-      <div className="my-8 py-8 shadow-lg">
+      <div className="my-8 py-8">
         <CategoryTable refreshToken={refreshToken} newExpenses1={newExpenses1} /> 
       </div>
       <div className="mb-8 shadow-lg">
@@ -197,7 +197,7 @@ const Expenses = () => {
         <CardsExpenses refreshToken={refreshToken} />
       </div>
       <div className="flex flex-col justify-center">
-        {/* <CardExpenseDonut refreshToken={refreshToken} /> */}
+        <CardExpenseDonut refreshToken={refreshToken} />
       </div>
     </div>
   </div>
