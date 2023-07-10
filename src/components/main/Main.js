@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import logo from '../../assets/images/logo-no-bg.png';
 import image from '../../assets/images/stress.svg';
 import cc from '../../assets/images/credit-card.svg';
 import main from '../../assets/images/homepage.png';
@@ -37,6 +38,12 @@ const Main = () => {
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap items-center">
             <div className="w-full md:w-6/12 lg:w-6/12 xl:w-6/12 px-4">
+            <img
+            src={logo}
+            alt="..."
+            className="mx-auto py-10 my-10 left-0 top-0"
+            style={{ maxWidth: '600px' }}
+          />
               <div className="pt-32 sm:pt-0">
               <h4 className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl sm:leading-10"> 
                     A better way to control money
@@ -49,7 +56,7 @@ const Main = () => {
                   <img
                   src={image}
                   alt="..."
-                  className="w-full mx-auto skew-y-12"
+                  className="w-full mx-auto pt-10"
                   style={{ maxWidth: '600px' }}
                 />
           </div>

@@ -3,6 +3,7 @@ import cc from '../../assets/images/creditcards.png';
 import expenses from '../../assets/images/expenses.png';
 import visuals from '../../assets/images/visuals.png';
 import categories from '../../assets/images/categories.png';
+import Fade from 'react-reveal/Fade';
 
 const Features = () => {
   // const parallaxConfig = useSpring({
@@ -20,6 +21,7 @@ const Features = () => {
             <img src={expenses} alt="Feature 1" className="w-full object-cover object-center"  />
           </div>
           <div className="p-6 w-1/2">
+            <Fade right>
             <h2 className="text-xl font-bold mb-2">Tracking expenses</h2>
             <p className="text-gray-600">
               <ul className="list-disc list-inside">
@@ -30,13 +32,18 @@ const Features = () => {
                 <li className="text-gray-600">Stay in control of your finances and make informed financial decisions.</li>
               </ul>
             </p>
+            </Fade>
           </div>
         </div>
 
         {/* Credit Card */}
+        
         <div className="flex flex-row px-4 mb-8 items-center gap-10">
           <div className="p-6 w-1/2">
             <h2 className="text-lg font-bold mb-2">Credit Card Health</h2>
+   
+            <div class="delay-[300ms] duration-[600ms] taos:translate-x-[200px] taos:opacity-0" data-taos-offset="400">
+              <Fade left>
             <p className="text-gray-600">
               <ul className="list-disc list-inside">
                 <li className="text-gray-600">Our credit card health tool allows you to keep track of your credit card usage.</li>
@@ -44,6 +51,8 @@ const Features = () => {
                 <li className="text-gray-600">Stay on top of your credit card payments and avoid late fees.</li>
               </ul>
             </p>
+            </Fade>
+            </div>
           </div>
           <div className="w-1/2">
             <img src={cc} alt="Feature 2" className="w-full object-cover object-center"/>
