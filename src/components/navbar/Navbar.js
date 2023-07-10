@@ -142,7 +142,7 @@ const Navbar = () => {
                     Home
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link
                     to="/about"
                     className={`block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 ${
@@ -153,7 +153,7 @@ const Navbar = () => {
                   >
                     About
                   </Link>
-                </li>
+                </li> */}
                 <li>
                   <Link
                     to="/expenses"

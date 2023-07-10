@@ -41,7 +41,8 @@ const CardsExpenses = ({refreshToken}) => {
                         <td className="whitespace-nowrap px-6 py-4">{`$${creditCard.currentBalance.toLocaleString()}`}</td>
                         <td className="whitespace-nowrap px-6 py-4">{`$${creditCard.creditLimit.toLocaleString()}`}</td>
                         <td className="whitespace-nowrap px-6 py-4">{`$${creditCard.availableCredit.toLocaleString()}`}</td>
-                        <td className="border px-6 py-4">{`${creditCard.utilization.toFixed(2)}%`}</td>
+                        <td className={`border px-6 py-4 ${creditCard.utilization.toFixed(2) > 30 ? 'text-red-600' : 'text-black'}`}>{`${creditCard.utilization.toFixed(2)}%`}</td>
+
                     </tr>
                 ))}
             </tbody>
