@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
+import logo from '../../assets/images/budgetninja.png';
 
 const Navbar = () => {
   const [refreshToken, setRefreshToken] = useState('');
@@ -55,7 +56,11 @@ const Navbar = () => {
           <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
             <Link to="/" className="flex items-center">
               <span className="self-center text-xl font-semibold whitespace-nowrap">
-                PBT
+                <img 
+                src={logo}
+                alt="logo"
+                className="w-10 h-10"
+                />
               </span>
             </Link>
             <div className="flex items-center lg:order-2">

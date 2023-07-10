@@ -6,72 +6,58 @@ import categories from '../../assets/images/categories.png';
 import Fade from 'react-reveal/Fade';
 
 const Features = () => {
-  // const parallaxConfig = useSpring({
-  //   from: { transform: 'translateY(100px)', opacity: 0 },
-  //   to: { transform: 'translateY(0)', opacity: 1 },
-  //   config: { tension: 20, friction: 10 },
-  // });
-
   return (
     <>
       <div className="flex flex-col -mx-4 items-center space-y-20">
         {/* Expenses */}
-        <div className="flex flex-row px-4 mb-8 items-center gap-10">
-          <div className="w-1/2">
-            <img src={expenses} alt="Feature 1" className="w-full object-cover object-center"  />
+        <div className="flex flex-col sm:flex-row px-4 mb-8 items-center gap-10">
+          <div className="w-full sm:w-1/2">
+            <img src={expenses} alt="Feature 1" className="w-full object-cover object-center" />
           </div>
-          <div className="p-6 w-1/2">
+          <div className="p-6 w-full sm:w-1/2">
             <Fade right>
-            <h2 className="text-xl font-bold mb-2">Tracking expenses</h2>
-            <p className="text-gray-600">
-              <ul className="list-disc list-inside">
-                <li className="text-gray-600">Keep a close eye on your expenses by using our powerful tracking tools.</li>
-                <li className="text-gray-600">
-                  Easily categorize your expenses, set budgets, and analyze your spending patterns.
-                </li>
-                <li className="text-gray-600">Stay in control of your finances and make informed financial decisions.</li>
-              </ul>
-            </p>
+              <h2 className="text-xl font-bold mb-2">Tracking expenses</h2>
+              <p className="text-gray-600">
+                <ul className="list-disc list-inside">
+                  <li className="text-gray-600">Keep a close eye on your expenses by using our powerful tracking tools.</li>
+                  <li className="text-gray-600">Easily categorize your expenses, set budgets, and analyze your spending patterns.</li>
+                  <li className="text-gray-600">Stay in control of your finances and make informed financial decisions.</li>
+                </ul>
+              </p>
             </Fade>
           </div>
         </div>
 
         {/* Credit Card */}
-        
-        <div className="flex flex-row px-4 mb-8 items-center gap-10">
-          <div className="p-6 w-1/2">
+        <div className="flex flex-col sm:flex-row px-4 mb-8 items-center gap-10">
+          <div className="p-6 w-full sm:w-1/2">
             <h2 className="text-lg font-bold mb-2">Credit Card Health</h2>
-   
-            <div class="delay-[300ms] duration-[600ms] taos:translate-x-[200px] taos:opacity-0" data-taos-offset="400">
               <Fade left>
-            <p className="text-gray-600">
-              <ul className="list-disc list-inside">
-                <li className="text-gray-600">Our credit card health tool allows you to keep track of your credit card usage.</li>
-                <li className="text-gray-600">Know your utilization rate, credit limit, available credit, and more.</li>
-                <li className="text-gray-600">Stay on top of your credit card payments and avoid late fees.</li>
-              </ul>
-            </p>
-            </Fade>
-            </div>
+                <p className="text-gray-600">
+                  <ul className="list-disc list-inside">
+                    <li className="text-gray-600">Our credit card health tool allows you to keep track of your credit card usage.</li>
+                    <li className="text-gray-600">Know your utilization rate, credit limit, available credit, and more.</li>
+                    <li className="text-gray-600">Stay on top of your credit card payments and avoid late fees.</li>
+                  </ul>
+                </p>
+              </Fade>
           </div>
-          <div className="w-1/2">
-            <img src={cc} alt="Feature 2" className="w-full object-cover object-center"/>
+          <div className="w-full sm:w-1/2">
+            <img src={cc} alt="Feature 2" className="w-full object-cover object-center" />
           </div>
         </div>
 
         {/* Visual Data */}
-        <div className="flex flex-row px-4 mb-8 items-center gap-10">
-          <div className="w-1/2">
+        <div className="flex flex-col sm:flex-row px-4 mb-8 items-center gap-10">
+          <div className="w-full sm:w-1/2">
             <img src={visuals} alt="Feature 3" className="w-full object-cover object-center" />
           </div>
-          <div className="p-6 w-1/2">
+          <div className="p-6 w-full sm:w-1/2">
             <h2 className="text-lg font-bold mb-2">Visual Representation</h2>
             <p className="text-gray-600">
               <ul className="list-disc list-inside">
                 <li className="text-gray-600">Our visual representation tools allow you to see your financial data in a new light.</li>
-                <li className="text-gray-600">
-                  See your spending in a new, more intuitive way with our pie charts and other tools.
-                </li>
+                <li className="text-gray-600">See your spending in a new, more intuitive way with our pie charts and other tools.</li>
                 <li className="text-gray-600">Easily see your spending patterns and make informed financial decisions.</li>
               </ul>
             </p>
@@ -79,8 +65,8 @@ const Features = () => {
         </div>
 
         {/* Categories Expenses */}
-        <div className="flex flex-row px-4 mb-8 items-center gap-10 pb-12">
-          <div className="p-6 w-1/2">
+        <div className="flex flex-col sm:flex-row px-4 mb-8 items-center gap-10 pb-12">
+          <div className="p-6 w-full sm:w-1/2">
             <h2 className="text-lg font-bold mb-2">Categorize Expenses</h2>
             <p className="text-gray-600">
               <ul className="list-disc list-inside">
@@ -90,7 +76,7 @@ const Features = () => {
               </ul>
             </p>
           </div>
-          <div className="w-1/2">
+          <div className="w-full sm:w-1/2">
             <img src={categories} alt="Feature 4" className="w-full object-cover object-center" />
           </div>
         </div>
