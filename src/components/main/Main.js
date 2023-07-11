@@ -33,7 +33,7 @@ const Main = () => {
   }
 
   const isMobileView = window.innerWidth <= 600;
-
+  
   return (
     <div className="bg-gray-50">
       {/* Hero */}
@@ -45,7 +45,7 @@ const Main = () => {
             src={logo}
             alt="..."
             className="mx-auto py-10 my-10 left-0 top-0"
-               style={{ maxWidth: isMobileView ? '300px' : '600px' }}
+
           />
               <div className="pt-32 sm:pt-0">
               <h4 className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl sm:leading-10"> 
@@ -60,7 +60,7 @@ const Main = () => {
                   src={image}
                   alt="..."
                   className="w-full mx-auto pt-10"
-                  style={{ maxWidth: '600px' }}
+                  style={{ maxWidth: { isMobileView } ? '50%' : '100%' }}
                 />
           </div>
         </div>
