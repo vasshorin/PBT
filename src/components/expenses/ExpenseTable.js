@@ -74,25 +74,24 @@ const ExpenseTable = ({ expenses, deleteTransaction, rerenderTable, newExpenses1
             };
           }
 
-          return { ...transaction, accountData, category};
+          return { ...transaction, accountData, category };
         })
       );
 
       setNewExpenses(updatedTransactions);
       setNewExpenses1(updatedTransactions.reverse());
       setFilteredExpenses(updatedTransactions);
-      console.log(updatedTransactions)
+      console.log(updatedTransactions);
     };
 
     fetchExpenses();
   }, [refreshedAccountData, refreshedCreditCardData, rerenderTable]);
 
-
   const filterExpensesByDate = () => {
     const currentDate = moment();
     const startOfMonth = currentDate.startOf('month');
     const endOfMonth = currentDate.endOf('month');
-  
+
     if (startDate && endDate) {
       const filtered = newExpenses.filter((expense) => {
         const expenseDate = moment(expense.date);
@@ -109,7 +108,6 @@ const ExpenseTable = ({ expenses, deleteTransaction, rerenderTable, newExpenses1
       setNewExpenses1(filtered);
     }
   };
-  
 
   useEffect(() => {
     const currentMonthStart = moment().startOf('month');
@@ -117,11 +115,10 @@ const ExpenseTable = ({ expenses, deleteTransaction, rerenderTable, newExpenses1
     setStartDate(currentMonthStart);
     setEndDate(currentMonthEnd);
   }, []);
-  
+
   useEffect(() => {
     filterExpensesByDate();
   }, [startDate, endDate]);
-  
 
   const handleStartDateChange = (event) => {
     const date = new Date(event.target.value);
@@ -132,10 +129,6 @@ const ExpenseTable = ({ expenses, deleteTransaction, rerenderTable, newExpenses1
     const date = new Date(event.target.value);
     setEndDate(date);
   };
-
-
-
-
 
   const onExpenseSelected = (expense) => {
     if (expenseSelected === expense._id) {
@@ -148,7 +141,7 @@ const ExpenseTable = ({ expenses, deleteTransaction, rerenderTable, newExpenses1
   const deleteTransactionNew = async (id) => {
     try {
       const [savedUser, token] = [localStorage.getItem('user'), localStorage.getItem('refreshToken')];
-      console.log("PASSED IN ID" + id)
+      console.log("PASSED IN ID" + id);
       const { data: transaction } = await axios.get(`http://localhost:5050/api/transactions/${id}`, {
         headers: { 'auth-token-refresh': token },
       });
@@ -228,7 +221,6 @@ const ExpenseTable = ({ expenses, deleteTransaction, rerenderTable, newExpenses1
     setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
   };
 
-
   const sortExpensesByCategory = () => {
     const sortedExpenses = [...filteredExpenses].sort((a, b) => {
       if (sortOrder === 'asc') {
@@ -241,7 +233,6 @@ const ExpenseTable = ({ expenses, deleteTransaction, rerenderTable, newExpenses1
     setFilteredExpenses(sortedExpenses);
     setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
   };
-
 
   const sortExpensesByAccount = () => {
     const sortedExpenses = [...filteredExpenses].sort((a, b) => {
@@ -266,16 +257,14 @@ const ExpenseTable = ({ expenses, deleteTransaction, rerenderTable, newExpenses1
   const hasNextPage = currentPage < totalPages;
   const hasPreviousPage = currentPage > 1;
 
-
-
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <>
       {newExpenses.length > 0 ? (
-        <div className="flex flex-col">
+        <div className="flex flex-col pt-2">
           <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+            <div className="inline-block min-w-full sm:px-6 lg:px-8">
               <div className="overflow-hidden">
                 <div className="flex items-center space-x-2 mb-4">
                   <label htmlFor="start-date">Start Date:</label>
@@ -285,7 +274,7 @@ const ExpenseTable = ({ expenses, deleteTransaction, rerenderTable, newExpenses1
                     onChange={handleStartDateChange}
                     value={startDate ? startDate.toISOString().split('T')[0] : ''}
                   />
-                                  <label htmlFor="end-date">End Date:</label>
+                  <label htmlFor="end-date">End Date:</label>
                   <input
                     type="date"
                     id="end-date"
@@ -293,11 +282,7 @@ const ExpenseTable = ({ expenses, deleteTransaction, rerenderTable, newExpenses1
                     value={endDate ? endDate.toISOString().split('T')[0] : ''}
                   />
                 </div>
-
-                <div className="flex items-center space-x-2 mb-4">
-  
-                </div>
-                <table className="min-w-full text-left text-sm font-light shadow-lg rounded-lg">
+                <table className="min-w-full text-left text-sm font-light rounded-lg">
                   <thead className="border-b font-medium">
                     <tr className="bg-custom-brown-color">
                       <th className="px-8 py-6 cursor-pointer">
@@ -310,7 +295,6 @@ const ExpenseTable = ({ expenses, deleteTransaction, rerenderTable, newExpenses1
                           )}
                         </div>
                       </th>
-                      {/* <th className="px-6 py-4">Type</th> */}
                       <th className="px-6 py-4 cursor-pointer">
                         <div className="flex items-center justify-between" onClick={sortExpensesByAmount}>
                           <span>Amount</span>
@@ -343,26 +327,18 @@ const ExpenseTable = ({ expenses, deleteTransaction, rerenderTable, newExpenses1
                         </div>
                       </th>
                       <th className="px-6 py-4">Actions</th>
-                      
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-neutral-100">
                     {currentExpenses.map((expense) => (
-                      // console.log(expense),
                       <tr
                         key={expense._id}
                         className="border-b transition duration-300 ease-in-out hover:bg-neutral-100"
                         onClick={() => onExpenseSelected(expense)}
                       >
-                        {/* <td className="whitespace-nowrap px-6 py-2 font-medium">{expense.formattedDate}</td> */}
-                        {/* <td className="whitespace-nowrap px-6 py-2 font-medium">{new Date(expense.date).toLocaleDateString()}</td> */}
                         <td className="whitespace-nowrap px-6 py-2 font-medium">{moment(expense.date).add(1, 'day').format('YYYY-MM-DD')}</td>
-
-
-                        {/* <td className="whitespace-nowrap px-6 py-4">{expense._id}</td> */}
                         <td
-                          className={`whitespace-nowrap px-6 py-2 ${expense.type === 'expense' ? 'text-red-500' : 'text-green-500'
-                            }`}
+                          className={`whitespace-nowrap px-6 py-2 ${expense.type === 'expense' ? 'text-red-500' : 'text-green-500'}`}
                         >
                           {'$'}
                           {expense.amount.toLocaleString()}
@@ -372,10 +348,10 @@ const ExpenseTable = ({ expenses, deleteTransaction, rerenderTable, newExpenses1
                         <td className="whitespace-nowrap px-6 py-2">{expense.accountData.accountName}</td>
                         <td className="whitespace-nowrap py-2">
                           <button
-                            className={`bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 ml-4 rounded-full mr-2 focus:outline-none focus:shadow-outline`}
+                            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 ml-4 rounded-full mr-2 focus:outline-none focus:shadow-outline"
                             onClick={() => deleteTransactionNew(expense._id)}
                           >
-                            <i class="ri-delete-bin-line"></i>
+                            <i className="ri-delete-bin-line"></i>
                           </button>
                         </td>
                       </tr>
@@ -387,55 +363,54 @@ const ExpenseTable = ({ expenses, deleteTransaction, rerenderTable, newExpenses1
           </div>
         </div>
       ) : (
-        <table className="min-w-full text-left text-sm font-light shadow-lg rounded-lg">
-        <thead className="border-b font-medium">
-          <tr className="bg-custom-brown-color">
-            <th className="px-8 py-6 cursor-pointer">
-              <div className="flex items-center justify-between" onClick={sortExpensesByDate}>
-                <span>Date</span>
-                {sortOrder === 'asc' ? (
-                  <span className="text-xs">&#x25B2;</span>
-                ) : (
-                  <span className="text-xs">&#x25BC;</span>
-                )}
-              </div>
-            </th>
-            {/* <th className="px-6 py-4">Type</th> */}
-            <th className="px-6 py-4 cursor-pointer">
-              <div className="flex items-center justify-between" onClick={sortExpensesByAmount}>
-                <span>Amount</span>
-                {sortOrder === 'asc' ? (
-                  <span className="text-xs pl-1">&#x25B2;</span>
-                ) : (
-                  <span className="text-xs pl-1">&#x25BC;</span>
-                )}
-              </div>
-            </th>
-            <th className="px-6 py-4">Description</th>
-            <th className="px-6 py-4 cursor-pointer">
-              <div className="flex items-center justify-between" onClick={sortExpensesByCategory}>
-                <span>Categories</span>
-                {sortOrder === 'asc' ? (
-                  <span className="text-xs pl-1">&#x25B2;</span>
-                ) : (
-                  <span className="text-xs pl-1">&#x25BC;</span>
-                )}
-              </div>
-            </th>
-            <th className="px-6 py-4 cursor-pointer">
-              <div className="flex items-center justify-between" onClick={sortExpensesByAccount}>
-                <span>Accounts</span>
-                {sortOrder === 'asc' ? (
-                  <span className="text-xs pl-1">&#x25B2;</span>
-                ) : (
-                  <span className="text-xs pl-1">&#x25BC;</span>
-                )}
-              </div>
-            </th>
-            <th className="px-6 py-4">Actions</th>
-          </tr>
-        </thead>
-      </table>
+        <table className="min-w-full text-left text-sm font-light rounded-lg">
+          <thead className="border-b font-medium">
+            <tr className="bg-custom-brown-color">
+              <th className="px-8 py-6 cursor-pointer">
+                <div className="flex items-center justify-between" onClick={sortExpensesByDate}>
+                  <span>Date</span>
+                  {sortOrder === 'asc' ? (
+                    <span className="text-xs">&#x25B2;</span>
+                  ) : (
+                    <span className="text-xs">&#x25BC;</span>
+                  )}
+                </div>
+              </th>
+              <th className="px-6 py-4 cursor-pointer">
+                <div className="flex items-center justify-between" onClick={sortExpensesByAmount}>
+                  <span>Amount</span>
+                  {sortOrder === 'asc' ? (
+                    <span className="text-xs pl-1">&#x25B2;</span>
+                  ) : (
+                    <span className="text-xs pl-1">&#x25BC;</span>
+                  )}
+                </div>
+              </th>
+              <th className="px-6 py-4">Description</th>
+              <th className="px-6 py-4 cursor-pointer">
+                <div className="flex items-center justify-between" onClick={sortExpensesByCategory}>
+                  <span>Categories</span>
+                  {sortOrder === 'asc' ? (
+                    <span className="text-xs pl-1">&#x25B2;</span>
+                  ) : (
+                    <span className="text-xs pl-1">&#x25BC;</span>
+                  )}
+                </div>
+              </th>
+              <th className="px-6 py-4 cursor-pointer">
+                <div className="flex items-center justify-between" onClick={sortExpensesByAccount}>
+                  <span>Accounts</span>
+                  {sortOrder === 'asc' ? (
+                    <span className="text-xs pl-1">&#x25B2;</span>
+                  ) : (
+                    <span className="text-xs pl-1">&#x25BC;</span>
+                  )}
+                </div>
+              </th>
+              <th className="px-6 py-4">Actions</th>
+            </tr>
+          </thead>
+        </table>
       )}
     </>
   );
