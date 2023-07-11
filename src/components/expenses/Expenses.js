@@ -181,13 +181,11 @@ const Expenses = () => {
   <div className="flex flex-col sm:flex-row">
     <div className="flex flex-col mr-0 sm:mr-3 w-full sm:w-1/2">
       <h2 className="text-2xl font-medium text-gray-900 text-center mb-2">Expenses</h2>
-      <div className="mb-4 shadow-lg">
         <ExpenseTable expenses={expenses} rerenderTable={rerenderTable} setRerenderTable={setRerenderTable} newExpenses1={newExpenses1} setNewExpenses1={setNewExpenses1} />
-      </div>
     </div>
     <div className="flex flex-col ml-0 sm:ml-3 w-full sm:w-1/2">
-      <h2 className="text-2xl font-medium text-gray-900 text-center mb-2">Account Summary</h2>
-      <div className="my-8 py-8">
+      <h2 className="text-2xl font-medium text-gray-900 text-center">Account Summary</h2>
+      <div className="py-14">
         <CategoryTable refreshToken={refreshToken} newExpenses1={newExpenses1} /> 
       </div>
       <div className="mb-8 shadow-lg">
