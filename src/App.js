@@ -12,7 +12,6 @@ import Cabinet from './components/cabinet/Cabinet';
 import PrivacyPolicy from './components/policy/PrivacyPolicy';
 import LicensingPage from './components/licensing/LincensingPage';
 import ContactPage from './components/contact/Contact';
-import { ParallaxProvider } from 'react-scroll-parallax';
 
 
 function App() {

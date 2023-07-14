@@ -7,7 +7,6 @@ import cc from '../../assets/images/credit-card.svg';
 import main from '../../assets/images/homepage.png';
 import home from '../../assets/images/home1.png';
 import Features from './Features';
-import { useParallax } from 'react-scroll-parallax';
 
 const Main = () => {
 
