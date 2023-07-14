@@ -1,35 +1,10 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import logo from '../../assets/images/logo-no-bg.png';
 import image from '../../assets/images/stress.svg';
-import cc from '../../assets/images/credit-card.svg';
-import main from '../../assets/images/homepage.png';
-import home from '../../assets/images/home1.png';
 import Features from './Features';
 
 const Main = () => {
-
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [agreed, setAgreed] = useState(false);
-  const navigate = useNavigate();
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    e.preventDefault();
-    const res = axios.post("http://localhost:5050/api/register", {
-      email: email,
-      username: username,
-      password: password,
-
-    });
-    // redirect to login page
-    navigate('/login');
-
-  }
 
   const isMobileView = window.innerWidth <= 600;
   

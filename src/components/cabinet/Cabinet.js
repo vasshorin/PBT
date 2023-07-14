@@ -9,10 +9,8 @@ function Cabinet() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch user data from API here
     const refreshToken = localStorage.getItem("refreshToken");
     if (!refreshToken) {
-      // Redirect to login
       navigate("/login");
     }
 
@@ -27,11 +25,10 @@ function Cabinet() {
       setUsername(user.username);
       setEmail(user.email);
 
-      // Hide password from the UI
       setPassword("********");
     };
     fetchUser();
-  }, []);
+  }, [navigate]);
 
   const updateUserName = async () => {
     const refreshToken = localStorage.getItem("refreshToken");
@@ -53,7 +50,6 @@ function Cabinet() {
     );
     const user = response.data;
 
-    // Hide password from the UI
     setPassword("********");
   };
 
@@ -72,7 +68,6 @@ function Cabinet() {
       }
     );
     const user = response.data;
-
     // Hide password from the UI
     setPassword("********");
   };
