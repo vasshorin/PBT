@@ -28,12 +28,18 @@ const CreditsCards = ({ refreshToken }) => {
     useEffect(() => {
         // Get the list of credit cards from the user db that's the same as the user that's logged in
         const handleGetCreditCards = async () => {
+          try {
             const res = await axios.get('http://localhost:5050/api/getCreditCards', {
-                headers: {
-                    'auth-token-refresh': refreshToken,
-                },
-            });
-            setCreditCards(res.data.creditCards);
+              headers: {
+                  'auth-token-refresh': refreshToken,
+              },
+          });
+          setCreditCards(res.data.creditCards);
+          } catch (err)
+          {
+            console.log(err);
+          }
+           
         }
         handleGetCreditCards();
     }, [refreshToken]);

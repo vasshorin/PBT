@@ -26,13 +26,18 @@ const Accounts = ({ refreshToken, user }) => {
   // Get the list of accounts from the user db that's the same as the user that's logged in
   useEffect(() => {
     const handleGetAccounts = async () => {
+      try {
+
       const res = await axios.get('http://localhost:5050/api/getAccounts', {
         headers: {
           'auth-token-refresh': refreshToken,
         },
       });
       setAccounts(res.data.accounts);
-    };
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
     handleGetAccounts();
   }, [refreshToken]);

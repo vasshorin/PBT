@@ -24,12 +24,17 @@ const Categories = ({ refreshToken, user }) => {
     // Get the list of accounts from the user db that's the same as the user that's logged in
     useEffect(() => {
         const handleGetCategories = async () => {
+          try{
             const res = await axios.get('http://localhost:5050/api/getCategories', {
                 headers: {
                     'auth-token-refresh': refreshToken,
                 },
             });
+            console.log(res.data.categories);
             setCategories(res.data.categories);
+          } catch(err) {
+            console.log(err);
+          }
         };
 
         handleGetCategories();
