@@ -7,7 +7,7 @@ const AccountsExp = ({ refreshToken }) => {
   useEffect(() => {
     const fetchAccounts = async () => {
       try {
-        const res = await axios.get('http://localhost:5050/api/getAccounts', {
+        const res = await axios.get('https://bninja.onrender.com/api/getAccounts', {
           headers: {
             'auth-token-refresh': refreshToken,
           },

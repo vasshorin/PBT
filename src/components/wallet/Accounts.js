@@ -28,7 +28,7 @@ const Accounts = ({ refreshToken, user }) => {
     const handleGetAccounts = async () => {
       try {
 
-      const res = await axios.get('http://localhost:5050/api/getAccounts', {
+      const res = await axios.get('https://bninja.onrender.com/api/getAccounts', {
         headers: {
           'auth-token-refresh': refreshToken,
         },
@@ -44,7 +44,7 @@ const Accounts = ({ refreshToken, user }) => {
 
 
   const handleAddAccount = async () => {
-    const res = await axios.post('http://localhost:5050/api/newAccount', {
+    const res = await axios.post('https://bninja.onrender.com/api/newAccount', {
       name: accountName,
       balance: accountBalance,
     }, {
@@ -60,7 +60,7 @@ const Accounts = ({ refreshToken, user }) => {
 
 
   const handleRemoveAccount = async (accountId) => {
-    await axios.delete(`http://localhost:5050/api/deleteAccount/${accountId}`, {
+    await axios.delete(`https://bninja.onrender.com/api/deleteAccount/${accountId}`, {
       headers: {
         'auth-token-refresh': refreshToken,
       },
@@ -69,7 +69,7 @@ const Accounts = ({ refreshToken, user }) => {
   };
 
   const handleUpdateAccount = async (accountId) => {
-    const res = await axios.put(`http://localhost:5050/api/updateAccount/${accountId}`, {
+    const res = await axios.put(`https://bninja.onrender.com/api/updateAccount/${accountId}`, {
       name: accountName,
       balance: accountBalance,
     }, {

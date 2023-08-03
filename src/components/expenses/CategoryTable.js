@@ -7,7 +7,7 @@ const CategoryTable = ({ refreshToken, newExpenses1 }) => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await axios.get('http://localhost:5050/api/getCategories', {
+        const res = await axios.get('https://bninja.onrender.com/api/getCategories', {
           headers: {
             'auth-token-refresh': refreshToken,
           },

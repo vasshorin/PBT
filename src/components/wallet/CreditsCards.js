@@ -29,7 +29,7 @@ const CreditsCards = ({ refreshToken }) => {
         // Get the list of credit cards from the user db that's the same as the user that's logged in
         const handleGetCreditCards = async () => {
           try {
-            const res = await axios.get('http://localhost:5050/api/getCreditCards', {
+            const res = await axios.get('https://bninja.onrender.com/api/getCreditCards', {
               headers: {
                   'auth-token-refresh': refreshToken,
               },
@@ -65,7 +65,7 @@ const CreditsCards = ({ refreshToken }) => {
         console.log("Utilization " + utilization)
 
         // Add the new credit card to the db
-        const response = await axios.post(`http://localhost:5050/api/newCreditCard`, {
+        const response = await axios.post(`https://bninja.onrender.com/api/newCreditCard`, {
             name: creditCardName,
             currentBalance: creditCardBalance,
             creditLimit: creditCardLimit,
@@ -84,7 +84,7 @@ const CreditsCards = ({ refreshToken }) => {
     };
 
     const handleRemoveCreditCard = async (creditCardId) => {
-        const res = await axios.delete(`http://localhost:5050/api/deleteCreditCard/${creditCardId}`, {
+        const res = await axios.delete(`https://bninja.onrender.com/api/deleteCreditCard/${creditCardId}`, {
             headers: {
                 'auth-token-refresh': refreshToken,
             },
@@ -93,7 +93,7 @@ const CreditsCards = ({ refreshToken }) => {
     };
 
     const handleUpdateCreditCard = async (creditCardId) => {
-        const res = await axios.put(`http://localhost:5050/api/updateCreditCard/${creditCardId}`, {
+        const res = await axios.put(`https://bninja.onrender.com/api/updateCreditCard/${creditCardId}`, {
             name: creditCardName,
             currentBalance: creditCardBalance,
             creditLimit: creditCardLimit,

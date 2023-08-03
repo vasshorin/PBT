@@ -11,7 +11,7 @@ const Register = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5050/api/register", {
+      const response = await axios.post("https://bninja.onrender.com/api/register", {
         email: email,
         username: username,
         password: password,

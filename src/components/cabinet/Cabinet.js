@@ -15,7 +15,7 @@ function Cabinet() {
     }
 
     const fetchUser = async () => {
-      const response = await axios.get("http://localhost:5050/api/user", {
+      const response = await axios.get("https://bninja.onrender.com/api/user", {
         headers: {
           'auth-token-refresh': refreshToken,
         },
@@ -38,7 +38,7 @@ function Cabinet() {
     }
 
     const response = await axios.put(
-      "http://localhost:5050/api/updateUserName",
+      "https://bninja.onrender.com/api/updateUserName",
       {
         username,
       },
@@ -57,7 +57,7 @@ function Cabinet() {
     const refreshToken = localStorage.getItem("refreshToken");
 
     const response = await axios.put(
-      "http://localhost:5050/api/updatePassword",
+      "https://bninja.onrender.com/api/updatePassword",
       {
         password,
       },

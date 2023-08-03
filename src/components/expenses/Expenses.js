@@ -29,7 +29,7 @@ const Expenses = () => {
         navigate('/login');
       }
   
-      const response = await axios.get(`http://localhost:5050/api/transactions`, {
+      const response = await axios.get(`https://bninja.onrender.com/api/transactions`, {
         headers: {
           'auth-token-refresh': token,
           'auth-token-access': aToken
@@ -46,7 +46,7 @@ const Expenses = () => {
           let accountData = {};
   
           const responseGetCategory = await axios.get(
-            `http://localhost:5050/api/getCategory/${transaction.categories}`,
+            `https://bninja.onrender.com/api/getCategory/${transaction.categories}`,
             {
               headers: { 'auth-token-refresh': token },
             }
@@ -55,7 +55,7 @@ const Expenses = () => {
           const category = responseGetCategory.data.category;
           if (transaction.accountType === 'bank') {
             const responseGetAccount = await axios.get(
-              `http://localhost:5050/api/getAccount/${transaction.account}`,
+              `https://bninja.onrender.com/api/getAccount/${transaction.account}`,
               {
                 headers: { 'auth-token-refresh': token },
               }
@@ -64,7 +64,7 @@ const Expenses = () => {
             accountData = { accountName: account.name, accountBalance: account.balance };
           } else if (transaction.accountType === 'credit') {
             const responseGetCreditCard = await axios.get(
-              `http://localhost:5050/api/getCreditCard/${transaction.credit}`,
+              `https://bninja.onrender.com/api/getCreditCard/${transaction.credit}`,
               {
                 headers: { 'auth-token-refresh': token },
               }

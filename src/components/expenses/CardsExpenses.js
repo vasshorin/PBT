@@ -7,7 +7,7 @@ const CardsExpenses = ({refreshToken}) => {
     useEffect(() => {
         const fetchCreditCards = async () => {
             try {
-                const res = await axios.get('http://localhost:5050/api/getCreditCards', {
+                const res = await axios.get('https://bninja.onrender.com/api/getCreditCards', {
                     headers: {
                         'auth-token-refresh': refreshToken,
                     },

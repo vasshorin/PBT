@@ -25,7 +25,7 @@ const Categories = ({ refreshToken, user }) => {
     useEffect(() => {
         const handleGetCategories = async () => {
           try{
-            const res = await axios.get('http://localhost:5050/api/getCategories', {
+            const res = await axios.get('https://bninja.onrender.com/api/getCategories', {
                 headers: {
                     'auth-token-refresh': refreshToken,
                 },
@@ -44,7 +44,7 @@ const Categories = ({ refreshToken, user }) => {
     const handleAddCategory = async () => {
         console.log(categoryName);
         console.log(categoryBudget);
-        const res = await axios.post('http://localhost:5050/api/newCategory', {
+        const res = await axios.post('https://bninja.onrender.com/api/newCategory', {
             name: categoryName,
             budget: categoryBudget,
         }, {
@@ -59,7 +59,7 @@ const Categories = ({ refreshToken, user }) => {
 
     // Remove category from the list of categories from the user db that's the same as the user that's logged in
     const handleRemoveCategory = async (categoryId) => {
-        const res = await axios.delete(`http://localhost:5050/api/deleteCategory/${categoryId}`, {
+        const res = await axios.delete(`https://bninja.onrender.com/api/deleteCategory/${categoryId}`, {
             headers: {
                 'auth-token-refresh': refreshToken,
             },
