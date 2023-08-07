@@ -3,29 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import axios from 'axios';
 
-const CardsExpenses = ({ refreshToken }) => {
+const CardsExpenses = ({ refreshToken, creditCards }) => {
   ChartJS.register(ArcElement, Tooltip, Legend);
-  const [creditCards, setCreditCards] = useState([]);
   const [activeCard, setActiveCard] = useState(null);
   const [showChart, setShowChart] = useState(-1);
-
-
-  useEffect(() => {
-    const fetchExpensesDonut = async () => {
-      try {
-        const res = await axios.get('https://bninja.onrender.com/api/getCreditCards', {
-        headers: {
-          'auth-token-refresh': refreshToken,
-        },
-      });
-      setCreditCards(res.data.creditCards);
-      } catch (err) {
-        console.log(err);
-      }      
-    };
-    fetchExpensesDonut();
-  }, [refreshToken]);
-
 
   // Transform the creditCards data into a format that the chart can use
   const chartData = creditCards.map((creditCard) => ({

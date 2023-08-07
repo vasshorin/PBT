@@ -1,26 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 
-const CardsExpenses = ({refreshToken}) => {
-    const [creditCards, setCreditCards] = useState([]);
+const CardsExpenses = ({ creditCards}) => {
 
-    useEffect(() => {
-        const fetchCreditCards = async () => {
-            try {
-                const res = await axios.get('https://bninja.onrender.com/api/getCreditCards', {
-                    headers: {
-                        'auth-token-refresh': refreshToken,
-                    },
-                });
-                setCreditCards(res.data.creditCards);
-            } catch (error) {
-                console.error(error);
-            }
-        }
-        fetchCreditCards();
-    }, [refreshToken]);
-
-  return (
+  return creditCards ? (
     <>
     {creditCards.length > 0 ? (
     <div className="overflow-x-auto">
@@ -36,7 +19,7 @@ const CardsExpenses = ({refreshToken}) => {
             </thead>
             <tbody>
                 {creditCards.map((creditCard) => (
-                    <tr key={creditCard._id} class="border-b transition duration-300 ease-in-out hover:bg-neutral-100">
+                    <tr key={creditCard._id} className="border-b transition duration-300 ease-in-out hover:bg-neutral-100">
                         <td className="whitespace-nowrap px-6 py-4">{creditCard.name}</td>
                         <td className="whitespace-nowrap px-6 py-4">{`$${creditCard.currentBalance.toLocaleString()}`}</td>
                         <td className="whitespace-nowrap px-6 py-4">{`$${creditCard.creditLimit.toLocaleString()}`}</td>
@@ -54,6 +37,9 @@ const CardsExpenses = ({refreshToken}) => {
 </>  
 
   )
+    : ( 
+        <p className="text-center">Loading...</p>
+    )
 }
 
 export default CardsExpenses;

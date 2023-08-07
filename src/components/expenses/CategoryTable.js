@@ -1,25 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const CategoryTable = ({ refreshToken, newExpenses1 }) => {
-  const [categories, setCategories] = useState([]);
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const res = await axios.get('https://bninja.onrender.com/api/getCategories', {
-          headers: {
-            'auth-token-refresh': refreshToken,
-          },
-        });
-        setCategories(res.data.categories);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchCategories();
-  }, [refreshToken]);
+const CategoryTable = ({ refreshToken, newExpenses1, categories }) => {
 
   const getCategoryTotal = (category) => {
     return newExpenses1.reduce((acc, expense) => {
@@ -30,7 +12,7 @@ const CategoryTable = ({ refreshToken, newExpenses1 }) => {
     }, 0);
   };
 
-  return (
+  return categories ? (
     <>
       {categories.length === 0 ? (
         <p className="text-center">No categories added yet.</p>
@@ -64,6 +46,8 @@ const CategoryTable = ({ refreshToken, newExpenses1 }) => {
         </table>
       )}
     </>
+  ) : (
+    <p className="text-center">Loading...</p>
   );
 };
 

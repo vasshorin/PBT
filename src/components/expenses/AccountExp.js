@@ -1,32 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React from 'react';
 
-const AccountsExp = ({ refreshToken }) => {
-  const [accounts, setAccounts] = useState('');
-
-  useEffect(() => {
-    const fetchAccounts = async () => {
-      try {
-        const res = await axios.get('https://bninja.onrender.com/api/getAccounts', {
-          headers: {
-            'auth-token-refresh': refreshToken,
-          },
-        });
-        setAccounts(res.data.accounts);
-      } catch (error) {
-        console.error(error);
-      }
-
-    };
-
-    fetchAccounts();
-  }, [refreshToken]);
-
-
-  return (
+const AccountsExp = ({ accounts }) => {
+  return accounts ? (
     <>
       {accounts.length > 0 ? (
-
         <table className="min-w-full text-left text-sm font-light shadow-lg rounded-lg">
           <thead className="border-b font-medium">
             <tr className='bg-custom-brown-color'>
@@ -36,7 +13,7 @@ const AccountsExp = ({ refreshToken }) => {
           </thead>
           <tbody>
             {accounts.map((account) => (
-              <tr key={account._id} class="border-b transition duration-300 ease-in-out hover:bg-neutral-100">
+              <tr key={account._id} className="border-b transition duration-300 ease-in-out hover:bg-neutral-100">
                 <td className=" px-6 py-4">{account.name}</td>
                 <td className=" px-6 py-4">{`$${account.balance.toFixed(2)}`}</td>
               </tr>
@@ -47,6 +24,8 @@ const AccountsExp = ({ refreshToken }) => {
         <p className='text-center'>No accounts found</p>
       )}
     </>
+  ) : (
+    <p className='text-center'>Loading...</p>
   );
 };
 
