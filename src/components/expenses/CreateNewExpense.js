@@ -16,30 +16,36 @@ const CreateNewExpense = ({ onExpenseAdded, refreshToken }) => {
     creditCards: [],
   });
 
+  const [dataFetched, setDataFetched] = useState(false);
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const headers = {
-          'auth-token-refresh': refreshToken,
-        };
+    if (refreshToken) {
+      const fetchData = async () => {
+        try {
+          const headers = {
+            'auth-token-refresh': refreshToken,
+          };
 
-        const [categoriesResponse, accountsResponse, creditCardsResponse] = await Promise.all([
-          axios.get('https://bninja.onrender.com/api/getCategories', { headers }),
-          axios.get('https://bninja.onrender.com/api/getAccounts', { headers }),
-          axios.get('https://bninja.onrender.com/api/getCreditCards', { headers }),
-        ]);
+          const [categoriesResponse, accountsResponse, creditCardsResponse] = await Promise.all([
+            axios.get('https://bninja.onrender.com/api/getCategories', { headers }),
+            axios.get('https://bninja.onrender.com/api/getAccounts', { headers }),
+            axios.get('https://bninja.onrender.com/api/getCreditCards', { headers }),
+          ]);
 
-        setData({
-          categories: categoriesResponse.data.categories,
-          accounts: accountsResponse.data.accounts,
-          creditCards: creditCardsResponse.data.creditCards,
-        });
-      } catch (error) {
-        console.error(error);
-      }
-    };
+          setData({
+            categories: categoriesResponse.data.categories,
+            accounts: accountsResponse.data.accounts,
+            creditCards: creditCardsResponse.data.creditCards,
+          });
 
-    fetchData();
+          setDataFetched(true);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+
+      fetchData();
+    }
   }, [refreshToken]);
 
 
@@ -79,10 +85,7 @@ const CreateNewExpense = ({ onExpenseAdded, refreshToken }) => {
   const onSubmit = async (e) => {
     e.preventDefault();
     const savedUser = localStorage.getItem('user');
-    if (!savedUser) {
-      return;
-    }
-    if (!selectedAccount) {
+    if (!refreshToken || !selectedAccount) {
       return;
     }
 
@@ -161,7 +164,7 @@ const CreateNewExpense = ({ onExpenseAdded, refreshToken }) => {
 
   const { categories, accounts, creditCards } = data;
 
-  return (
+  return dataFetched ? (
    <form className="w-full max-w-full bg-white shadow-lg rounded pt-4 pb-8 mb-10 border-t border-gray-200" onSubmit={onSubmit}>
   <div className="flex flex-wrap justify-between">
     <div className="w-full sm:w-1/2 md:w-1/4 lg:w-1/6 mb-4">
@@ -278,9 +281,9 @@ const CreateNewExpense = ({ onExpenseAdded, refreshToken }) => {
     </div>
   </div>
 </form>
-
-  
-  );
+) : (
+  <div>Loading...</div>
+);
 
 
 };
