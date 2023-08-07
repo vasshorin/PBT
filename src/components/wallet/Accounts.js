@@ -94,7 +94,7 @@ const Accounts = ({ refreshToken, user }) => {
   };
 
   return (
-    <div class="flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow">
+    <div className="flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow">
       <div className="flex justify-between items-center mb-2">
         <h2 className="text-xl font-bold">Your bank accounts</h2>
         <div className="flex items-center">
@@ -170,7 +170,7 @@ const Accounts = ({ refreshToken, user }) => {
                       title="Delete account"
                       onClick={() => handleRemoveAccount(account._id)}
                     >
-                      <i class="ri-delete-bin-line"></i>
+                      <i className="ri-delete-bin-line"></i>
                     </button>
                     <button
                       className={`bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline ${toolDisplayPressed ? "" : "hidden"
@@ -178,7 +178,7 @@ const Accounts = ({ refreshToken, user }) => {
                       title="Edit credit card"
                       onClick={() => handleUpdateAccount(account._id)}
                     >
-                      <i class="ri-pencil-line"></i>
+                      <i className="ri-pencil-line"></i>
                     </button>
                   </div>
 
