@@ -375,7 +375,7 @@ const ExpenseTable = ({ expenses, deleteTransaction, rerenderTable, newExpenses1
                             className={`bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 ml-4 rounded-full mr-2 focus:outline-none focus:shadow-outline`}
                             onClick={() => deleteTransactionNew(expense._id)}
                           >
-                            <i class="ri-delete-bin-line"></i>
+                            <i className="ri-delete-bin-line"></i>
                           </button>
                         </td>
                       </tr>

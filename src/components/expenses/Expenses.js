@@ -18,6 +18,11 @@ const Expenses = () => {
   const [rerenderTable, setRerenderTable] = useState(false);
   const [newExpenses1, setNewExpenses1] = useState([]);
   const navigate = useNavigate();
+  const [data, setData] = useState({
+    categories: [],
+    accounts: [],
+    creditCards: [],
+  });
 
 
 
@@ -88,6 +93,47 @@ const Expenses = () => {
     fetchExpenses();
   }, [refreshedAccountData, refreshedCreditCardData]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = localStorage.getItem('refreshToken');
+      const aToken = localStorage.getItem('accessToken');
+      if(!token || !aToken) {
+        navigate('/login');
+      }
+
+      const headers = { 'auth-token-refresh': token};
+
+      const responseGetCategories = await axios.get(
+        `https://bninja.onrender.com/api/getCategories`,
+        {
+          headers,
+        }
+      );
+      const categories = responseGetCategories.data.categories;
+
+      const responseGetAccounts = await axios.get(
+        `https://bninja.onrender.com/api/getAccounts`,
+        {
+          headers,
+        }
+      );
+      const accounts = responseGetAccounts.data.accounts;
+
+      const responseGetCreditCards = await axios.get(
+        `https://bninja.onrender.com/api/getCreditCards`,
+        {
+          headers,
+        }
+      );
+      const creditCards = responseGetCreditCards.data.creditCards;
+
+      setData({ categories, accounts, creditCards });
+    };
+
+    fetchData();
+  }, [refreshedAccountData, refreshedCreditCardData]);
+
+
   const onExpenseAdded = (expense) => {
     setExpenses((prevExpenses) => [expense, ...prevExpenses]);
     setRerenderTable((prevValue) => !prevValue);
@@ -97,7 +143,7 @@ const Expenses = () => {
   return (
 <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col">
   <div className="max-w-full">
-    <CreateNewExpense onExpenseAdded={onExpenseAdded} />  
+    <CreateNewExpense onExpenseAdded={onExpenseAdded} refreshToken={refreshToken} />  
   </div>
   <div className="flex flex-col sm:flex-row">
     <div className="flex flex-col mr-0 sm:mr-3 w-full sm:w-1/2">
@@ -109,16 +155,16 @@ const Expenses = () => {
     <div className="flex flex-col ml-0 sm:ml-3 w-full sm:w-1/2">
       <h2 className="text-2xl font-medium text-gray-900 text-center mb-2">Account Summary</h2>
       <div className="my-8 py-8">
-        <CategoryTable refreshToken={refreshToken} newExpenses1={newExpenses1} /> 
+        <CategoryTable newExpenses1={newExpenses1} categories={data.categories}/> 
       </div>
       <div className="mb-8 shadow-lg">
-        <AccountsExp refreshToken={refreshToken} />
+        <AccountsExp accounts={data.accounts} />
       </div>
       <div className="mb-4 shadow-lg">
-        <CardsExpenses refreshToken={refreshToken} />
+        <CardsExpenses creditCards={data.creditCards} />
       </div>
       <div className="flex flex-col justify-center">
-        <CardExpenseDonut refreshToken={refreshToken} />
+        <CardExpenseDonut creditCards={data.creditCards} />
       </div>
     </div>
   </div>
