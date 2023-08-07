@@ -1,53 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 
 
-const CreateNewExpense = ({ onExpenseAdded, refreshToken }) => {
+const CreateNewExpense = ({ onExpenseAdded, refreshToken, categories, accounts, creditCards }) => {
   const [date, setDate] = useState('');
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState('');
   const [selectedAccount, setSelectedAccount] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [type, setType] = useState('expense');
-  const [data, setData] = useState({
-    categories: [],
-    accounts: [],
-    creditCards: [],
-  });
-
-  const [dataFetched, setDataFetched] = useState(false);
-
-  useEffect(() => {
-    if (refreshToken) {
-      const fetchData = async () => {
-        try {
-          const headers = {
-            'auth-token-refresh': refreshToken,
-          };
-
-          const [categoriesResponse, accountsResponse, creditCardsResponse] = await Promise.all([
-            axios.get('https://bninja.onrender.com/api/getCategories', { headers }),
-            axios.get('https://bninja.onrender.com/api/getAccounts', { headers }),
-            axios.get('https://bninja.onrender.com/api/getCreditCards', { headers }),
-          ]);
-
-          setData({
-            categories: categoriesResponse.data.categories,
-            accounts: accountsResponse.data.accounts,
-            creditCards: creditCardsResponse.data.creditCards,
-          });
-
-          setDataFetched(true);
-        } catch (error) {
-          console.error(error);
-        }
-      };
-
-      fetchData();
-    }
-  }, [refreshToken]);
-
 
   const calculateBalance = (account, type) => {
     if (account.type === 'credit') {
@@ -162,9 +124,7 @@ const CreateNewExpense = ({ onExpenseAdded, refreshToken }) => {
     setType('');
   };
 
-  const { categories, accounts, creditCards } = data;
-
-  return dataFetched ? (
+  return categories && accounts && creditCards ? (
    <form className="w-full max-w-full bg-white shadow-lg rounded pt-4 pb-8 mb-10 border-t border-gray-200" onSubmit={onSubmit}>
   <div className="flex flex-wrap justify-between">
     <div className="w-full sm:w-1/2 md:w-1/4 lg:w-1/6 mb-4">

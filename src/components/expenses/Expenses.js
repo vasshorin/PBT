@@ -143,7 +143,7 @@ const Expenses = () => {
   return (
 <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col">
   <div className="max-w-full">
-    <CreateNewExpense onExpenseAdded={onExpenseAdded} refreshToken={refreshToken} />  
+    <CreateNewExpense onExpenseAdded={onExpenseAdded} refreshToken={refreshToken} categories={data.categories} accounts={data.accounts} creditCards={data.creditCards} />  
   </div>
   <div className="flex flex-col sm:flex-row">
     <div className="flex flex-col mr-0 sm:mr-3 w-full sm:w-1/2">
