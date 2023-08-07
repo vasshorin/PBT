@@ -130,7 +130,7 @@ const Categories = ({ refreshToken, user }) => {
                       title="Delete category"
                       onClick={() => handleRemoveCategory(category._id)}
                     >
-                      <i class="ri-delete-bin-line"></i>
+                      <i className="ri-delete-bin-line"></i>
                     </button>
                     <button
                       className={`bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline ${toolDisplayPressed ? "" : "hidden"
@@ -138,7 +138,7 @@ const Categories = ({ refreshToken, user }) => {
                       title="Edit category"
                       onClick={() => handleRemoveCategory(category)}
                     >
-                      <i class="ri-pencil-line"></i>
+                      <i className="ri-pencil-line"></i>
                     </button>
                   </div>
                 </li>
