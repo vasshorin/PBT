@@ -119,9 +119,8 @@ const CreateNewExpense = ({ onExpenseAdded, refreshToken, categories, accounts, 
     setDate('');
     setDescription('');
     setAmount('');
-    setSelectedAccount(null);
     setSelectedCategory(null);
-    setType('');
+    setType('expense');
   };
 
   return categories && accounts && creditCards ? (
