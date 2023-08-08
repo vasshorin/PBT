@@ -20,7 +20,7 @@ const CategoryTable = ({ refreshToken, newExpenses1, categories }) => {
         <table className="min-w-full text-left text-sm font-light shadow-lg rounded-lg">
           <thead className="border-b font-medium">
             <tr className="bg-custom-brown-color">
-              <th className="px-6 py-4">Category</th>
+              <th className="px-6 py-6">Category</th>
               <th className="px-6 py-4">Current</th>
               <th className="px-6 py-4">Budget</th>
             </tr>

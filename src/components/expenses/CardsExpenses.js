@@ -10,7 +10,7 @@ const CardsExpenses = ({ creditCards}) => {
        <table className="min-w-full text-left text-sm font-light shadow-lg rounded-lg">
             <thead className="border-b font-medium">
             <tr className='bg-custom-brown-color'>
-                    <th className="px-6 py-4">Credit Card</th>
+                    <th className="px-6 py-6">Credit Card</th>
                     <th className="px-6 py-4">Balance</th>
                     <th className="px-6 py-4">Limit</th>
                     <th className="px-6 py-4">Available Credit</th>
