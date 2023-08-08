@@ -9,6 +9,7 @@ const Wallet = () => {
   const [refreshToken, setRefreshToken] = useState('');
   const [accessToken, setAccessToken] = useState('');
   const [user, setUser] = useState({});
+  const [isReady, setIsReady] = useState(false);
   const navigate = useNavigate();
 
 
@@ -20,7 +21,8 @@ const Wallet = () => {
       setRefreshToken(savedRefreshToken);
       setAccessToken(savedAccessToken);
       setUser(JSON.parse(savedUser));
-      console.log('token', savedRefreshToken);
+      setIsReady(true);
+      // console.log('token', savedRefreshToken);
     }
 
     if(!savedRefreshToken || !savedUser || !savedAccessToken) {
@@ -35,6 +37,11 @@ const Wallet = () => {
     navigate('/login');
   };
 
+  if (!isReady) {
+    return (
+      <div className="text-3xl font-bold mb-8 text-center pt-20 md:pl-20">Loading...</div>
+    );
+  }
  
   return (
     <div>
