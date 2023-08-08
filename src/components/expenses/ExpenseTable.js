@@ -7,6 +7,8 @@ const ExpenseTable = ({ expenses, deleteTransaction }) => {
   const [filteredExpenses, setFilteredExpenses] = useState([]);
   const [sortOrder, setSortOrder] = useState('desc');
   const [sortedColumn, setSortedColumn] = useState('date');
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
   useEffect(() => {
     // Sort expenses by the specified column and order
@@ -19,6 +21,21 @@ const ExpenseTable = ({ expenses, deleteTransaction }) => {
     });
     setFilteredExpenses(sortedExpenses);
   }, [expenses, sortOrder, sortedColumn]);
+
+
+  useEffect(() => {
+    // Filter expenses based on selected date range
+    const filteredExpensesByDate = expenses.filter((expense) => {
+      if (startDate && endDate) {
+        const expenseDate = moment(expense.date);
+        return expenseDate.isSameOrAfter(startDate, 'day') && expenseDate.isSameOrBefore(endDate, 'day');
+      }
+      return true;
+    });
+
+    setFilteredExpenses(filteredExpensesByDate);
+  }, [expenses, startDate, endDate]);
+
 
   // Calculate indexes for pagination
   const indexOfLastExpense = currentPage * expensesPerPage;
@@ -40,6 +57,24 @@ const ExpenseTable = ({ expenses, deleteTransaction }) => {
 
   return (
     <>
+    <div className="flex items-center justify-center mt-4">
+        <div className="flex space-x-4">
+          <input
+            type="date"
+            className="border rounded py-1 px-2"
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+          />
+          <span>-</span>
+          <input
+            type="date"
+            className="border rounded py-1 px-2"
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
+          />
+        </div>
+      </div>
+
       {filteredExpenses.length > 0 ? (
         <div className="flex flex-col">
           <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
