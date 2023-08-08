@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import CreateNewExpense from './CreateNewExpense';
 import axios from 'axios';
+import CreateNewExpense from './CreateNewExpense';
 import CardsExpenses from './CardsExpenses';
 import ExpenseTable from './ExpenseTable';
 import AccountsExp from './AccountExp';
@@ -12,8 +12,6 @@ const Expenses = () => {
   const [expenses, setExpenses] = useState([]);
   const [refreshToken, setRefreshToken] = useState('');
   const [accessToken, setAccessToken] = useState('');
-  const [refreshedAccountData, setRefreshedAccountData] = useState(false);
-  const [refreshedCreditCardData, setRefreshedCreditCardData] = useState(false);
   const [updateTable, setUpdateTable] = useState(false);
   const navigate = useNavigate();
   const [data, setData] = useState({
@@ -22,133 +20,99 @@ const Expenses = () => {
     creditCards: [],
   });
 
-  useEffect(() => {
-    const fetchExpenses = async () => {
-      const token = localStorage.getItem('refreshToken');
-      const aToken = localStorage.getItem('accessToken');
-      if (!token || !aToken) {
-        navigate('/login');
-      }
+  const fetchData = useCallback(async () => {
+    const token = localStorage.getItem('refreshToken');
+    const aToken = localStorage.getItem('accessToken');
+    if (!token || !aToken) {
+      navigate('/login');
+      return;
+    }
 
-      const response = await axios.get(`https://bninja.onrender.com/api/transactions`, {
-        headers: {
-          'auth-token-refresh': token,
-          'auth-token-access': aToken,
-        },
-      });
-      setRefreshToken(token);
-      setAccessToken(aToken);
-    
-      const transactions = response.data.transactions;
-    
-      // Get all unique account and credit card IDs
-      const accountIds = new Set(
-        transactions
-          .filter((transaction) => transaction.accountType === 'bank')
-          .map((transaction) => transaction.account)
-      );
-      const creditCardIds = new Set(
-        transactions
-          .filter((transaction) => transaction.accountType === 'credit')
-          .map((transaction) => transaction.credit)
-      );
-    
-      const headers = {
-        'auth-token-refresh': token,
-      };
+    const headers = { 'auth-token-refresh': token };
 
-      // Fetch account data and credit card data concurrently
-      const [accountsResponse, creditCardsResponse] = await Promise.all([
-        axios.get(`https://bninja.onrender.com/api/getAccounts`, { headers }),
-        axios.get(`https://bninja.onrender.com/api/getCreditCards`, { headers }),
-      ]);
-    
-      const accounts = accountsResponse.data.accounts;
-      const creditCards = creditCardsResponse.data.creditCards;
-    
-      // Map account and credit card data to IDs for easy access
-      const accountMap = new Map(accounts.map((account) => [account._id, account]));
-      const creditCardMap = new Map(creditCards.map((creditCard) => [creditCard._id, creditCard]));
-    
-      // Process transactions concurrently
-      const updatedTransactions = await Promise.all(
-        transactions.map(async (transaction) => {
-          let accountData = {};
-          let category = {};
-    
-          if (transaction.categories) {
-            const responseGetCategory = await axios.get(
-              `https://bninja.onrender.com/api/getCategory/${transaction.categories}`,
-              {
-                headers: { 'auth-token-refresh': token },
-              }
-            );
-            category = responseGetCategory.data.category;
-          }
-    
-          if (transaction.accountType === 'bank') {
-            const account = accountMap.get(transaction.account);
-            if (account) {
-              accountData = { accountName: account.name, accountBalance: account.balance };
-            }
-          } else if (transaction.accountType === 'credit') {
-            const creditCard = creditCardMap.get(transaction.credit);
-            if (creditCard) {
-              accountData = {
-                accountName: creditCard.name,
-                accountBalance: creditCard.currentBalance,
-                availableCredit: creditCard.availableCredit,
-                utilization: creditCard.utilization,
-              };
-            }
-          }
-    
-          return { ...transaction, accountData, category };
-        })
-      );
-    
-      setExpenses(updatedTransactions);
+    const [categoriesResponse, accountsResponse, creditCardsResponse] = await Promise.all([
+      axios.get(`https://bninja.onrender.com/api/getCategories`, { headers }),
+      axios.get(`https://bninja.onrender.com/api/getAccounts`, { headers }),
+      axios.get(`https://bninja.onrender.com/api/getCreditCards`, { headers }),
+    ]);
 
-    };
+    const categories = categoriesResponse.data.categories;
+    const accounts = accountsResponse.data.accounts;
+    const creditCards = creditCardsResponse.data.creditCards;
 
-    fetchExpenses();
-  }, [refreshedAccountData, refreshedCreditCardData, updateTable]);
+    setData({ categories, accounts, creditCards });
+  }, [navigate]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const token = localStorage.getItem('refreshToken');
-      const aToken = localStorage.getItem('accessToken');
-      if (!token || !aToken) {
-        navigate('/login');
-      }
-
-      const headers = { 'auth-token-refresh': token };
-
-      const responseGetCategories = await axios.get(`https://bninja.onrender.com/api/getCategories`, {
-        headers,
-      });
-      const categories = responseGetCategories.data.categories;
-
-      const responseGetAccounts = await axios.get(`https://bninja.onrender.com/api/getAccounts`, {
-        headers,
-      });
-      const accounts = responseGetAccounts.data.accounts;
-
-      const responseGetCreditCards = await axios.get(
-        `https://bninja.onrender.com/api/getCreditCards`,
-        {
-          headers,
-        }
-      );
-      const creditCards = responseGetCreditCards.data.creditCards;
-
-      setData({ categories, accounts, creditCards });
-    };
-
     fetchData();
-  }, [refreshedAccountData, refreshedCreditCardData, updateTable]);
+  }, [fetchData]);
 
-  const deleteTransaction = async (id) => {
+  const fetchExpenses = useCallback(async () => {
+    const token = localStorage.getItem('refreshToken');
+    const aToken = localStorage.getItem('accessToken');
+    if (!token || !aToken) {
+      navigate('/login');
+      return;
+    }
+
+    const response = await axios.get(`https://bninja.onrender.com/api/transactions`, {
+      headers: {
+        'auth-token-refresh': token,
+        'auth-token-access': aToken,
+      },
+    });
+
+    setRefreshToken(token);
+    setAccessToken(aToken);
+
+    const transactions = response.data.transactions;
+
+    // Process transactions concurrently
+    const updatedTransactions = await Promise.all(
+      transactions.map(async (transaction) => {
+        let accountData = {};
+        let category = {};
+
+        if (transaction.categories) {
+          const responseGetCategory = await axios.get(
+            `https://bninja.onrender.com/api/getCategory/${transaction.categories}`,
+            {
+              headers: { 'auth-token-refresh': token },
+            }
+          );
+          category = responseGetCategory.data.category;
+        }
+
+        if (transaction.accountType === 'bank') {
+          const account = data.accounts.find((account) => account._id === transaction.account);
+          if (account) {
+            accountData = { accountName: account.name, accountBalance: account.balance };
+          }
+        } else if (transaction.accountType === 'credit') {
+          const creditCard = data.creditCards.find((creditCard) => creditCard._id === transaction.credit);
+          if (creditCard) {
+            accountData = {
+              accountName: creditCard.name,
+              accountBalance: creditCard.currentBalance,
+              availableCredit: creditCard.availableCredit,
+              utilization: creditCard.utilization,
+            };
+          }
+        }
+
+        return { ...transaction, accountData, category };
+      })
+    );
+
+    setExpenses(updatedTransactions);
+
+  }, [data.accounts, data.creditCards, navigate]);
+
+  useEffect(() => {
+    fetchExpenses();
+  }, [fetchExpenses]);
+
+  const deleteTransaction = useCallback(async (id) => {
     try {
       const token = localStorage.getItem('refreshToken');
 
@@ -205,29 +169,17 @@ const Expenses = () => {
       const updatedExpenses = expenses.filter((expense) => expense._id !== id);
       setExpenses(updatedExpenses);
 
-      // Set the state flags to trigger data refresh
-      setRefreshedAccountData(true);
-      setRefreshedCreditCardData(true);
-      setUpdateTable(!updateTable);
+      // Trigger data refresh
+      setUpdateTable(prevUpdateTable => !prevUpdateTable);
     } catch (error) {
       console.log(error.response.data.message);
     }
-  };
+  }, [expenses]);
 
-  const onExpenseAdded = async (expense) => {
-      setExpenses((prevExpenses) => [expense, ...prevExpenses]);
-      setRefreshedAccountData(true);
-      setRefreshedCreditCardData(true);
-      setUpdateTable(!updateTable);
-  };
-
-  const onExpenseDeleted = async (id) => {
-    setExpenses((prevExpenses) => prevExpenses.filter((expense) => expense._id !== id));
-    setRefreshedAccountData(true);
-    setRefreshedCreditCardData(true);
-    setUpdateTable(!updateTable);
-  };
-
+  const onExpenseAdded = useCallback((expense) => {
+    setExpenses((prevExpenses) => [expense, ...prevExpenses]);
+    setUpdateTable(prevUpdateTable => !prevUpdateTable);
+  }, []);
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col">
