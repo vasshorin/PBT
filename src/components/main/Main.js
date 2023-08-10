@@ -23,7 +23,7 @@ const Main = () => {
           />
               <div className="pt-32 sm:pt-0">
               <h4 className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl sm:leading-10"> 
-                    A better way to control money
+                    A better way to control mone
                   </h4>
                   <p className="mt-3 text-lg leading-7 text-gray-500">
                   Take control of your finances with our powerful money management tools. Our platform provides a comprehensive solution for budgeting, tracking expenses, and saving money. Say goodbye to financial stress and start achieving your financial goals today.

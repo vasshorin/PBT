@@ -7,8 +7,8 @@ const ExpenseTable = ({ expenses, deleteTransaction }) => {
   const [filteredExpenses, setFilteredExpenses] = useState([]);
   const [sortOrder, setSortOrder] = useState('desc');
   const [sortedColumn, setSortedColumn] = useState('date');
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
 
   useEffect(() => {
     // Sort expenses by the specified column and order
